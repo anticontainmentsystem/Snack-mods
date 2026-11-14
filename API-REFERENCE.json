@@ -4216,7 +4216,7 @@
       "requires": [],
       "localOnly": false,
       "context": "none",
-      "description": "Read Email connector providers, mailboxes, current access and command receipts. No secrets.",
+      "description": "Read Email connector providers, mailboxes, current access, Zoho mailbox region and command receipts. No secrets.",
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
@@ -4230,7 +4230,7 @@
       "requires": [],
       "localOnly": true,
       "context": "none",
-      "description": "Connect Gmail, Microsoft, Zoho through browser authorization, or an IMAP/SMTP mailbox. Credentials stay in Vault.",
+      "description": "Connect Gmail, Microsoft, Zoho through browser authorization, or an IMAP/SMTP mailbox. Zoho routes token exchange, refresh and mailbox requests to the account region. Credentials stay in Vault.",
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
@@ -4320,6 +4320,56 @@
         },
         "required": [
           "id"
+        ]
+      }
+    },
+    {
+      "name": "email-allow",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Add an exact allowed command-sender email to this mailbox. Owner only; preserves other allowed emails.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "address"
+        ]
+      }
+    },
+    {
+      "name": "email-disallow",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Remove an allowed sender from this mailbox. An empty list rejects all command emails. Owner only.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "address"
         ]
       }
     },
