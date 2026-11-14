@@ -22,6 +22,17 @@ Open **Serving Tray → Mods** in Snack.
 
 You can connect your own private repository using an account already signed in through Snack, or choose a folder on your computer for local development. Each source uses a root `snack-condiments.json` manifest.
 
+## Whole Condiments, one folder each
+
+Each Condiment is complete inside its own folder. Its `index.html`, `styles.css`, and `script.js` live together; its own `snack-condiments.json` lists just that Condiment; its `skills/` folder carries the optional agent guide. Nothing outside that folder is needed to run it.
+
+The root `snack-condiments.json` is the catalog for connecting this repository and finding both. You can also connect either individual GitHub folder, or choose a local copy of that folder.
+
+| Whole Condiment | Self-contained interface | Own catalog |
+| --- | --- | --- |
+| **Wallpaper** | [`wallpaper/index.html`](wallpaper/index.html) | [`wallpaper/snack-condiments.json`](wallpaper/snack-condiments.json) |
+| **Simple Agent Chat** | [`simple-agent-chat/index.html`](simple-agent-chat/index.html) | [`simple-agent-chat/snack-condiments.json`](simple-agent-chat/snack-condiments.json) |
+
 ## Meet the Condiments
 
 ### Wallpaper
@@ -86,8 +97,8 @@ Use **Settings → Agent guide** on a Condiment to read or copy its onboarding. 
 
 | Included skill | Purpose |
 | --- | --- |
-| [`snack-wallpaper`](skills/snack-wallpaper/SKILL.md) | Apply, fit, verify, or remove a wallpaper on the intended Snack. |
-| [`snack-group-chat`](skills/snack-group-chat/SKILL.md) | Participate in conversations with replies, attachments, reactions, and other agents. |
+| [`snack-wallpaper`](wallpaper/skills/SKILL.md) | Apply, fit, verify, or remove a wallpaper on the intended Snack. |
+| [`snack-group-chat`](simple-agent-chat/skills/SKILL.md) | Participate in conversations with replies, attachments, reactions, and other agents. |
 
 Guides help an agent understand a Condiment. **They do not grant additional access.** The connection’s current permissions and the Condiment’s approved controls remain authoritative.
 
@@ -231,12 +242,21 @@ Use current schemas rather than treating this README as a frozen API contract. S
 ## Repository map
 
 ```text
-snack-condiments.json           Source catalog and requested controls
-condiments.css                 Shared visual language
-wallpaper/                     Wallpaper interface
-simple-agent-chat/             Chat interface
-skills/snack-wallpaper/        Optional wallpaper skill
-skills/snack-group-chat/       Optional conversation skill
+snack-condiments.json           Catalog for both Condiments
+wallpaper/
+  index.html                   Entry HTML
+  styles.css                   All styles for this Condiment
+  script.js                    All interface logic for this Condiment
+  snack-condiments.json        Wallpaper-only catalog
+  skills/SKILL.md              Optional wallpaper skill
+  README.md                    Wallpaper setup
+simple-agent-chat/
+  index.html                   Entry HTML
+  styles.css                   All styles for this Condiment
+  script.js                    All interface logic for this Condiment
+  snack-condiments.json        Chat-only catalog
+  skills/SKILL.md              Optional conversation skill
+  README.md                    Chat setup
 ```
 
 ## Development status

@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "condiments": [
+    {
+      "id": "wallpaper",
+      "name": "Wallpaper",
+      "description": "Give any Snack a background image. Fill, fit or stretch it without changing its source.",
+      "version": "0.1.0",
+      "entry": "index.html",
+      "permissions": {
+        "awareness": "read",
+        "windows": "control",
+        "library": "control"
+      },
+      "agent": {
+        "instructions": "Wallpaper changes the presentation of a Snack, not its HTML. Discover current actions and awareness. Use media-begin/media-chunk/media-finish for an image, wallpaper-state to read existing assignments, and wallpaper-set with an existing Snack id, managed mediaId and fit cover/contain/stretch. Set mediaId to null to remove the wallpaper. Named Snack Bars, Main Snack and saved ChipClips retain their wallpaper assignment. Respect the user’s requested target.",
+        "skills": [
+          {
+            "name": "snack-wallpaper",
+            "description": "Apply or remove a wallpaper on a selected Snack.",
+            "path": "skills/SKILL.md"
+          }
+        ]
+      }
+    }
+  ]
+}
