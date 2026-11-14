@@ -1,21 +1,248 @@
-# Snack Mods
+# Condiments for Snack
 
-Public testing source for **Condiments** that run on top of Snack. These are not bundled with the Snack app.
+### A little extra. A whole new way to Snack.
 
-Connect `https://github.com/anticontainmentsystem/Snack-Mods` in **Serving Tray → Mods → Mod connections**. Refresh the source, install a Condiment, and review its requested controls before enabling it. You can also point Snack at a local copy of this repository. Private repositories use the GitHub accounts already connected to Snack.
+**Condiments extend Snack from the outside.** Connect a repository or a folder, choose an addition, approve its controls, and open it as its own Snack.
 
-## Condiments
+An image can become the atmosphere of your workspace. A conversation can bring a human and several agents together to make things happen across it. The same connection system leaves room for your own tools, interfaces, and ideas.
 
-**Wallpaper** adds an image background to any current Snack, with fill, fit and stretch. Its presentation settings do not modify the Snack's HTML.
+This is the **public testing source** for the first two Condiments: **Wallpaper** and **Simple Agent Chat**. They load from this repository and stay separate from Snack’s installed code. **They are not bundled with Snack.**
 
-**Simple Agent Chat** supports one or several selected OpenAI/account or API/MCP inbox agents in shared conversations. It includes images, video, audio, documents, archives, emoji, replies and reactions. OpenAI responses use Snack's account runtime. Paired agents receive inbox messages and must implement the advertised chat actions to reply. Receiving a file does not guarantee that every model can interpret every media format.
+---
 
-Optional agent onboarding and skills are included and discoverable after enabling a Condiment. Snack can copy an onboarding prompt or share guide references in a chat. Skills never broaden the user's current permissions.
+## Get started
 
-## Source format
+Open **Serving Tray → Mods** in Snack.
 
-The root `snack-condiments.json` has `version: 1` and a `condiments` array. Each entry declares an id, name, version, HTML entry, requested area/level permissions, and optional agent instructions and skill files. HTML can reference relative JavaScript and CSS within this repository; Snack snapshots and bundles them into an isolated iframe. The iframe has no native preload or direct filesystem access.
+1. Under **Mod connections**, add a GitHub source.
+2. Enter `https://github.com/anticontainmentsystem/Snack-mods` and connect it as a **Public repository**.
+3. Install a Condiment from the **Condiment Store**.
+4. Review its requested controls, approve the ones you want it to use, and enable it.
+5. Select **Open**.
 
-Use the injected `window.SnackCondiment.call(action, arguments)` connector and `window.SnackCondiment.onChange(callback)`. All actions use Snack's shared API/MCP registry and the intersection of the Condiment's approved controls and the caller's current permissions. Managed secrets and owner-only controls are unavailable. Package updates require another review; they do not silently replace approved code.
+You can connect your own private repository using an account already signed in through Snack, or choose a folder on your computer for local development. Each source uses a root `snack-condiments.json` manifest.
 
-No account keys, credentials, private conversations, or user media belong in this repository.
+## Meet the Condiments
+
+### Wallpaper
+
+**Make a Snack feel like yours.**
+
+Choose a current Snack, drop an image onto Wallpaper, and decide how it should fit:
+
+| Mode | What it does |
+| --- | --- |
+| **Fill** | Covers the background while preserving the image’s proportions. |
+| **Fit inside** | Keeps the whole image visible. |
+| **Stretch** | Fits the image to the available width and height. |
+
+Apply or remove a background without editing the Snack’s HTML. Main Snack, named Snack Bars, and saved ChipClip sources retain their wallpaper assignments. Backgrounds sit behind content; a page’s own opaque elements can still cover parts of its wallpaper.
+
+Supports **PNG, JPEG, WebP, GIF, and AVIF images up to 10 MB**.
+
+**Requested controls:** read monitor and Snack awareness, control window presentation, and upload/read managed images through the library.
+
+### Simple Agent Chat
+
+**Make room for your agents.**
+
+Choose one agent or several. Start a conversation, share what you are working on, reply to a particular message, or react with an emoji. Connected agents can use Snack’s current controls to carry out your requests.
+
+- **Multiple participants:** humans and agents can share a conversation.
+- **OpenAI account conversations:** use Snack’s existing account connection and bundled runtime for streamed replies. Named OpenAI participants can use available models from that account.
+- **Connected agent inboxes:** paired clients receive messages through Snack’s API/MCP and reply with their authenticated identity.
+- **Files alongside words:** attach images, video, audio, documents, and compressed files. Paste images or drop files into the composer.
+- **Replies and reactions:** keep context attached to the message it belongs to.
+- **Emoji picker:** add expression to a message or a reaction.
+- **Condiment guides:** share optional onboarding and skills with the agents in a conversation.
+
+Open **Agents** inside the chat to choose any combination of available participants. **OpenAI account sign-in lives in Serving Tray → Automation.** Other agent clients connect through Snack’s existing onboarding flow.
+
+An inbox connection means a client can receive a message. That client must implement the advertised chat tools to generate and send its reply. Agent-to-agent conversations use shared rooms and explicit recipients; they do not create an automatic, unbounded response loop.
+
+**Requested controls:** manage chat conversations and participants, upload managed attachments, and read enabled Condiment guides.
+
+#### About attachments
+
+Files stay in Snack-managed local storage and are shared with the selected conversation. Receiving agents can retrieve files they have access to. Supported image inputs can be included directly in OpenAI turns.
+
+| Attachment | Available handling |
+| --- | --- |
+| Images | In-chat previews and supported image inputs for the selected agent. |
+| Video and audio | Shared files and local playback previews. Interpretation depends on the receiving agent. |
+| Text, code, CSV, JSON, Markdown | Bounded text inspection. |
+| PDF | Text extraction from supported text-based pages. |
+| DOCX, XLSX, PPTX | Bounded inspection of their document XML. |
+| ZIP | Bounded archive listing and text inspection. |
+| Other file and archive types | Shared as files for a capable receiving agent to inspect. |
+
+Uploads support **up to 100 MB per file and 20 attachments per message**. Media playback previews load files up to 30 MB. Document and archive inspection has additional bounds. A successful upload does not imply that every model can watch, hear, extract, or understand that file.
+
+## Condiments and agents work together
+
+A Condiment can include an optional **agent guide** and **skills** alongside its interface. Snack shows that guidance when you install and enable it, and makes it discoverable to connected agents.
+
+Use **Settings → Agent guide** on a Condiment to read or copy its onboarding. In Simple Agent Chat, use **Guides** to add references and task-specific guidance to a conversation.
+
+| Included skill | Purpose |
+| --- | --- |
+| [`snack-wallpaper`](skills/snack-wallpaper/SKILL.md) | Apply, fit, verify, or remove a wallpaper on the intended Snack. |
+| [`snack-group-chat`](skills/snack-group-chat/SKILL.md) | Participate in conversations with replies, attachments, reactions, and other agents. |
+
+Guides help an agent understand a Condiment. **They do not grant additional access.** The connection’s current permissions and the Condiment’s approved controls remain authoritative.
+
+## The connection model
+
+Every Condiment runs in its own isolated interface. It asks Snack to perform an action through a small connector:
+
+```javascript
+const desktop = await window.SnackCondiment.call('map');
+console.log(desktop.snacks);
+```
+
+The call goes through the same action registry used by Snack’s HTTP API and MCP. Snack checks approved controls and the caller’s current permissions before running it.
+
+```mermaid
+flowchart LR
+    Source[Repository or folder] --> Manifest[Condiment manifest]
+    Manifest --> Review[Review requested controls]
+    Review --> UI[Isolated Condiment Snack]
+    UI --> Connector[Snack connector]
+    Connector --> Registry[Shared action registry]
+    Registry --> Windows[Snacks and workspace]
+    Registry --> Services[Connected services]
+    Registry --> Agents[Agent conversations]
+```
+
+Condiments receive **no native preload, direct filesystem bridge, or managed credentials**. Their HTML, CSS, and JavaScript are snapshotted when installed. A changed package goes through review again before it is enabled. Installed app files remain untouched.
+
+Interfaces use the host connector for Snack and service operations. The sandbox blocks direct network calls and remote script loading; relative scripts and styles are bundled from the approved source. Service access stays within Snack’s connection system.
+
+## Build your own Condiment
+
+A small source can be just three files:
+
+```text
+my-condiments/
+├── snack-condiments.json
+└── hello-snack/
+    ├── index.html
+    └── hello.js
+```
+
+### 1. Describe it
+
+Create `snack-condiments.json` at the source root:
+
+```json
+{
+  "version": 1,
+  "condiments": [
+    {
+      "id": "hello-snack",
+      "name": "Hello Snack",
+      "version": "0.1.0",
+      "description": "See the Snacks around you.",
+      "entry": "hello-snack/index.html",
+      "permissions": { "awareness": "read" }
+    }
+  ]
+}
+```
+
+Request the smallest set of controls your interface needs. Current areas include awareness, windows, library, GitHub, settings, chat, and Condiments. Discover the live registry to find each action’s required level.
+
+### 2. Make its interface
+
+`hello-snack/index.html`:
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Snack</title>
+  </head>
+  <body>
+    <h1>Snacks around you</h1>
+    <pre id="snacks">Connecting…</pre>
+    <script src="hello.js"></script>
+  </body>
+</html>
+```
+
+`hello-snack/hello.js`:
+
+```javascript
+async function refresh() {
+  try {
+    const desktop = await window.SnackCondiment.call('map');
+    document.querySelector('#snacks').textContent = desktop.snacks
+      .map(snack => `${snack.name} · ${snack.orientation}`)
+      .join('\n');
+  } catch (error) {
+    document.querySelector('#snacks').textContent = error.message;
+  }
+}
+
+window.SnackCondiment.onChange(refresh);
+refresh();
+```
+
+### 3. Connect, review, and open
+
+Choose the source folder in **Serving Tray → Mods**, refresh it, install **Hello Snack**, approve awareness read access, and open it. Publish the same folder to GitHub when you are ready to test it as a repository source.
+
+### 4. Add optional agent guidance
+
+A manifest entry can advertise onboarding and skill files:
+
+```json
+"agent": {
+  "instructions": "Use awareness to describe the user's current workspace.",
+  "skills": [
+    {
+      "name": "hello-snack",
+      "description": "Understand the Snacks around the user.",
+      "path": "skills/hello-snack/SKILL.md"
+    }
+  ]
+}
+```
+
+Write guidance around a specific task, the actions it uses, and how to verify the result. Keep it separate from credentials and assumptions of full access.
+
+## For connected agents
+
+Start with live capability discovery and awareness. Useful action families include:
+
+| Actions | Use |
+| --- | --- |
+| `condiment-status`, `condiment-agent-guide` | Discover enabled Condiments, guides, skills, and approved controls. |
+| `condiment-invoke` | Use an approved connector with your current permissions. |
+| `wallpaper-state`, `wallpaper-set` | Read and change a Snack’s wallpaper. |
+| `chat-inbox`, `chat-read`, `chat-send` | Receive, understand, and respond to messages. |
+| `chat-react` | Add or remove your reaction. |
+| `chat-file`, `chat-file-inspect` | Retrieve or inspect files shared with your conversation. |
+
+Use current schemas rather than treating this README as a frozen API contract. Sender identity is authenticated. Remote clients can read only conversations they participate in, and cannot use a Condiment to grant themselves more access.
+
+## Repository map
+
+```text
+snack-condiments.json           Source catalog and requested controls
+condiments.css                 Shared visual language
+wallpaper/                     Wallpaper interface
+simple-agent-chat/             Chat interface
+skills/snack-wallpaper/        Optional wallpaper skill
+skills/snack-group-chat/       Optional conversation skill
+```
+
+## Development status
+
+These are early Condiments for testing the extension model in a growing Snack environment. Feedback is welcome through [Issues](https://github.com/anticontainmentsystem/Snack-mods/issues): describe what you tried, what happened, and the Condiment version.
+
+Snack’s integration tests cover source discovery, permission review, isolated interfaces, wallpaper application, group chat, authenticated replies, reactions, attachments, and API/MCP permissions. The OpenAI account transport is also verified against the bundled runtime.
+
+**Bring your own ideas. Add your own Condiments. Make Snack your own.**
