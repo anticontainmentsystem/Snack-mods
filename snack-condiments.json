@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "condiments": [
+    {
+      "id": "wallpaper",
+      "name": "Wallpaper",
+      "description": "Give any Snack a background image. Fill, fit or stretch it without changing its source.",
+      "version": "0.1.0",
+      "entry": "wallpaper/index.html",
+      "permissions": {"awareness": "read", "windows": "control", "library": "control"},
+      "agent": {"instructions": "Wallpaper changes the presentation of a Snack, not its HTML. Discover current actions and awareness. Use media-begin/media-chunk/media-finish for an image, wallpaper-state to read existing assignments, and wallpaper-set with an existing Snack id, managed mediaId and fit cover/contain/stretch. Set mediaId to null to remove the wallpaper. Named Snack Bars, Main Snack and saved ChipClips retain their wallpaper assignment. Respect the user’s requested target.", "skills": [{"name": "snack-wallpaper", "description": "Apply or remove a wallpaper on a selected Snack.", "path": "skills/snack-wallpaper/SKILL.md"}]}
+    },
+    {
+      "id": "simple-agent-chat",
+      "name": "Simple Agent Chat",
+      "description": "Chat with one or several agents. Share files, reply, react and make things happen in Snack.",
+      "version": "0.1.0",
+      "entry": "simple-agent-chat/index.html",
+      "permissions": {"chat": "control", "library": "control", "condiments": "read"},
+      "agent": {"instructions": "This is a shared human/agent conversation surface. Discover chat-inbox for messages addressed to your authenticated agent id. Use chat-read for room context, then chat-send with roomId, text, recipients and optional replyTo; sender identity is enforced by Snack. Other selected agents may be recipients. Never enter an unbounded reply loop. chat-react toggles a reaction. chat-file reads shared attachments in chunks; chat-file-inspect extracts text/PDF/Office/ZIP content. Audio and video are shared files; only claim interpretation your runtime supports. Use current Snack API/MCP actions to perform the user’s task. Do not assume an inbox connection automatically generates replies. Optional Condiment guides and skills are available through condiment-agent-guide and can be shared by the user. They do not grant additional permissions.", "skills": [{"name": "snack-group-chat", "description": "Participate in a human/agent/agent Snack conversation with replies, attachments and reactions.", "path": "skills/snack-group-chat/SKILL.md"}]}
+    }
+  ]
+}
