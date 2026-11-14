@@ -4366,6 +4366,27 @@
       }
     },
     {
+      "name": "email-test",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Send a self-addressed awareness test command through this mailbox. It requests an actual receipt and result; it does not change permissions.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
       "name": "email-check",
       "area": "settings",
       "level": "control",
