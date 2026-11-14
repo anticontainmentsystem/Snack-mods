@@ -1,0 +1,4383 @@
+{
+  "generatedFrom": "Snack shared action registry",
+  "note": "Live snacks_capabilities is authoritative. Owner-only actions cannot be invoked from Condiments.",
+  "http": {
+    "tools": "GET /api/tools",
+    "capabilities": "GET /api/capabilities",
+    "call": "POST /api/call",
+    "mcp": "POST /mcp"
+  },
+  "actions": [
+    {
+      "name": "general-get",
+      "description": "Read app-wide General settings and current window fullscreen state.",
+      "area": "settings",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "general-sources",
+      "description": "Discover Example panel targets: Example is always first, then named Snack Bars, open Snacks, ChipClips and available previous sources.",
+      "area": "settings",
+      "level": "read",
+      "requires": [
+        [
+          "windows",
+          "read"
+        ],
+        [
+          "library",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "general-update",
+      "description": "Persist app-wide UI, Preference and Experimental settings. All experiments default off.",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "settings"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "settings": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "startupTheme": {
+                "enum": [
+                  "light",
+                  "dark"
+                ]
+              },
+              "servingTrayOnTop": {
+                "type": "boolean"
+              },
+              "mainOnCursorScreen": {
+                "type": "boolean"
+              },
+              "exampleSource": {
+                "type": "string"
+              },
+              "fullscreenEnabled": {
+                "type": "boolean"
+              },
+              "servingTrayTab": {
+                "enum": [
+                  "library",
+                  "general",
+                  "github",
+                  "agents",
+                  "vault",
+                  "mods"
+                ]
+              },
+              "liveSnackBarChips": {
+                "type": "boolean"
+              },
+              "closeTrayOnExit": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "settings"
+        ]
+      }
+    },
+    {
+      "name": "fullscreen-set",
+      "description": "Enter or exit responsive fullscreen for a Snack, also toggled by double-clicking its top or bottom bar. Requires the app-wide fullscreen experiment. No page zoom; restores original bounds and orientation. Pinned fullscreen has highest stacking priority.",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id",
+        "enabled"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "enabled"
+        ]
+      }
+    },
+    {
+      "name": "example-launch",
+      "description": "Launch or focus the configured Main Snack Example panel target.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "library",
+          "read"
+        ],
+        [
+          "settings",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "orientation"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "orientation": {
+            "enum": [
+              "portrait",
+              "landscape"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "terminal-state",
+      "description": "Read whether Main Snack’s Pasta panel is showing its session-only hidden terminal.",
+      "area": "windows",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "terminal-set",
+      "description": "Show or hide the hidden Main Snack terminal while preserving Main Pasta. Also reached by clicking the General header logo six times within six seconds.",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "enabled"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "enabled"
+        ]
+      }
+    },
+    {
+      "name": "terminal-command",
+      "description": "Run a slash command using the same action registry and the caller’s current permissions. /help discovers commands; no OS shell or eval.",
+      "area": "settings",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "line"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "line": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "line"
+        ]
+      }
+    },
+    {
+      "name": "terminal-sources",
+      "description": "List HTML sources and built-in UI parts editable in Pasta Studio.",
+      "area": "library",
+      "level": "read",
+      "requires": [
+        [
+          "windows",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "studio-open-part",
+      "description": "Open an independent editable copy of a built-in Snack UI in Pasta Studio. Includes CSS and inert host JavaScript source; never overwrites app files.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "library",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "part"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "part": {
+            "enum": [
+              "main",
+              "bar",
+              "tray",
+              "studio",
+              "image",
+              "html",
+              "example"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "part"
+        ]
+      }
+    },
+    {
+      "name": "map",
+      "description": "map",
+      "area": "awareness",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "init",
+      "description": "init",
+      "area": "awareness",
+      "level": "read",
+      "requires": [
+        [
+          "windows",
+          "read"
+        ],
+        [
+          "library",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "bar",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "configure",
+      "description": "Open or reuse the independent Serving Tray on SnackBars, select the requested slot and scroll to the top. Closing the bar keeps its tray alive.",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "bar",
+      "parameters": [
+        "slot"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "slot": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "orientation": {
+            "enum": [
+              "portrait",
+              "landscape"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "toggle-configure",
+      "description": "toggle configure",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "bar",
+      "parameters": [
+        "slot"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "slot": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "rotate",
+      "description": "rotate",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "bar",
+      "parameters": [
+        "slot"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "slot": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "close",
+      "description": "close",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "tray",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "minimize",
+      "description": "minimize",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "tray",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "launch",
+      "description": "launch",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "library",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id",
+        "slot",
+        "barId",
+        "orientation"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "slot": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "barId": {
+            "type": "string"
+          },
+          "orientation": {
+            "enum": [
+              "portrait",
+              "landscape"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "focus",
+      "description": "focus",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "tray",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "map-toggle",
+      "description": "map toggle",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "tray",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "snack-controls",
+      "description": "snack controls",
+      "area": "windows",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "snack-control",
+      "description": "snack control",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id",
+        "control"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "control": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "control"
+        ]
+      }
+    },
+    {
+      "name": "source-edit",
+      "description": "Read editable content from an open, saved or previous source key.",
+      "area": "library",
+      "level": "read",
+      "requires": [
+        [
+          "windows",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "key"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "key"
+        ]
+      }
+    },
+    {
+      "name": "update-history",
+      "description": "Update a previous Snack in history, retaining the source key used by its links.",
+      "area": "library",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id",
+        "item"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "item": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "item"
+        ]
+      }
+    },
+    {
+      "name": "update-open",
+      "description": "Update an open Pasta/URL Snack or Main Snack draft.",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id",
+        "item"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "item": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "item"
+        ]
+      }
+    },
+    {
+      "name": "save",
+      "description": "save",
+      "area": "library",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "item",
+        "slot",
+        "barId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "object"
+          },
+          "slot": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "barId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "item"
+        ]
+      }
+    },
+    {
+      "name": "assign",
+      "description": "assign",
+      "area": "library",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "slot",
+        "id",
+        "barId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "slot": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "barId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "slot",
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "remove",
+      "description": "remove",
+      "area": "library",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "capture",
+      "description": "capture",
+      "area": "library",
+      "level": "read",
+      "requires": [
+        [
+          "windows",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "export",
+      "description": "export",
+      "area": "library",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "import",
+      "description": "import",
+      "area": "library",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "json"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "json": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "services-status",
+      "description": "services status",
+      "area": "settings",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "external-open",
+      "description": "Open an explicit HTTPS documentation or publisher link in the user’s browser; no credentials in URLs.",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "url"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "url"
+        ]
+      }
+    },
+    {
+      "name": "openai-signin",
+      "description": "openai signin",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "openai-cancel-signin",
+      "description": "openai cancel signin",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "openai-account-status",
+      "description": "openai account status",
+      "area": "settings",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "services-connect",
+      "description": "services connect",
+      "area": "settings",
+      "level": "control",
+      "requires": [
+        [
+          "vault",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "provider",
+        "key"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "provider",
+          "key"
+        ]
+      }
+    },
+    {
+      "name": "services-disconnect",
+      "description": "services disconnect",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "provider"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "provider"
+        ]
+      }
+    },
+    {
+      "name": "vault-list",
+      "description": "vault list",
+      "area": "vault",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "vault-save",
+      "description": "vault save",
+      "area": "vault",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id",
+        "name",
+        "provider",
+        "kind",
+        "value"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "vault-remove",
+      "description": "vault remove",
+      "area": "vault",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "agents-status",
+      "description": "agents status",
+      "area": "settings",
+      "level": "read",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "agents-copy-code",
+      "description": "agents copy code",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "agents-copy-onboarding",
+      "description": "agents copy onboarding",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "agents-disconnect",
+      "description": "agents disconnect",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "agents-remove",
+      "description": "agents remove",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "agents-start",
+      "description": "agents start",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "agents-create",
+      "description": "agents create",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "name",
+        "kind",
+        "provider"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "local",
+              "remote"
+            ]
+          },
+          "provider": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "kind"
+        ]
+      }
+    },
+    {
+      "name": "agents-update",
+      "description": "agents update",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "id",
+        "permissions"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "permissions": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "permissions"
+        ]
+      }
+    },
+    {
+      "name": "github-connections",
+      "description": "github connections",
+      "area": "github",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "github-account-status",
+      "description": "github account status",
+      "area": "github",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "github-status",
+      "description": "github status",
+      "area": "github",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "github-connection-status",
+      "description": "github connection status",
+      "area": "github",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "connectionId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "github-workspace-save",
+      "description": "github workspace save",
+      "area": "github",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "connectionId",
+        "workspace"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          },
+          "workspace": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "github-rename-connection",
+      "description": "github rename connection",
+      "area": "github",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "connectionId",
+        "label"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "connectionId"
+        ]
+      }
+    },
+    {
+      "name": "github-select-connection",
+      "description": "github select connection",
+      "area": "github",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "connectionId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "connectionId"
+        ]
+      }
+    },
+    {
+      "name": "github-disconnect-connection",
+      "description": "github disconnect connection",
+      "area": "github",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "connectionId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "connectionId"
+        ]
+      }
+    },
+    {
+      "name": "github-account-disconnect",
+      "description": "github account disconnect",
+      "area": "github",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "github-disconnect",
+      "description": "github disconnect",
+      "area": "github",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "github-signin",
+      "description": "github signin",
+      "area": "github",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "parameters": [
+        "privateRepos"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "privateRepos": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "github-cancel-signin",
+      "description": "github cancel signin",
+      "area": "github",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "github-copy-auth-code",
+      "description": "github copy auth code",
+      "area": "github",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "github-account-repos",
+      "description": "github account repos",
+      "area": "github",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "connectionId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "github-repos",
+      "description": "github repos",
+      "area": "github",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "connectionId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "github-account-pages",
+      "description": "github account pages",
+      "area": "github",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "repo",
+        "connectionId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "repo": {
+            "type": "string"
+          },
+          "connectionId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "repo"
+        ]
+      }
+    },
+    {
+      "name": "github-pages",
+      "description": "github pages",
+      "area": "github",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "repo",
+        "connectionId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "repo": {
+            "type": "string"
+          },
+          "connectionId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "repo"
+        ]
+      }
+    },
+    {
+      "name": "github-branches",
+      "description": "github branches",
+      "area": "github",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "repo",
+        "connectionId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "repo": {
+            "type": "string"
+          },
+          "connectionId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "repo"
+        ]
+      }
+    },
+    {
+      "name": "github-open-html",
+      "description": "github open html",
+      "area": "github",
+      "level": "read",
+      "requires": [
+        [
+          "windows",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "connectionId",
+        "repo",
+        "branch",
+        "path",
+        "orientation"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          },
+          "repo": {
+            "type": "string"
+          },
+          "branch": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "orientation": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "repo",
+          "path"
+        ]
+      }
+    },
+    {
+      "name": "github-browse",
+      "description": "github browse",
+      "area": "github",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "connectionId",
+        "repo",
+        "branch",
+        "path"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          },
+          "repo": {
+            "type": "string"
+          },
+          "branch": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "repo"
+        ]
+      }
+    },
+    {
+      "name": "github-commit",
+      "description": "github commit",
+      "area": "github",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "connectionId",
+        "repo",
+        "branch",
+        "path",
+        "html",
+        "sha",
+        "message",
+        "sourceId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          },
+          "repo": {
+            "type": "string"
+          },
+          "branch": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "html": {
+            "type": "string"
+          },
+          "sha": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "sourceId": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "repo",
+          "path",
+          "html",
+          "message"
+        ]
+      }
+    },
+    {
+      "name": "github-connect",
+      "description": "github connect",
+      "area": "github",
+      "level": "control",
+      "requires": [
+        [
+          "vault",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "token"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "token"
+        ]
+      }
+    },
+    {
+      "name": "github-use-vault",
+      "description": "github use vault",
+      "area": "github",
+      "level": "control",
+      "requires": [
+        [
+          "vault",
+          "read"
+        ]
+      ],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "github-setup",
+      "description": "github setup",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "legacy": true,
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "openai-docs",
+      "description": "openai docs",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "legacy": true,
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "token-help",
+      "description": "token help",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "legacy": true,
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "open-auth",
+      "description": "open auth",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "legacy": true,
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "oauth-start",
+      "description": "oauth start",
+      "area": "github",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "legacy": true,
+      "parameters": [
+        "clientId",
+        "privateRepos"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string"
+          },
+          "privateRepos": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "clientId"
+        ]
+      }
+    },
+    {
+      "name": "oauth-poll",
+      "description": "oauth poll",
+      "area": "github",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "tailscale-status",
+      "description": "tailscale status",
+      "area": "settings",
+      "level": "read",
+      "requires": [
+        [
+          "windows",
+          "read"
+        ],
+        [
+          "library",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "tailscale-connect",
+      "description": "tailscale connect",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "tailscale-disconnect",
+      "description": "tailscale disconnect",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "tailscale-add",
+      "description": "Create or edit a persistent Snack Time desktop or individual source link; sourceKey desktop shares the monitor layout. Private by default.",
+      "area": "settings",
+      "level": "control",
+      "requires": [
+        [
+          "windows",
+          "read"
+        ],
+        [
+          "library",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id",
+        "sourceKey",
+        "snackId",
+        "public",
+        "name",
+        "group",
+        "interactive"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "sourceKey": {
+            "type": "string"
+          },
+          "snackId": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "public": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "group": {
+            "type": "string"
+          },
+          "interactive": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "tailscale-remove",
+      "description": "tailscale remove",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "tailscale-check",
+      "description": "tailscale check",
+      "area": "settings",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "tailscale-open",
+      "description": "tailscale open",
+      "area": "settings",
+      "level": "read",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "tailscale-copy",
+      "description": "tailscale copy",
+      "area": "settings",
+      "level": "read",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "tailscale-access",
+      "description": "Create a Vault-stored access code scoped to one public tunnel or all public tunnels in a group. Never grants agent API access.",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "id",
+        "group",
+        "name"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "group": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "tailscale-code-copy",
+      "description": "tailscale code copy",
+      "area": "vault",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "tailscale-code-revoke",
+      "description": "tailscale code revoke",
+      "area": "vault",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "tailscale-group-save",
+      "description": "Apply visibility and interaction settings to every tunnel in a named group. Private revokes all codes scoped to any affected tunnel.",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "group",
+        "public",
+        "interactive"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "group": {
+            "type": "string"
+          },
+          "public": {
+            "type": "boolean"
+          },
+          "interactive": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "group"
+        ]
+      }
+    },
+    {
+      "name": "tailscale-admin",
+      "description": "tailscale admin",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "tailscale-dns",
+      "description": "tailscale dns",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "studio-clear",
+      "description": "Clear the specified Pasta document; Main Snack Pasta remains a permanent scratchpad.",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "documentId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "browser-state",
+      "description": "Read native website navigation, title, loading, history, zoom and renderer state.",
+      "area": "windows",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "browser-navigate",
+      "description": "browser navigate",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id",
+        "url"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "url"
+        ]
+      }
+    },
+    {
+      "name": "browser-back",
+      "description": "browser back",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "browser-forward",
+      "description": "browser forward",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "browser-reload",
+      "description": "browser reload",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "browser-stop",
+      "description": "browser stop",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "browser-zoom",
+      "description": "browser zoom",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id",
+        "zoom"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "zoom": {
+            "type": "number",
+            "minimum": 0.5,
+            "maximum": 3
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "zoom"
+        ]
+      }
+    },
+    {
+      "name": "performance-status",
+      "description": "Measure current Snacks process CPU/memory, browser renderers, visibility and background policy. No page HTML or secrets.",
+      "area": "awareness",
+      "level": "read",
+      "requires": [
+        [
+          "windows",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "preview-saved",
+      "description": "Read a retained website preview for a saved Snack; refresh requests a new capture while keeping the last good snapshot on failure. Single queued renderer, bounded disk/memory cache; no running page in the preset.",
+      "area": "library",
+      "level": "read",
+      "requires": [
+        [
+          "windows",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id",
+        "refresh",
+        "orientation"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "refresh": {
+            "type": "boolean"
+          },
+          "orientation": {
+            "enum": [
+              "portrait",
+              "landscape"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "history-cleanup",
+      "description": "Remove closed, unreferenced Previous Snack snapshots. Preserve open windows, Pasta Studio documents and tunnel sources. Saved Snacks remain in their independent library.",
+      "area": "library",
+      "level": "control",
+      "requires": [
+        [
+          "windows",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "snackbar-list",
+      "description": "List persistent named Snack Bars, their independent preset slots and global ChipClips.",
+      "area": "library",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "barId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "barId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "snackbar-create",
+      "description": "Create and open a Snack Bar. Default name uses the lowest unused Snack Bar N, starting at 2.",
+      "area": "library",
+      "level": "control",
+      "requires": [
+        [
+          "windows",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "bar",
+      "parameters": [
+        "name",
+        "orientation"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "orientation": {
+            "enum": [
+              "portrait",
+              "landscape"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "snackbar-select",
+      "description": "snackbar select",
+      "area": "library",
+      "level": "read",
+      "requires": [
+        [
+          "windows",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "tray",
+      "parameters": [
+        "barId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "barId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "barId"
+        ]
+      }
+    },
+    {
+      "name": "snackbar-open",
+      "description": "snackbar open",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "library",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "bar",
+      "parameters": [
+        "barId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "barId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "barId"
+        ]
+      }
+    },
+    {
+      "name": "snackbar-rename",
+      "description": "snackbar rename",
+      "area": "library",
+      "level": "control",
+      "requires": [
+        [
+          "windows",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "barId",
+        "name"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "barId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "barId",
+          "name"
+        ]
+      }
+    },
+    {
+      "name": "snackbar-remove",
+      "description": "snackbar remove",
+      "area": "library",
+      "level": "control",
+      "requires": [
+        [
+          "windows",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "barId",
+        "name"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "barId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "barId"
+        ]
+      }
+    },
+    {
+      "name": "chipclip-unassign",
+      "description": "Move a ChipClip out of all Snack Bar preset slots into the global unassigned pool; keep its content.",
+      "area": "library",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "snackbar-place",
+      "description": "Move a ChipClip into a Snack Bar in the sidebar, or reorder it before slot. Maximum three; a full target rejects without moving the original.",
+      "area": "library",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id",
+        "barId",
+        "slot"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "barId": {
+            "type": "string"
+          },
+          "slot": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "barId"
+        ]
+      }
+    },
+    {
+      "name": "studio-state",
+      "description": "Read the shared Pasta Studio workspace, active HTML buffer, version, tabs, linked windows, conflicts and available sources.",
+      "area": "windows",
+      "level": "read",
+      "requires": [
+        [
+          "library",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "studio-open",
+      "description": "Open the Serving Tray-sized Pasta Studio for Main Snack, an HTML window, saved HTML or previous source; changes stay synchronized.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "library",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          },
+          "sourceId": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "sourceKey": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "studio-new",
+      "description": "studio new",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "html": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "orientation": {
+            "enum": [
+              "portrait",
+              "landscape"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "studio-select",
+      "description": "studio select",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "required": [
+        "documentId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "documentId"
+        ]
+      }
+    },
+    {
+      "name": "studio-update",
+      "description": "Edit shared HTML. Supply revision for optimistic concurrency; a conflict preserves both buffers. force explicitly replaces the shared buffer.",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "required": [
+        "html"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          },
+          "html": {
+            "type": "string"
+          },
+          "revision": {
+            "type": "integer"
+          },
+          "force": {
+            "type": "boolean"
+          },
+          "title": {
+            "type": "string"
+          },
+          "orientation": {
+            "enum": [
+              "portrait",
+              "landscape"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "html"
+        ]
+      }
+    },
+    {
+      "name": "studio-launch",
+      "description": "studio launch",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          },
+          "orientation": {
+            "enum": [
+              "portrait",
+              "landscape"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "studio-run",
+      "description": "studio run",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "studio-set-live",
+      "description": "studio set live",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "required": [
+        "live"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          },
+          "live": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "live"
+        ]
+      }
+    },
+    {
+      "name": "studio-save",
+      "description": "studio save",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "library",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          },
+          "slot": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "barId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "studio-command",
+      "description": "studio command",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "required": [
+        "name"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          },
+          "name": {
+            "enum": [
+              "format",
+              "find",
+              "replace",
+              "undo",
+              "redo",
+              "fold",
+              "unfold",
+              "wrap",
+              "palette",
+              "goto-line"
+            ]
+          },
+          "args": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ]
+      }
+    },
+    {
+      "name": "studio-detach",
+      "description": "studio detach",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          },
+          "windowId": {
+            "type": "integer"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "studio-close-document",
+      "description": "studio close document",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "required": [
+        "documentId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "documentId"
+        ]
+      }
+    },
+    {
+      "name": "studio-reopen",
+      "description": "studio reopen",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "studio-flush",
+      "description": "studio flush",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "studio-resolve-conflict",
+      "description": "studio resolve conflict",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "required": [
+        "choice"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          },
+          "conflictId": {
+            "type": "string"
+          },
+          "choice": {
+            "enum": [
+              "mine",
+              "latest"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "choice"
+        ]
+      }
+    },
+    {
+      "name": "studio-open-file",
+      "description": "studio open file",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "studio-export",
+      "description": "studio export",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "condiment-status",
+      "area": "condiments",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read the external-only Condiment Store, source catalogs and approved controls. Condiments never patch Snack’s installed code.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    {
+      "name": "condiment-source-add",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Add a public GitHub/Pages catalog, connected private GitHub or local folder Condiment source. Manifest: snack-condiments.json.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "github",
+              "folder"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "branch": {
+            "type": "string"
+          },
+          "connectionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      }
+    },
+    {
+      "name": "condiment-source-choose",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "description": "Choose a local Condiment source folder using the native picker.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    {
+      "name": "condiment-source-sync",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "condiment source sync",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "condiment-source-remove",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "condiment source remove",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "condiment-install",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "condiment install",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "condiment-remove",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "condiment remove",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "condiment-approve",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Owner approval of requested Condiment grants; only requested areas/levels may be approved. Enables the reviewed version.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "permissions": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "permissions"
+        ]
+      }
+    },
+    {
+      "name": "condiment-enable",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "condiment enable",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "enabled"
+        ]
+      }
+    },
+    {
+      "name": "condiment-open",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "condiments",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "description": "Open an enabled external Condiment in a sandboxed Serving Tray-sized Snack.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "instance": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "condiment-command",
+      "area": "condiments",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Invoke a third-party command declared by its manifest and served by its open sandboxed UI. Discover schemas in condiment-agent-guide. The caller must hold the module’s approved grants; all nested tools remain checked.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "arguments": {
+            "type": "object"
+          },
+          "command": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "command"
+        ]
+      }
+    },
+    {
+      "name": "condiment-storage-get",
+      "area": "condiments",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read/write a Condiment-owned JSON setting in its private namespace. Modules cannot access another module’s storage. Keep credentials in Vault.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "value": {}
+        },
+        "required": [
+          "key"
+        ]
+      }
+    },
+    {
+      "name": "condiment-storage-set",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read/write a Condiment-owned JSON setting in its private namespace. Modules cannot access another module’s storage. Keep credentials in Vault.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "value": {}
+        },
+        "required": [
+          "key",
+          "value"
+        ]
+      }
+    },
+    {
+      "name": "condiment-storage-remove",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read/write a Condiment-owned JSON setting in its private namespace. Modules cannot access another module’s storage. Keep credentials in Vault.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "value": {}
+        },
+        "required": [
+          "key"
+        ]
+      }
+    },
+    {
+      "name": "condiment-agent-guide",
+      "area": "condiments",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read an enabled Condiment’s optional onboarding and skills, approved permissions and current connector. Instructions do not grant permissions.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "condiment-copy-onboarding",
+      "area": "condiments",
+      "level": "read",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "condiment copy onboarding",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "condiment-invoke",
+      "area": "condiments",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Invoke a current shared Snack action through a Condiment. Enforces the intersection of its approved grants and the caller’s current grants. Cannot access managed secrets or owner-only actions.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "arguments": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "action"
+        ]
+      }
+    },
+    {
+      "name": "media-begin",
+      "area": "library",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Begin a managed attachment upload, up to 100 MB. No arbitrary local path access.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "mime": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 104857600
+          }
+        },
+        "required": [
+          "name",
+          "size"
+        ]
+      }
+    },
+    {
+      "name": "media-chunk",
+      "area": "library",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "media chunk",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "data": {
+            "type": "string",
+            "maxLength": 1500000
+          }
+        },
+        "required": [
+          "id",
+          "offset",
+          "data"
+        ]
+      }
+    },
+    {
+      "name": "media-finish",
+      "area": "library",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "media finish",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "presentation-state",
+      "area": "windows",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read composable presentation layers for any Snack. Layers are provided by third-party Condiments; the host has no named customization types.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "presentation-set",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "library",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "description": "Set or remove a caller-owned CSS presentation layer on a Snack, using host/content rules and managed image references. Native APIs remain isolated.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "layer": {
+            "type": "string"
+          },
+          "remove": {
+            "type": "boolean"
+          },
+          "hostRules": {
+            "type": "array"
+          },
+          "contentRules": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "layer"
+        ]
+      }
+    },
+    {
+      "name": "presentation-host-state",
+      "area": "windows",
+      "level": "read",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Read compiled presentation CSS for the current trusted host.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    {
+      "name": "chat-agents",
+      "area": "chat",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "List available OpenAI account agents and paired API/MCP inbox agents, with multiple global selections.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    {
+      "name": "chat-models",
+      "area": "chat",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "chat models",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    {
+      "name": "chat-select-agents",
+      "area": "chat",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "chat select agents",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "agents": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 12
+          }
+        },
+        "required": [
+          "agents"
+        ]
+      }
+    },
+    {
+      "name": "chat-agent-add",
+      "area": "chat",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Add a named OpenAI model participant using the existing account connection.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "chat-list",
+      "area": "chat",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read conversation summaries. Remote agents see only conversations they participate in.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    {
+      "name": "chat-create",
+      "area": "chat",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "chat create",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "agents": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 12
+          }
+        }
+      }
+    },
+    {
+      "name": "chat-read",
+      "area": "chat",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "chat read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roomId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "roomId"
+        ]
+      }
+    },
+    {
+      "name": "chat-participants",
+      "area": "chat",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "chat participants",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roomId": {
+            "type": "string"
+          },
+          "agents": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 12
+          }
+        },
+        "required": [
+          "roomId",
+          "agents"
+        ]
+      }
+    },
+    {
+      "name": "chat-send",
+      "area": "chat",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Send a human/agent message with shared files and a reply target. Sender identity is authenticated. OpenAI recipients run through the account runtime; paired clients receive API/MCP inbox messages.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roomId": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 100000
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20
+          },
+          "replyTo": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "recipients": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 12
+          }
+        },
+        "required": [
+          "roomId"
+        ]
+      }
+    },
+    {
+      "name": "chat-react",
+      "area": "chat",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "chat react",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roomId": {
+            "type": "string"
+          },
+          "messageId": {
+            "type": "string"
+          },
+          "emoji": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "roomId",
+          "messageId",
+          "emoji"
+        ]
+      }
+    },
+    {
+      "name": "chat-inbox",
+      "area": "chat",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read messages addressed to the authenticated agent, including shared-file metadata. Reply with chat-send to continue agent-to-agent or agent-to-human conversations.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    {
+      "name": "chat-file",
+      "area": "chat",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read a 768 KiB base64 chunk of an attachment actually shared with this conversation. No host paths or credentials.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roomId": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "roomId",
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "chat-file-inspect",
+      "area": "chat",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Inspect a shared file. Extracts text, PDF text, Office XML and bounded ZIP contents; audio/video remain shared files for capable receiving agents.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roomId": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "roomId",
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "chat-stop",
+      "area": "chat",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "chat stop",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roomId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "roomId"
+        ]
+      }
+    },
+    {
+      "name": "chat-share-guides",
+      "area": "chat",
+      "level": "control",
+      "requires": [
+        [
+          "condiments",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "description": "Add enabled Condiment onboarding and skills to a conversation as optional guidance.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roomId": {
+            "type": "string"
+          },
+          "agents": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 12
+          }
+        },
+        "required": [
+          "roomId"
+        ]
+      }
+    },
+    {
+      "name": "email-status",
+      "area": "settings",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read Email connector providers, mailboxes, current access and command receipts. No secrets.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    {
+      "name": "email-connect",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Connect Gmail, Microsoft, Zoho through browser authorization, or an IMAP/SMTP mailbox. Credentials stay in Vault.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "provider": {
+            "enum": [
+              "google",
+              "microsoft",
+              "zoho",
+              "imap"
+            ]
+          },
+          "address": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "imapHost": {
+            "type": "string"
+          },
+          "smtpHost": {
+            "type": "string"
+          },
+          "imapPort": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "smtpPort": {
+            "enum": [
+              465,
+              587
+            ]
+          }
+        },
+        "required": [
+          "provider"
+        ]
+      }
+    },
+    {
+      "name": "email-cancel",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Cancel the current mailbox authorization.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    {
+      "name": "email-update",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Pause a mailbox or change approved senders and email-command access areas. Owner only.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "senders": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 30
+          },
+          "permissions": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "email-disconnect",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Disconnect a mailbox and revoke its local command code.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "email-copy-instructions",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Copy private mailbox command instructions to clipboard without returning the command code.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "email-check",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Check connected mailboxes and retry pending receipt/result emails. Does not rerun completed actions.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    }
+  ]
+}

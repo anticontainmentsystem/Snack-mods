@@ -10,6 +10,18 @@ This is the **public testing source** for the first two Condiments: **Wallpaper*
 
 ---
 
+## What is Snack?
+
+**Snack is a desktop operating environment built with Electron and Chromium.** Its frameless grid windows are Snacks: live HTML, websites, images, launchers, editors and third-party interfaces. Condiments are independently authored extensions that connect to the same discoverable controls used by Snack’s UI, HTTP API and MCP.
+
+| Complete guide | What it covers |
+| --- | --- |
+| [Snack platform and possibilities](PLATFORM.md) | The app, objects, connected services, bidirectional communication, workflows and current limits. |
+| [Install and manage Condiments](INSTALL.md) | Repositories, individual bundles, downloads, local folders, private accounts, updates and removal. |
+| [Build an independent bundle](BUILDING.md) | Your title, publisher, icon, Store card, complete files, commands, settings and skills. |
+| [SDK, HTTP API and MCP](PROTOCOLS.md) | Endpoints, protocols, examples, authentication, push/pull/calls, receivers and verification. |
+| [Generated action schemas](API-REFERENCE.json) | Action names, required controls, owner-only flags and JSON inputs. Live discovery stays authoritative. |
+
 ## Get started
 
 Visit the [Condiment Store website](https://anticontainmentsystem.github.io/Snack-mods/) for Snack-styled previews, light/dark mode, and copyable source links.
@@ -26,7 +38,7 @@ You can connect your own private repository using an account already signed in t
 
 ## Whole Condiments, one folder each
 
-Each Condiment is complete inside its own folder. Its `index.html`, `styles.css`, and `script.js` live together; its own `snack-condiments.json` lists just that Condiment; its `skills/` folder carries the optional agent guide. Nothing outside that folder is needed to run it.
+Each Condiment is complete inside its own folder. Its `icon.svg`, `index.html`, `styles.css`, and `script.js` live together; its own `snack-condiments.json` lists just that Condiment; its `skills/` folder carries the optional agent guide. Nothing outside that folder is needed to run it.
 
 The root `snack-condiments.json` is the catalog for connecting this repository and finding both. You can also connect either individual GitHub folder, or choose a local copy of that folder.
 
@@ -157,11 +169,14 @@ Create `snack-condiments.json` at the source root:
       "version": "0.1.0",
       "description": "See the Snacks around you.",
       "entry": "hello-snack/index.html",
+      "icon": "hello-snack/icon.svg",
       "permissions": { "awareness": "read" }
     }
   ]
 }
 ```
+
+Include your own icon file and declare its source-relative path in `icon`. Snack displays the Condiment’s supplied icon; it does not assign one based on the Condiment name. SVG, PNG, JPEG and WebP icons up to 64 KB are supported.
 
 Request the smallest set of controls your interface needs. Current areas include awareness, windows, library, GitHub, settings, chat, and Condiments. Discover the live registry to find each action’s required level.
 
@@ -234,7 +249,7 @@ Start with live capability discovery and awareness. Useful action families inclu
 | --- | --- |
 | `condiment-status`, `condiment-agent-guide` | Discover enabled Condiments, guides, skills, and approved controls. |
 | `condiment-invoke` | Use an approved connector with your current permissions. |
-| `wallpaper-state`, `wallpaper-set` | Read and change a Snack’s wallpaper. |
+| `presentation-state`, `presentation-set` | Generic caller-owned presentation layers; Wallpaper’s behavior is in its own bundle. |
 | `chat-inbox`, `chat-read`, `chat-send` | Receive, understand, and respond to messages. |
 | `chat-react` | Add or remove your reaction. |
 | `chat-file`, `chat-file-inspect` | Retrieve or inspect files shared with your conversation. |
@@ -248,6 +263,7 @@ index.html                     Condiment Store website
 assets/snack.svg               Website logo; not a Condiment dependency
 snack-condiments.json           Catalog for both Condiments
 wallpaper/
+  icon.svg                     This Condiment’s own icon
   index.html                   Entry HTML
   styles.css                   All styles for this Condiment
   script.js                    All interface logic for this Condiment
@@ -255,6 +271,7 @@ wallpaper/
   skills/SKILL.md              Optional wallpaper skill
   README.md                    Wallpaper setup
 simple-agent-chat/
+  icon.svg                     This Condiment’s own icon
   index.html                   Entry HTML
   styles.css                   All styles for this Condiment
   script.js                    All interface logic for this Condiment

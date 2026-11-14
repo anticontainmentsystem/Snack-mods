@@ -1,5 +1,7 @@
 {
   "version": 1,
+  "name": "Simple Agent Chat",
+  "publisher": {"name": "NINTENTWOS / anticontainmentsystem", "url": "https://github.com/anticontainmentsystem"},
   "condiments": [
     {
       "id": "simple-agent-chat",
@@ -21,7 +23,8 @@
             "path": "skills/SKILL.md"
           }
         ]
-      }
+      },
+      "icon": "icon.svg"
     }
   ]
 }

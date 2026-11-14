@@ -1,5 +1,9 @@
 {
   "version": 1,
+  "name": "Snack Condiments",
+  "description": "Independent, complete Condiments for the Snack desktop operating environment.",
+  "publisher": {"name": "NINTENTWOS / anticontainmentsystem", "url": "https://github.com/anticontainmentsystem"},
+  "homepage": "https://anticontainmentsystem.github.io/Snack-mods/",
   "condiments": [
     {
       "id": "wallpaper",
@@ -10,10 +14,11 @@
       "permissions": {
         "awareness": "read",
         "windows": "control",
-        "library": "control"
+        "library": "control",
+        "condiments": "read"
       },
       "agent": {
-        "instructions": "Wallpaper changes the presentation of a Snack, not its HTML. Discover current actions and awareness. Use media-begin/media-chunk/media-finish for an image, wallpaper-state to read existing assignments, and wallpaper-set with an existing Snack id, managed mediaId and fit cover/contain/stretch. Set mediaId to null to remove the wallpaper. Named Snack Bars, Main Snack and saved ChipClips retain their wallpaper assignment. Respect the user’s requested target.",
+        "instructions": "Wallpaper is entirely implemented by this external Condiment. Discover condiment-agent-guide to read its command schemas. Open it with condiment-open if necessary, then use condiment-command with this Condiment id and command apply (snackId, managed mediaId, fit cover/contain/stretch) or remove (snackId). Its commands call generic presentation tools; Snack has no Wallpaper-specific code. Upload chosen images with media-begin/media-chunk/media-finish. Verify presentation-state for the target Snack. Use only the user’s requested target and current permissions.",
         "skills": [
           {
             "name": "snack-wallpaper",
@@ -21,7 +26,59 @@
             "path": "wallpaper/skills/SKILL.md"
           }
         ]
-      }
+      },
+      "icon": "wallpaper/icon.svg",
+      "commands": [
+        {
+          "name": "apply",
+          "description": "Apply this Condiment’s wallpaper to a Snack.",
+          "inputSchema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "snackId": {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              },
+              "mediaId": {
+                "type": "string"
+              },
+              "fit": {
+                "enum": [
+                  "cover",
+                  "contain",
+                  "stretch"
+                ]
+              }
+            },
+            "required": [
+              "snackId",
+              "mediaId"
+            ]
+          }
+        },
+        {
+          "name": "remove",
+          "description": "Remove this Condiment’s presentation layer.",
+          "inputSchema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "snackId": {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              }
+            },
+            "required": [
+              "snackId"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "simple-agent-chat",
@@ -43,7 +100,8 @@
             "path": "simple-agent-chat/skills/SKILL.md"
           }
         ]
-      }
+      },
+      "icon": "simple-agent-chat/icon.svg"
     }
   ]
 }

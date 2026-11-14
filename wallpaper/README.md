@@ -5,6 +5,7 @@ Give any Snack a background image. Fill, fit or stretch it without changing its 
 This folder is a complete, independent Condiment. It includes:
 
 - `snack-condiments.json` — this Condiment’s catalog and requested controls
+- `icon.svg` — its own icon
 - `index.html` — its interface
 - `styles.css` — all of its styles
 - `script.js` — all of its interface logic
