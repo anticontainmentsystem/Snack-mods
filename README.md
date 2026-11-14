@@ -12,6 +12,8 @@ This is the **public testing source** for the first two Condiments: **Wallpaper*
 
 ## Get started
 
+Visit the [Condiment Store website](https://anticontainmentsystem.github.io/Snack-mods/) for Snack-styled previews, light/dark mode, and copyable source links.
+
 Open **Serving Tray → Mods** in Snack.
 
 1. Under **Mod connections**, add a GitHub source.
@@ -242,6 +244,8 @@ Use current schemas rather than treating this README as a frozen API contract. S
 ## Repository map
 
 ```text
+index.html                     Condiment Store website
+assets/snack.svg               Website logo; not a Condiment dependency
 snack-condiments.json           Catalog for both Condiments
 wallpaper/
   index.html                   Entry HTML
