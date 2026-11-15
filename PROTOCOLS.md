@@ -122,3 +122,5 @@ The [generated reference](API-REFERENCE.json) includes shared action names, inpu
 
 
 See [the full Snack control surface](FULL-CONTROL.md) for `capabilities()`, `tool()`, all eight control areas, local owner operations, mod-to-mod commands and Main Snack panel protection. [Host UI consistency](ui-kit/README.md) describes the shared monochrome bar controls.
+
+Individual website tunnels stream native Chromium frames, including sites that reject iframe embedding. The browser-input action accepts normalized mouse/wheel input, keyboard keys and text only for website guests; host bars use their registered controls. Public codes and view-only restrictions remain enforced. Frames pause in hidden browser tabs. See the live action schema for exact input fields.

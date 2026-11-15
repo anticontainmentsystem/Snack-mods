@@ -2595,6 +2595,95 @@
       }
     },
     {
+      "name": "browser-input",
+      "description": "Send normalized mouse, wheel, key or text input only to a native website guest. Cannot interact with Main, Serving Tray, Studio, Condiment host UI or host bars.",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id",
+        "input"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "input": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "enum": [
+                  "mouseDown",
+                  "mouseUp",
+                  "mouseMove",
+                  "mouseWheel",
+                  "key",
+                  "text"
+                ]
+              },
+              "x": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "y": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "button": {
+                "enum": [
+                  "left",
+                  "right",
+                  "middle"
+                ]
+              },
+              "deltaX": {
+                "type": "number"
+              },
+              "deltaY": {
+                "type": "number"
+              },
+              "key": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string",
+                "maxLength": 10000
+              },
+              "modifiers": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "shift",
+                    "control",
+                    "alt",
+                    "meta"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "input"
+        ]
+      }
+    },
+    {
       "name": "preview-saved",
       "description": "Read a retained website preview for a saved Snack; refresh requests a new capture while keeping the last good snapshot on failure. Single queued renderer, bounded disk/memory cache; no running page in the preset.",
       "area": "library",
