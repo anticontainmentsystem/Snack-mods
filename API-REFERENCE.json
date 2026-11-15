@@ -3324,6 +3324,51 @@
       }
     },
     {
+      "name": "condiment-capabilities",
+      "area": "condiments",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Discover the full API/MCP tool and action schemas available to an enabled Condiment under the intersection of its reviewed grants and caller grants.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "condiment-tool",
+      "area": "condiments",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Call any advertised API/MCP tool through an enabled Condiment. Uses the same harness and current grants. Full local owner controls require explicit approval of all eight control areas; remote callers cannot gain local authority.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "arguments": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    {
       "name": "condiment-status",
       "area": "condiments",
       "level": "read",
@@ -3797,7 +3842,7 @@
       "requires": [],
       "localOnly": false,
       "context": "none",
-      "description": "Invoke a current shared Snack action through a Condiment. Enforces the intersection of its approved grants and the caller’s current grants. Cannot access managed secrets or owner-only actions.",
+      "description": "Invoke a current shared Snack action through a Condiment. Enforces the intersection of its approved grants and the caller’s current grants. Full locally reviewed control is supported; remote callers never acquire local owner authority.",
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,

@@ -123,3 +123,6 @@ New host primitives should enter Snack’s shared action registry with schemas, 
 A module may declare `"background": "worker.html"` and `"network": {"origins": ["https://api.example.com"]}`. The review dialog lists the background entry and each origin separately, unchecked by default. These are additional approval choices, not automatic grants. Request `condiments: control` for `condiment-http` or private storage. The owner can start/stop an approved background from module Settings. Updates reset review and stop existing instances. See [RUNTIMES.md](RUNTIMES.md).
 
 The [starter folder](starter/) is a complete independent bundle: interface, CSS, JavaScript, icon, optional background receiver, standalone catalog and agent skill. It is not installed automatically, listed in the root example catalog or bundled with Snack.
+
+
+See [the full Snack control surface](FULL-CONTROL.md) for `capabilities()`, `tool()`, all eight control areas, local owner operations, mod-to-mod commands and Main Snack panel protection. [Host UI consistency](ui-kit/README.md) describes the shared monochrome bar controls.

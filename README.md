@@ -291,3 +291,6 @@ These are early Condiments for testing the extension model in a growing Snack en
 Snack’s integration tests cover source discovery, permission review, isolated interfaces, wallpaper application, group chat, authenticated replies, reactions, attachments, and API/MCP permissions. The OpenAI account transport is also verified against the bundled runtime.
 
 **Bring your own ideas. Add your own Condiments. Make Snack your own.**
+
+
+See [the full Snack control surface](FULL-CONTROL.md) for `capabilities()`, `tool()`, all eight control areas, local owner operations, mod-to-mod commands and Main Snack panel protection. [Host UI consistency](ui-kit/README.md) describes the shared monochrome bar controls.

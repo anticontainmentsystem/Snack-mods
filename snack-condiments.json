@@ -2,23 +2,25 @@
   "version": 1,
   "name": "Snack Condiments",
   "description": "Independent, complete Condiments for the Snack desktop operating environment.",
-  "publisher": {"name": "NINTENTWOS / anticontainmentsystem", "url": "https://github.com/anticontainmentsystem"},
+  "publisher": {
+    "name": "NINTENTWOS / anticontainmentsystem",
+    "url": "https://github.com/anticontainmentsystem"
+  },
   "homepage": "https://anticontainmentsystem.github.io/Snack-mods/",
   "condiments": [
     {
       "id": "wallpaper",
       "name": "Wallpaper",
-      "description": "Give any Snack a background image. Fill, fit or stretch it without changing its source.",
-      "version": "0.1.0",
+      "description": "Background images for Snacks, excluding M Snacks. Fill, fit or stretch without changing the source.",
+      "version": "0.1.1",
       "entry": "wallpaper/index.html",
       "permissions": {
         "awareness": "read",
         "windows": "control",
-        "library": "control",
-        "condiments": "read"
+        "library": "control"
       },
       "agent": {
-        "instructions": "Wallpaper is entirely implemented by this external Condiment. Discover condiment-agent-guide to read its command schemas. Open it with condiment-open if necessary, then use condiment-command with this Condiment id and command apply (snackId, managed mediaId, fit cover/contain/stretch) or remove (snackId). Its commands call generic presentation tools; Snack has no Wallpaper-specific code. Upload chosen images with media-begin/media-chunk/media-finish. Verify presentation-state for the target Snack. Use only the user’s requested target and current permissions.",
+        "instructions": "Wallpaper is entirely implemented by this external Condiment. Discover condiment-agent-guide to read its command schemas. Open it with condiment-open if necessary, then use condiment-command with this Condiment id and command apply (snackId, managed mediaId, fit cover/contain/stretch) or remove (snackId). Its commands call generic presentation tools; Snack has no Wallpaper-specific code. Upload chosen images with media-begin/media-chunk/media-finish. Verify presentation-state for the target Snack. Use only the user’s requested target and current permissions. M Snacks (kind image) are excluded from both the picker and apply command. Verify the chosen target kind before applying.",
         "skills": [
           {
             "name": "snack-wallpaper",

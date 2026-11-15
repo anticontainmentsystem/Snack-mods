@@ -73,3 +73,6 @@ External programs may use Snack’s authenticated HTTP API/MCP from any language
 - [Background runtimes and HTTPS services](RUNTIMES.md)
 
 The generated reference is a checkout snapshot. **Live `snacks_capabilities` and `GET /api/tools` are authoritative** for the user’s installed version and current permissions.
+
+
+See [the full Snack control surface](FULL-CONTROL.md) for `capabilities()`, `tool()`, all eight control areas, local owner operations, mod-to-mod commands and Main Snack panel protection. [Host UI consistency](ui-kit/README.md) describes the shared monochrome bar controls.
