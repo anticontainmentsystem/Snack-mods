@@ -100,6 +100,6 @@ Background execution is not durable delivery or exactly-once processing. It does
 
 Keep paired credentials in the external client, not in a Condiment. Discover HTTP tools or MCP tools/list, read capabilities and awareness, then invoke shared actions through `snacks_action`. Live schemas/grants remain authoritative.
 
-An external client may use `condiment-invoke` for a discovered enabled module. Approved module grants intersect with caller grants. Direct remote `condiment-http` calls without module context are rejected. Custom commands require the target module's approved areas/levels. Owner-only management and managed Vault controls remain unavailable to extensions.
+An external client may use `condiment-invoke` for a discovered enabled module. Approved module grants intersect with caller grants. Direct remote `condiment-http` calls without module context are rejected. Custom commands require the target module's approved areas/levels. Full locally approved control includes registered owner-management and Vault-backed operations. Remote clients never gain local authority.
 
 Skills should explain intent, arguments, outputs, side effects, service dependencies, verification, errors and idempotency. A skill is guidance, not authorization, and must not contain a real token or connection code.

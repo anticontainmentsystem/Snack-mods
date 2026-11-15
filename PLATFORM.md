@@ -38,7 +38,7 @@ Monitor awareness includes coordinates, bounds, orientation, visibility, minimiz
 | Library | Read and save independent ChipClips, organize Snack Bars, assign or move chips, import/export the library, upload managed media and inspect source content. |
 | Studio | Create/select documents, edit with revision checks, launch live HTML, save, format, search, resolve conflicts and synchronize linked windows. |
 | GitHub | Discover connected accounts and repositories, browse branches/files, load HTML or Pages, and commit with an expected SHA. The provider retains its own account permissions. |
-| Settings | Read or change permitted General settings and available service/tunnel settings through registered actions. Owner-only connection setup remains unavailable to extensions. |
+| Settings | Read or change permitted General settings and available service/tunnel settings through registered actions. Full locally reviewed control includes owner connection setup; scoped modules retain their approved access. |
 | Chat | Create group conversations, select connected participants, send messages, reply, react, share files and provide agent guides. An inbox client must actually receive and respond; its presence is not proof a model is running. |
 | Condiments | Discover enabled extensions, read optional skills, call approved third-party commands and store JSON in the calling extension’s own namespace. |
 
@@ -52,7 +52,7 @@ GitHub, OpenAI, Tailscale and Email are host service connections. An installed C
 
 Email is a built-in Connect service, not an email mod: mailbox receive/send, command receipts and background processing belong to that connector. Browser sign-in also depends on the publisher’s provider registrations and account authorization.
 
-Vault stores managed credentials using operating-system encryption. Condiments cannot retrieve these secrets or invoke owner-only sign-in/permission actions. A workflow can ask an existing connector to act; it must not ask the user to paste Snack’s local agent credential into a sandboxed Store card.
+Vault stores managed credentials using operating-system encryption. Raw managed secrets are not exposed by the connector bridge. Fully approved local Condiments can use the registered Vault-backed and owner sign-in/permission operations; remote clients cannot elevate themselves. A workflow can ask an existing connector to act; it must not ask the user to paste Snack’s local agent credential into a sandboxed Store card.
 
 Tailscale browser tunnel codes and API/MCP agent credentials are separate. A public Snack link is not permission to control the host environment as an agent. Remote clients receive individually granted areas and cannot enlarge their own grants.
 

@@ -118,7 +118,7 @@ Email’s built-in connector has its own durable receive/result receipts. Those 
 
 ## Live discovery stays authoritative
 
-The [generated reference](API-REFERENCE.json) includes shared action names, input schemas, required areas, read/control levels and owner-only flags. A module may call only approved non-owner actions. External remote clients need their own current grants as well. Onboarding is a bootstrap prompt generated from live capabilities, not a permanent static feature list.
+The [generated reference](API-REFERENCE.json) includes shared action names, input schemas, required areas, read/control levels and owner-only flags. A module may call its approved actions and tools; approval of all eight control areas enables local owner operations. External remote clients need their own current grants as well. Onboarding is a bootstrap prompt generated from live capabilities, not a permanent static feature list.
 
 
 See [the full Snack control surface](FULL-CONTROL.md) for `capabilities()`, `tool()`, all eight control areas, local owner operations, mod-to-mod commands and Main Snack panel protection. [Host UI consistency](ui-kit/README.md) describes the shared monochrome bar controls.

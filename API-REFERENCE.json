@@ -1,6 +1,6 @@
 {
   "generatedFrom": "Snack shared action registry",
-  "note": "Live snacks_capabilities is authoritative. Owner-only actions cannot be invoked from Condiments.",
+  "note": "Live snacks_capabilities is authoritative. Fully approved local Condiments can invoke owner controls; remote callers never acquire local authority.",
   "http": {
     "tools": "GET /api/tools",
     "capabilities": "GET /api/capabilities",
