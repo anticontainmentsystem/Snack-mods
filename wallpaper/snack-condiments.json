@@ -9,16 +9,17 @@
     {
       "id": "wallpaper",
       "name": "Wallpaper",
-      "description": "Background images for Snacks, excluding M Snacks. Fill, fit or stretch without changing the source.",
-      "version": "0.1.1",
+      "description": "Persistent background images for Snacks, excluding M Snacks. Fill, fit, stretch or tile, with a preview matching the selected Snack.",
+      "version": "0.1.2",
       "entry": "index.html",
       "permissions": {
         "awareness": "read",
         "windows": "control",
-        "library": "control"
+        "library": "control",
+        "condiments": "control"
       },
       "agent": {
-        "instructions": "Wallpaper is entirely implemented by this external Condiment. Discover condiment-agent-guide to read its command schemas. Open it with condiment-open if necessary, then use condiment-command with this Condiment id and command apply (snackId, managed mediaId, fit cover/contain/stretch) or remove (snackId). Its commands call generic presentation tools; Snack has no Wallpaper-specific code. Upload chosen images with media-begin/media-chunk/media-finish. Verify presentation-state for the target Snack. Use only the user’s requested target and current permissions. M Snacks (kind image) are excluded from both the picker and apply command. Verify the chosen target kind before applying.",
+        "instructions": "Wallpaper is entirely implemented by this external Condiment. Discover condiment-agent-guide to read its command schemas. Open it with condiment-open if necessary, then use condiment-command with this Condiment id and command apply (snackId, managed mediaId, fit cover/contain/stretch/tile) or remove (snackId). Its commands call generic presentation tools; Snack has no Wallpaper-specific code. Upload chosen images with media-begin/media-chunk/media-finish. Verify presentation-state for the target Snack. Use only the user’s requested target and current permissions. M Snacks (kind image) are excluded from both the picker and apply command. Verify the chosen target kind before applying. The editor stores its selected managed image and fit in private Condiment storage across reloads. Clear image clears the editor only; remove clears the target wallpaper and keeps the loaded image.",
         "skills": [
           {
             "name": "snack-wallpaper",
@@ -49,7 +50,8 @@
                 "enum": [
                   "cover",
                   "contain",
-                  "stretch"
+                  "stretch",
+                  "tile"
                 ]
               }
             },

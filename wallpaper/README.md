@@ -16,3 +16,6 @@ No shared file outside this folder is required. Connect this GitHub folder, or c
 The root repository catalog can also discover both Condiments together.
 
 [Full guide](https://github.com/anticontainmentsystem/Snack-mods#readme)
+
+
+The loaded image and fit are saved in this Condiment’s private storage until replaced or cleared. **Clear image** resets the editor without removing applied wallpapers. **Remove** removes wallpaper from the selected Snack while retaining the loaded image. Fit changes update an already wallpapered target immediately; Apply remains available for any selected non-M Snack. The preview uses the selected Snack’s actual width and height, including orientation changes. Tile repeats the image at its original size. The bundle uses generic `media-read` (own uploads only), `condiment-storage-get/set`, and presentation actions; no Wallpaper-specific host implementation is required.

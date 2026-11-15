@@ -3413,6 +3413,34 @@
       }
     },
     {
+      "name": "condiment-update-status",
+      "area": "condiments",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read periodic Condiment update-check status, per-source errors and available installed updates. Checks run every eight hours while Snack runs; they never install or approve updates.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    {
+      "name": "condiment-check-updates",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Check every connected Condiment source now. Coalesces concurrent checks, keeps installed versions and grants unchanged, and reports available updates and per-source failures.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    {
       "name": "media-image-search",
       "area": "library",
       "level": "read",
@@ -4059,6 +4087,31 @@
         "required": [
           "id",
           "action"
+        ]
+      }
+    },
+    {
+      "name": "media-read",
+      "area": "library",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read a managed upload in bounded base64 chunks. Local owners can read library media; Condiments and remote clients can read only their own uploads. Shared chat attachments use chat-file instead.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "id"
         ]
       }
     },
