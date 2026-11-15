@@ -1,5 +1,9 @@
 # Condiments for Snack
 
+**Start with the visible [Build for Snack guide](https://anticontainmentsystem.github.io/Snack-mods/#developers).** It explains the desktop environment, objects, two-way extension calls, service requests, background lifecycle, HTTP/MCP receivers and a searchable generated action reference. The two examples are not the platform's limits.
+
+Detailed guides: [platform map](PLATFORM.md), [authoring](BUILDING.md), [SDK/HTTP/MCP](PROTOCOLS.md), [runtimes and HTTPS](RUNTIMES.md), [generated schemas](API-REFERENCE.json).
+
 ### A little extra. A whole new way to Snack.
 
 **Condiments extend Snack from the outside.** Connect a repository or a folder, choose an addition, approve its controls, and open it as its own Snack.

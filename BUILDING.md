@@ -117,3 +117,9 @@ Put the complete folder and manifest in your repository. A root catalog may list
 Provide a human README and optional agent skill. Explain intent, inputs, outputs, verification and failure handling. Never embed an agent token, mailbox password, provider refresh token or another user’s data. Check your requested actions against the live capability manifest. If a needed primitive is absent, identify the missing host connector rather than claiming your sandbox already has unrestricted OS access.
 
 New host primitives should enter Snack’s shared action registry with schemas, current remote permission checks, API/MCP coverage, generated onboarding and meaningful tests. That is how the platform grows without forcing Snack to know every extension’s name or customization logic.
+
+## Optional background and service entries
+
+A module may declare `"background": "worker.html"` and `"network": {"origins": ["https://api.example.com"]}`. The review dialog lists the background entry and each origin separately, unchecked by default. These are additional approval choices, not automatic grants. Request `condiments: control` for `condiment-http` or private storage. The owner can start/stop an approved background from module Settings. Updates reset review and stop existing instances. See [RUNTIMES.md](RUNTIMES.md).
+
+The [starter folder](starter/) is a complete independent bundle: interface, CSS, JavaScript, icon, optional background receiver, standalone catalog and agent skill. It is not installed automatically, listed in the root example catalog or bundled with Snack.

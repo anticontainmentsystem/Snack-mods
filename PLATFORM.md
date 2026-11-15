@@ -60,9 +60,9 @@ Tailscale browser tunnel codes and API/MCP agent credentials are separate. A pub
 
 The current Condiment UI is sandboxed HTML/CSS/JavaScript. It has no Node `require`, OS shell, arbitrary disk access, direct network `fetch`, raw SMTP/IMAP sockets or inbound HTTP listener. Relative local scripts and styles are bundled by Snack; remote CDNs are blocked. The generic action interface is the connection to the host.
 
-Custom command handlers currently live in an **open Condiment window**. They are not independent always-on workers. Closing that window means its custom command endpoint is unavailable. Per-extension JSON storage is persistent, but `onChange` is not a persistent queue. These distinctions matter when designing background automation.
+Custom command handlers run in an open Condiment window or an optional, explicitly approved **background HTML entry**. Background entries keep handlers and timers alive when the visible interface closes, start with Snack when enabled, and stop when disabled, removed or Snack exits. Per-extension JSON storage is persistent, but `onChange` is not a persistent queue. Background execution is not an OS service, durable scheduler or exactly-once queue. See [runtimes and services](RUNTIMES.md).
 
-External programs may use Snack’s authenticated HTTP API/MCP from any language, subject to their connection’s grants. That does not make an arbitrary native executable part of an approved HTML Condiment. A future worker/network connector must be designed and documented explicitly; do not advertise nonexistent background, filesystem or network grants in a manifest.
+External programs may use Snack’s authenticated HTTP API/MCP from any language, subject to their connection’s grants. That does not make an arbitrary native executable part of an approved HTML Condiment. The `condiment-http` bridge now provides bounded public HTTPS requests to exact, separately approved origins. Additional inbound listener, filesystem and privileged credential connectors still require deliberate implementation; do not advertise nonexistent grants.
 
 ## Where to go next
 
@@ -70,5 +70,6 @@ External programs may use Snack’s authenticated HTTP API/MCP from any language
 - [Build a complete independent bundle](BUILDING.md)
 - [HTTP, MCP and SDK protocols](PROTOCOLS.md)
 - [Generated action schemas](API-REFERENCE.json)
+- [Background runtimes and HTTPS services](RUNTIMES.md)
 
 The generated reference is a checkout snapshot. **Live `snacks_capabilities` and `GET /api/tools` are authoritative** for the user’s installed version and current permissions.

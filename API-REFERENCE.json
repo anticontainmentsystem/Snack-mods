@@ -3455,11 +3455,102 @@
           },
           "permissions": {
             "type": "object"
+          },
+          "origins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20
+          },
+          "background": {
+            "type": "boolean"
           }
         },
         "required": [
           "id",
           "permissions"
+        ]
+      }
+    },
+    {
+      "name": "condiment-runtime",
+      "area": "condiments",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Discover enabled Condiment runtimes, background lifecycle and approved HTTPS origins.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    {
+      "name": "condiment-background",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Owner starts or stops a declared sandboxed background entry while Snack runs. No Node or OS shell access.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "enabled"
+        ]
+      }
+    },
+    {
+      "name": "condiment-http",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Make a bounded HTTPS request through an enabled Condiment to an explicitly owner-approved public origin. Blocks local/private DNS, credential destinations, cookies and redirects. No Vault values are exposed.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "method": {
+            "enum": [
+              "GET",
+              "HEAD",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE",
+              "OPTIONS"
+            ]
+          },
+          "headers": {
+            "type": "object"
+          },
+          "body": {
+            "type": "string",
+            "maxLength": 1000000
+          }
+        },
+        "required": [
+          "url"
         ]
       }
     },
@@ -3524,7 +3615,7 @@
       "requires": [],
       "localOnly": false,
       "context": "none",
-      "description": "Invoke a third-party command declared by its manifest and served by its open sandboxed UI. Discover schemas in condiment-agent-guide. The caller must hold the module’s approved grants; all nested tools remain checked.",
+      "description": "Invoke a third-party command declared by its manifest and served by its open sandboxed UI or owner-enabled background entry. Discover schemas in condiment-agent-guide. The caller must hold the module’s approved grants; all nested tools remain checked.",
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,

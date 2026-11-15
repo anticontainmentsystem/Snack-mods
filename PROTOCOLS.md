@@ -43,7 +43,7 @@ The caller discovers `condiment-agent-guide` and invokes:
 {"action":"condiment-command","arguments":{"id":"DISCOVERED_CONDIMENT_ID","command":"inspect","arguments":{"snackId":123}}}
 ```
 
-The window must be open. Current command timeout is 30 seconds and the returned JSON is bounded to 1 MB. Nested SDK calls still go through permission checks; a command cannot turn a read-only caller into a privileged local actor. Current input validation handles the advertised top-level types, enums, required fields and ranges; validate your own nested domain data too.
+A visible window or an owner-enabled declared background runtime must be running. When both are present, commands go to the background entry. Current command timeout is 30 seconds and the returned JSON is bounded to 1 MB. Nested SDK calls still go through permission checks; a command cannot turn a read-only caller into a privileged local actor. Current input validation handles the advertised top-level types, enums, required fields and ranges; validate your own nested domain data too.
 
 ## External clients: any language that speaks HTTP
 
@@ -110,7 +110,11 @@ Studio documents support revision-aware edits and preserved conflicts. GitHub wr
 
 Generic chat actions provide directed inboxes and authenticated sender identity. A receiver polls `chat-inbox`, reads its shared conversation, and uses `chat-send` with the room and reply target. Attachments use managed IDs and bounded chunks, not unrestricted host file paths.
 
-Email’s built-in connector has its own durable receive/result receipts. Those receipts do not imply every SDK/REST action currently has a durable event or receipt history. A generic always-on extension job/event runtime is not yet present.
+Email’s built-in connector has its own durable receive/result receipts. Those receipts do not imply every SDK/REST action has a durable event or receipt history. Sandboxed background entries now run while Snack runs, with separate owner opt-in. They can receive custom commands and poll approved HTTPS services. A durable generic job/event queue is not yet present. See [runtime contracts](RUNTIMES.md).
+
+## Runtime and network discovery
+
+`condiment-runtime` reports background lifecycle and approved HTTPS origins. `condiment-agent-guide` includes this connectivity with commands and skills. `condiment-background` is local-owner-only lifecycle control. `condiment-http` requires an enabled Condiment context, condiments control access, an exact owner-approved public origin and current caller grants. Direct remote requests without a scoped Condiment context are rejected. Request/response bodies are text, limited to 1 MB; redirects are returned without following. No Vault value is returned or automatically injected.
 
 ## Live discovery stays authoritative
 
