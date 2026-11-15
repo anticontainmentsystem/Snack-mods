@@ -126,3 +126,5 @@ The [starter folder](starter/) is a complete independent bundle: interface, CSS,
 
 
 See [the full Snack control surface](FULL-CONTROL.md) for `capabilities()`, `tool()`, all eight control areas, local owner operations, mod-to-mod commands and Main Snack panel protection. [Host UI consistency](ui-kit/README.md) describes the shared monochrome bar controls.
+
+[Asset bundling](ASSETS.md) explains self-contained images, icons, fonts and stylesheet dependencies.

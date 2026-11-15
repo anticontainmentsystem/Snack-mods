@@ -1,13 +1,16 @@
 {
   "version": 1,
   "name": "Simple Agent Chat",
-  "publisher": {"name": "NINTENTWOS / anticontainmentsystem", "url": "https://github.com/anticontainmentsystem"},
+  "publisher": {
+    "name": "NINTENTWOS / anticontainmentsystem",
+    "url": "https://github.com/anticontainmentsystem"
+  },
   "condiments": [
     {
       "id": "simple-agent-chat",
       "name": "Simple Agent Chat",
       "description": "Chat with one or several agents. Share files, reply, react and make things happen in Snack.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "entry": "index.html",
       "permissions": {
         "chat": "control",
