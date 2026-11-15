@@ -6,3 +6,5 @@
 .snack-emoji{display:inline-block;width:1.7em;height:1.7em;vertical-align:middle;background:url(snack-emoji.svg) center/contain no-repeat}.message-body .snack-emoji{width:2em;height:2em}
 
 html[data-theme=dark] .snack-emoji{filter:invert(1)}
+
+.pending-file{display:inline-flex;flex-direction:column;gap:4px}.pending-file img{width:96px;height:72px;object-fit:contain;border:1px solid var(--line)}

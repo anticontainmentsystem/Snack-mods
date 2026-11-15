@@ -16,3 +16,5 @@ No shared file outside this folder is required. Connect this GitHub folder, or c
 The root repository catalog can also discover both Condiments together.
 
 [Full guide](https://github.com/anticontainmentsystem/Snack-mods#readme)
+
+Image tools and attachment workflows: [read the shared guide](../IMAGE-TOOLS.md). Chat 0.1.2 displays pending thumbnails and shared attachment images.

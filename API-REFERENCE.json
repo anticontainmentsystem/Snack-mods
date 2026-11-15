@@ -3413,6 +3413,116 @@
       }
     },
     {
+      "name": "media-image-search",
+      "area": "library",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Find internet photographs through Openverse. Returns image URLs, dimensions, source pages and attribution; no API key is needed.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "query": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          },
+          "shape": {
+            "enum": [
+              "any",
+              "square",
+              "portrait",
+              "landscape"
+            ]
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "media-image-import",
+      "area": "library",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Download a public HTTPS image into managed media. Validates public DNS/TLS on redirects, size/type and image decoding. Returns mediaId as id, never image base64.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "shape": {
+            "enum": [
+              "original",
+              "square"
+            ]
+          }
+        },
+        "required": [
+          "url"
+        ]
+      }
+    },
+    {
+      "name": "image-set",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "library",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "description": "Put a managed image directly into an M Snack, without passing base64 through the agent. For chat attachments include roomId; remote clients must own the media or belong to its shared conversation and retain chat read access. Other Snack kinds are rejected.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "mediaId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "roomId": {
+            "type": "string"
+          },
+          "shape": {
+            "enum": [
+              "original",
+              "square"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "mediaId"
+        ]
+      }
+    },
+    {
       "name": "condiment-capabilities",
       "area": "condiments",
       "level": "read",

@@ -10,7 +10,7 @@
       "id": "simple-agent-chat",
       "name": "Simple Agent Chat",
       "description": "Chat with one or several agents. Share files, reply, react and make things happen in Snack.",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "entry": "index.html",
       "permissions": {
         "chat": "control",
@@ -18,7 +18,7 @@
         "condiments": "read"
       },
       "agent": {
-        "instructions": "This is a shared human/agent conversation surface. Discover chat-inbox for messages addressed to your authenticated agent id. Use chat-read for room context, then chat-send with roomId, text, recipients and optional replyTo; sender identity is enforced by Snack. Other selected agents may be recipients. Never enter an unbounded reply loop. chat-react toggles a reaction. chat-file reads shared attachments in chunks; chat-file-inspect extracts text/PDF/Office/ZIP content. Audio and video are shared files; only claim interpretation your runtime supports. Use current Snack API/MCP actions to perform the user’s task. Do not assume an inbox connection automatically generates replies. Optional Condiment guides and skills are available through condiment-agent-guide and can be shared by the user. They do not grant additional permissions.",
+        "instructions": "This is a shared human/agent conversation surface. Discover chat-inbox for messages addressed to your authenticated agent id. Use chat-read for room context, then chat-send with roomId, text, recipients and optional replyTo; sender identity is enforced by Snack. Other selected agents may be recipients. Never enter an unbounded reply loop. chat-react toggles a reaction. chat-file reads shared attachments in chunks; chat-file-inspect extracts text/PDF/Office/ZIP content. Audio and video are shared files; only claim interpretation your runtime supports. Use current Snack API/MCP actions to perform the user’s task. Do not assume an inbox connection automatically generates replies. Optional Condiment guides and skills are available through condiment-agent-guide and can be shared by the user. They do not grant additional permissions. Image workflow: use media-image-search and media-image-import for internet images, then image-set with the returned mediaId. For shared chat attachments use image-set with mediaId and roomId directly; do not ferry base64. Inspect live schemas and awareness for M Snacks and their positions.",
         "skills": [
           {
             "name": "snack-group-chat",
