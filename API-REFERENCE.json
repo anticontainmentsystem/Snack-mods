@@ -588,6 +588,42 @@
       }
     },
     {
+      "name": "snack-orientation",
+      "description": "Set a Snack orientation through the shared window controller. Landscape is 6:4; portrait is 4:6. M Snacks also support square. Pasta Studio keeps its fixed editor size.",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id",
+        "orientation"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "orientation": {
+            "enum": [
+              "portrait",
+              "landscape",
+              "square"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "orientation"
+        ]
+      }
+    },
+    {
       "name": "source-edit",
       "description": "Read editable content from an open, saved or previous source key.",
       "area": "library",
