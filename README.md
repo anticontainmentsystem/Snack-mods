@@ -304,3 +304,7 @@ Image tools and attachment workflows: [read the guide](IMAGE-TOOLS.md). Chat 0.1
 
 
 [Local storage, editable files and cleanup](STORAGE.md).
+
+## Snack Browser
+
+[Snack Browser](snack-browser/) is a separate, optional native Chromium workspace for people and agents. It includes real tabs, navigation, bookmarks, history, downloads, find, PNG/PDF exports and a bundled agent skill. It is not installed or bundled with Snack. Update Snack first so its live capabilities advertise browser-tab-new. Its complete standalone folder can be connected directly; see [its installation guide](snack-browser/README.md) and [the generic browser connector](BROWSER-WORKSPACES.md).

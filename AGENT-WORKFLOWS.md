@@ -63,3 +63,7 @@ See [Storage](STORAGE.md) for organized editable files, external HTML synchroniz
 ## Large Condiments
 
 Snack does not impose a 5 MB Condiment file limit or a 20 MB project/package limit. `condiment-project-read` returns bounded chunks with `offset`, `next` and total `size`; combine decoded bytes for larger files. `condiment-project-write-chunk` stages bounded base64 chunks using an upload id and exact byte offsets, then installs the complete file atomically. Project ZIPs stream to disk instead of accumulating the archive in RAM. GitHub raw-file responses handle files whose Contents API metadata omits base64 bytes. GitHub, filesystem and ZIP-format constraints remain their own platform constraints.
+
+## Native browser workspaces
+
+See [Browser workspaces](BROWSER-WORKSPACES.md) for optional navigation bars, native tabs hosted by any approved Condiment, find/history, page capture/PDF exports, shared page ids, reviewed permissions and the standalone Snack Browser reference Condiment. Pasta Studio also exposes its Serving Tray configure control; active tunnel URLs can be launched as browser Snacks with tailscale-launch.

@@ -134,6 +134,9 @@
               },
               "closeTrayOnExit": {
                 "type": "boolean"
+              },
+              "browserControls": {
+                "type": "boolean"
               }
             }
           }
@@ -324,6 +327,34 @@
         "required": [
           "part"
         ]
+      }
+    },
+    {
+      "name": "tray-toggle",
+      "description": "Show or hide the primary Serving Tray from any Snack, including Pasta Studio. Reuses its remembered position.",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "main-open",
+      "description": "Open or restore and focus Main Snack. Reuses the existing Main Snack and preserves its Pasta.",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
       }
     },
     {
@@ -2075,6 +2106,42 @@
         "type": "object",
         "properties": {},
         "additionalProperties": false
+      }
+    },
+    {
+      "name": "tailscale-launch",
+      "description": "Launch a configured active tunnel URL in a native website Snack. Works for private tailnet and public code-protected links; never inserts access codes.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "settings",
+          "read"
+        ],
+        [
+          "library",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
       }
     },
     {
@@ -6185,6 +6252,401 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {}
+      }
+    },
+    {
+      "name": "browser-tabs",
+      "description": "List native Chromium tabs owned by a Condiment workspace. Tab ids work with existing browser read, interact, evaluate, download and page debugging actions.",
+      "area": "windows",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "hostId": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "required": [
+          "hostId"
+        ]
+      }
+    },
+    {
+      "name": "browser-tab-new",
+      "description": "Create a real isolated website guest in a Condiment workspace, sharing Snack browser cookies and permissions. The supplied host must be a Condiment, never Main or Studio.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "condiments",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "hostId": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "url": {
+            "type": "string"
+          },
+          "insets": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "left": {
+                "type": "number",
+                "minimum": 0
+              },
+              "top": {
+                "type": "number",
+                "minimum": 0
+              },
+              "right": {
+                "type": "number",
+                "minimum": 0
+              },
+              "bottom": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "required": [
+          "hostId",
+          "url"
+        ]
+      }
+    },
+    {
+      "name": "browser-tab-layout",
+      "description": "Reserve native website viewport insets in a Condiment. Keeps 18px host bars uncovered; hide it before an HTML overlay.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "condiments",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "hostId": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "insets": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "left": {
+                "type": "number",
+                "minimum": 0
+              },
+              "top": {
+                "type": "number",
+                "minimum": 0
+              },
+              "right": {
+                "type": "number",
+                "minimum": 0
+              },
+              "bottom": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          },
+          "visible": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "hostId"
+        ]
+      }
+    },
+    {
+      "name": "browser-tab-select",
+      "description": "Show one workspace tab without reloading it; other tabs retain page state.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "condiments",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "browser-tab-close",
+      "description": "Close one workspace tab and release its website process.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "condiments",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "browser-tab-detach",
+      "description": "Move a workspace tab into its own normal browser Snack, preserving page state.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "condiments",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "browser-menu",
+      "description": "Open the native page menu for browser navigation, find, zoom, export and clipboard controls.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "library",
+          "control"
+        ]
+      ],
+      "localOnly": true,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "browser-find",
+      "description": "Find text in the current native website, optionally move to the next match.",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "query": {
+            "type": "string"
+          },
+          "forward": {
+            "type": "boolean"
+          },
+          "next": {
+            "type": "boolean"
+          },
+          "matchCase": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "browser-find-stop",
+      "description": "Clear the native website find selection.",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "browser-history",
+      "description": "Read this native website tab’s navigation entries and active index; does not read other tabs or cookies.",
+      "area": "windows",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "browser-screenshot",
+      "description": "Capture the website to an organized browser-download PNG and return downloadId. Read bytes in chunks with browser-download-read.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "library",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "fullPage": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "browser-pdf",
+      "description": "Print the website to an organized browser-download PDF and return downloadId, without opening an OS print dialog.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "library",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "required": [
+          "id"
+        ]
       }
     }
   ]
