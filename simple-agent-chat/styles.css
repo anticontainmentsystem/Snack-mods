@@ -8,3 +8,9 @@
 html[data-theme=dark] .snack-emoji{filter:invert(1)}
 
 .pending-file{display:inline-flex;flex-direction:column;gap:4px}.pending-file img{width:96px;height:72px;object-fit:contain;border:1px solid var(--line)}
+
+/* Layer surfaces without fading message text or attachments. */
+.sidebar{background:color-mix(in srgb,var(--soft) 74%,transparent)}
+.message{background:color-mix(in srgb,var(--soft) 72%,transparent)}
+.message.user{background:color-mix(in srgb,var(--bg) 76%,transparent)}
+.reactions button,.file-card,.compose-box,.conversation-head,.composer{background:color-mix(in srgb,var(--bg) 82%,transparent)}

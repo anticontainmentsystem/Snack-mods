@@ -19,3 +19,6 @@ The root repository catalog can also discover both Condiments together.
 
 
 The loaded image and fit are saved in this Condiment’s private storage until replaced or cleared. **Clear image** resets the editor without removing applied wallpapers. **Remove** removes wallpaper from the selected Snack while retaining the loaded image. Fit changes update an already wallpapered target immediately; Apply remains available for any selected non-M Snack. The preview uses the selected Snack’s actual width and height, including orientation changes. Tile repeats the image at its original size. The bundle uses generic `media-read` (own uploads only), `condiment-storage-get/set`, and presentation actions; no Wallpaper-specific host implementation is required.
+
+
+Panel and message backgrounds are translucent in both themes so applied wallpaper stays visible without fading text or attachments. Wallpaper has a bundled default Snack background; select Wallpaper itself in its target list to replace it with your own image using the same fit controls.
