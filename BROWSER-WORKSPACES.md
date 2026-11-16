@@ -47,7 +47,7 @@ The standalone browser client owns its preferences, bookmark import/export, visi
 
 `browser-focus` requests page, address or find focus through the shared bridge; it never accepts arbitrary host selectors or keystrokes. Human-created tabs focus the address field, and selecting a tab returns keyboard focus to its page when the workspace is active.
 
-## Browser 0.3: human controls and agent parity
+## Browser management and human/agent parity
 
 The Home button is always in the navigation bar. By default it opens Snack’s own themed search page. Choose Google, DuckDuckGo or Bing there or in Settings; the address bar uses the same choice. Set a website as Home in Settings, use the current page, or restore `snack:home`. New tabs use Home. This local search interface belongs to the Condiment, not to a website.
 
@@ -59,8 +59,19 @@ Downloads can remove one finished record or all finished records with `browser-d
 
 The Extensions page installs supported **unpacked extension folders containing manifest.json**, lists installed extensions, removes them and opens their popup/options page. The extensions bar offers each installed extension. Installation, removal and extension pages require local authority plus the settings grant. No other browser installation is required. Electron implements a subset of extension APIs; Chrome Web Store one-click installation and universal Chrome compatibility are **not implemented**. The Store link is for browsing, not a promise that every listed extension works. See [Electron extension support](https://www.electronjs.org/docs/latest/api/extensions).
 
-Browser 0.3 requests settings control for cache/extension management in addition to its prior grants. Existing users review the changed controls before enabling the update; nothing silently expands an approval. Other third-party browser Condiments can use the same native actions with their own interfaces and metadata.
+Browser requests settings control for cache/extension management in addition to its prior grants. Existing users review the changed controls before enabling the update; nothing silently expands an approval. Other third-party browser Condiments can use the same native actions with their own interfaces and metadata.
 
 ## Chat transcript copying
 
 Simple Agent Chat 0.1.5 supplies per-message **Copy** and conversation **Copy chat**. Long text stays selectable and scrolls inside its message with the themed scrollbar; outer conversation scrolling stays separate. `chat-copy` copies a message or entire room transcript locally. Remote agents use permission-checked `chat-read`; clipboard writes are local-only. The Condiment’s `copy-transcript` command exposes the same operation. Transcripts include sender, timestamp, text and attachment names, not attachment bytes or credentials.
+
+
+## Browser 0.4: menu pages, layout and identity
+
+Settings, Tools, Extensions, Bookmarks, History, Downloads and Agent desk are full internal browser pages opened from the single menu. They use `snack:settings`, `snack:tools`, `snack:extensions` and equivalent addresses. Internal page tabs remain available while switching back to websites. They are host-owned UI, not a remote website, and have no separate sidebar. The menu closes on outside click or Escape. Native website surfaces stay hidden while a menu/internal page is visible, including while a website is loading. Switching back preserves the website’s live state.
+
+**Settings → Layout → Tab placement** switches between a top tab strip and a vertical tab rail. It is saved per Browser Condiment as `preferences.settings.tabLayout` (`horizontal` or `vertical`). `open-page`, `close-page` and `menu` commands use the same controllers as people; `workspace-state` exposes `page`, `pages`, `address`, `menuOpen` and `tabLayout`. The older `show-panel` command remains a compatibility alias to these pages; it no longer opens a sidebar. Discover command schemas with condiment-agent-guide and invoke through condiment-command over API or MCP.
+
+The navigation Home button is a house. The Browser logo is the original angled Snack slab made into browser chrome, not a browser frame containing a separate Snack logo. The same bundled SVG supplies Home-page branding, internal tab icons, Store artwork and the Condiment’s declared icon. Snack’s generic Condiment host shows each author’s declared icon in its title bar; third-party authors do not need to change Snack code for their identity.
+
+Native `browser-state` and `browser-tabs` expose `favicon` (bounded data URL or null) and `faviconURL`. Website favicon events populate this through the shared browser session, with an eight-second timeout, bounded responses, a small icon cache and omitted credentials; no external favicon proxy is used. The address bar and tabs use that icon, and pinned tabs collapse to the favicon with an accessible title. Missing/failed icons fall back to the bundle’s own logo. Favicons are page data, never agent instructions. This release requires the updated host’s favicon/title-icon support; Browser 0.4 itself is installed by the user through the Store. Publication and update checks do not install or approve it.

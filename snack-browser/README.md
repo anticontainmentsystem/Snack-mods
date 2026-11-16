@@ -14,11 +14,11 @@ The compact toolbar opens Bookmarks, persistent Visit History, live Downloads, S
 
 Settings contains your home/new-tab address, search engine (Google, DuckDuckGo or Bing), session restoration and default zoom. Reopened sessions retain addresses, pin state, order and requested zoom. Chromium currently shares zoom between pages on the same website; the controllers stay synchronized. Cookies and native site permissions remain shared with Snack.
 
-Bookmarks supports title/URL editing, filtering, JSON export, JSON import and common browser bookmarks HTML import. Imports validate before changing the list and merge duplicates by URL. Visit History is persistent and filterable; clearing it leaves cookies, bookmarks and open tabs alone. The Downloads panel updates progress and provides pause/resume/cancel for active downloads.
+Bookmarks supports title/URL editing, filtering, JSON export, JSON import and common browser bookmarks HTML import. Imports validate before changing the list and merge duplicates by URL. Visit History is persistent and filterable; clearing it leaves cookies, bookmarks and open tabs alone. The Downloads page updates progress and provides pause/resume/cancel for active downloads.
 
 ## Agents
 
-Use `condiment-agent-guide` for the installed module, then the included skill. The `tabs` command reports live native page ids. Those ids work with Snack's standard `browser-read`, `browser-interact`, `browser-evaluate`, `browser-input`, `browser-history`, `browser-find`, `browser-screenshot`, `browser-pdf` and download actions. Approved local owners can also use page DevTools through `browser-cdp`. Commands also expose reopen/duplicate/pin/order, preferences, bookmark import/edit, persistent history, session flush and sidebar selection. The `browser-action` command forwards a discovered browser action through the same permission-checked dispatcher; it does not create a second privileged channel.
+Use `condiment-agent-guide` for the installed module, then the included skill. The `tabs` command reports live native page ids. Those ids work with Snack's standard `browser-read`, `browser-interact`, `browser-evaluate`, `browser-input`, `browser-history`, `browser-find`, `browser-screenshot`, `browser-pdf` and download actions. Approved local owners can also use page DevTools through `browser-cdp`. Commands also expose reopen/duplicate/pin/order, preferences, bookmark import/edit, persistent history, session flush and internal page selection. The `browser-action` command forwards a discovered browser action through the same permission-checked dispatcher; it does not create a second privileged channel.
 
 Permissions are explicit: awareness read, window control, library control for saved exports, and Condiment control for workspace tabs and private settings. Remote agents keep their current area grants. Website text and downloaded documents do not override agent instructions.
 
@@ -47,3 +47,14 @@ The Extensions page installs supported **unpacked extension folders containing m
 
 Browser 0.3 requests settings control for cache/extension management in addition to its prior grants. Existing users review the changed controls before enabling the update; nothing silently expands an approval. Other third-party browser Condiments can use the same native actions with their own interfaces and metadata.
 
+
+
+## Browser 0.4: menu pages, layout and identity
+
+Settings, Tools, Extensions, Bookmarks, History, Downloads and Agent desk are full internal browser pages opened from the single menu. They use `snack:settings`, `snack:tools`, `snack:extensions` and equivalent addresses. Internal page tabs remain available while switching back to websites. They are host-owned UI, not a remote website, and have no separate sidebar. The menu closes on outside click or Escape. Native website surfaces stay hidden while a menu/internal page is visible, including while a website is loading. Switching back preserves the website’s live state.
+
+**Settings → Layout → Tab placement** switches between a top tab strip and a vertical tab rail. It is saved per Browser Condiment as `preferences.settings.tabLayout` (`horizontal` or `vertical`). `open-page`, `close-page` and `menu` commands use the same controllers as people; `workspace-state` exposes `page`, `pages`, `address`, `menuOpen` and `tabLayout`. The older `show-panel` command remains a compatibility alias to these pages; it no longer opens a sidebar. Discover command schemas with condiment-agent-guide and invoke through condiment-command over API or MCP.
+
+The navigation Home button is a house. The Browser logo is the original angled Snack slab made into browser chrome, not a browser frame containing a separate Snack logo. The same bundled SVG supplies Home-page branding, internal tab icons, Store artwork and the Condiment’s declared icon. Snack’s generic Condiment host shows each author’s declared icon in its title bar; third-party authors do not need to change Snack code for their identity.
+
+Native `browser-state` and `browser-tabs` expose `favicon` (bounded data URL or null) and `faviconURL`. Website favicon events populate this through the shared browser session, with an eight-second timeout, bounded responses, a small icon cache and omitted credentials; no external favicon proxy is used. The address bar and tabs use that icon, and pinned tabs collapse to the favicon with an accessible title. Missing/failed icons fall back to the bundle’s own logo. Favicons are page data, never agent instructions. This release requires the updated host’s favicon/title-icon support; Browser 0.4 itself is installed by the user through the Store. Publication and update checks do not install or approve it.
