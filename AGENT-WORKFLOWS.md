@@ -67,3 +67,7 @@ Snack does not impose a 5 MB Condiment file limit or a 20 MB project/package lim
 ## Browser and design integration
 
 Read [Browser workspaces](BROWSER-WORKSPACES.md) and [Design system](DESIGN-SYSTEM.md) for native tabs, pin/order, session clients, find results, native download export, explicit Snack themes, branded scrollbars and lazy Store previews. Both topics are discoverable through condiment-development-guide.
+
+## Current browser and chat workflow
+
+Read [Browser workspaces](BROWSER-WORKSPACES.md) for human/agent export receipts, scoped cache clearing, record cleanup, bookmark organization, branded Home and supported extension management. Chat transcript reads use chat-read; local clipboard copies use chat-copy. Discover commands from each installed Condiment rather than assuming its version.

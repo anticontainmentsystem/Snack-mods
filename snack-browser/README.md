@@ -31,3 +31,19 @@ The browser uses Electron's Chromium engine. Its extension support is Electron's
 ## Snack theme and Store presentation
 
 The Store preview is collapsed by default and loads only when opened. Its complete artwork and scrollbar styles live in this folder. Host bars, native page scrollbars and tunnel viewers use Snack’s shared light/dark design. The main toolbar stays compact; less-used tab/page actions are in Tools. See [the design contract](DESIGN-SYSTEM.md).
+
+
+## Browser 0.3: human controls and agent parity
+
+The Home button is always in the navigation bar. By default it opens Snack’s own themed search page. Choose Google, DuckDuckGo or Bing there or in Settings; the address bar uses the same choice. Set a website as Home in Settings, use the current page, or restore `snack:home`. New tabs use Home. This local search interface belongs to the Condiment, not to a website.
+
+PDF and Capture create managed files and then show a native Save dialog for humans; Downloads keeps the original even if saving a copy is canceled. Native page menus do the same. Agents call `browser-pdf` / `browser-screenshot` and receive a download ID; `browser-download-read` reads bounded chunks and `browser-download-export` offers the human destination picker.
+
+Visit History can remove a single URL, a local-calendar date range (inclusive), or all visits. This Condiment stores the latest visit per URL, not every visit, and this list is distinct from a live tab’s back/forward navigation. `clear-history` accepts `url`, or ISO `from` / `to`, or no filter. Bookmarks support edit, import/export, title sort, manual ordering and individual/all removal through `organize-bookmarks` and the bookmark commands.
+
+Downloads can remove one finished record or all finished records with `browser-download-clear`. This keeps downloaded files in Storage; active downloads must be canceled before clearing. `browser-cache-clear` accepts one HTTP(S) `origin` or no origin for all cache. It clears HTTP and Cache Storage, retaining cookies and sign-in storage. These shared APIs apply to the shared Snack browser session, not just one Condiment tab. Remote callers retain their area permissions; cache changes need settings control and download cleanup needs library/window control.
+
+The Extensions page installs supported **unpacked extension folders containing manifest.json**, lists installed extensions, removes them and opens their popup/options page. The extensions bar offers each installed extension. Installation, removal and extension pages require local authority plus the settings grant. No other browser installation is required. Electron implements a subset of extension APIs; Chrome Web Store one-click installation and universal Chrome compatibility are **not implemented**. The Store link is for browsing, not a promise that every listed extension works. See [Electron extension support](https://www.electronjs.org/docs/latest/api/extensions).
+
+Browser 0.3 requests settings control for cache/extension management in addition to its prior grants. Existing users review the changed controls before enabling the update; nothing silently expands an approval. Other third-party browser Condiments can use the same native actions with their own interfaces and metadata.
+

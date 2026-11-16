@@ -4732,6 +4732,31 @@
       }
     },
     {
+      "name": "chat-copy",
+      "area": "chat",
+      "level": "read",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Copy one message or the entire conversation transcript to the local clipboard. Includes sender, time, text and attachment names; never file bytes.",
+      "localUI": true,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roomId": {
+            "type": "string"
+          },
+          "messageId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "roomId"
+        ]
+      }
+    },
+    {
       "name": "chat-file",
       "area": "chat",
       "level": "read",
@@ -5312,6 +5337,7 @@
       "localOnly": true,
       "context": "none",
       "description": "Choose and install an unpacked browser extension folder with the native picker.",
+      "localUI": true,
       "inputSchema": {
         "type": "object",
         "properties": {},
@@ -5327,6 +5353,7 @@
       "localOnly": true,
       "context": "none",
       "description": "browser extension remove",
+      "localUI": true,
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -5693,6 +5720,77 @@
           "offset",
           "total",
           "data"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "browser-cache-clear",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Clear HTTP cache and Cache Storage for one HTTP(S) origin, or all origins if omitted. Keeps cookies, passwords and sign-in storage.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "origin": {
+            "type": "string"
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "browser-download-clear",
+      "area": "library",
+      "level": "control",
+      "requires": [
+        [
+          "windows",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "description": "Remove one completed/interrupted download record, or all finished records. Keeps files and active downloads.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "downloadId": {
+            "type": "string"
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "browser-extension-open",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Open the installed extension popup or options page in an isolated extension window. Supported Electron extension APIs only.",
+      "localUI": true,
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "extensionId": {
+            "type": "string"
+          },
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "required": [
+          "extensionId"
         ],
         "additionalProperties": false
       }

@@ -13,7 +13,7 @@ This folder is a complete, independent Condiment. It includes:
 
 No shared file outside this folder is required. Connect this GitHub folder, or choose a local copy of this folder under Serving Tray → Mods → Mod connections. Install, review the requested controls, and enable it.
 
-The root repository catalog can also discover both Condiments together.
+The root repository catalog can also discover Wallpaper, Simple Agent Chat and Snack Browser together.
 
 [Full guide](https://github.com/anticontainmentsystem/Snack-mods#readme)
 

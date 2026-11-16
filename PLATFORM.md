@@ -2,7 +2,7 @@
 
 **Snack is a desktop operating environment built with Electron and Chromium.** Its small, frameless windows are called Snacks. A Snack can contain live HTML, a website, an image, a launcher, an editor or a third-party interface. Windows snap to a monitor grid, carry their own controls and expose their current state to approved automation clients.
 
-A **Condiment** is an independently authored extension. Its HTML, CSS, JavaScript, icon, Store presentation and agent instructions come from its own bundle. It runs above Snack through a permission-checked interface; it does not patch Snack’s installed files. This repository contains two examples, not the complete universe of possible extensions.
+A **Condiment** is an independently authored extension. Its HTML, CSS, JavaScript, icon, Store presentation and agent instructions come from its own bundle. It runs above Snack through a permission-checked interface; it does not patch Snack’s installed files. This repository contains three reference examples, not the complete universe of possible extensions.
 
 ## Understand the objects before building
 

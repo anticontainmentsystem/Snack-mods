@@ -13,7 +13,7 @@ This folder is a complete, independent Condiment. It includes:
 
 No shared file outside this folder is required. Connect this GitHub folder, or choose a local copy of this folder under Serving Tray → Mods → Mod connections. Install, review the requested controls, and enable it.
 
-The root repository catalog can also discover both Condiments together.
+The root repository catalog can also discover Wallpaper, Simple Agent Chat and Snack Browser together.
 
 [Full guide](https://github.com/anticontainmentsystem/Snack-mods#readme)
 
@@ -21,3 +21,7 @@ Image tools and attachment workflows: [read the shared guide](../IMAGE-TOOLS.md)
 
 
 Panel and message backgrounds are translucent in both themes so applied wallpaper stays visible without fading text or attachments. Wallpaper has a bundled default Snack background; select Wallpaper itself in its target list to replace it with your own image using the same fit controls.
+
+## Copy and read long messages
+
+Copy one message with Copy, or the room with Copy chat. Text is selectable; long messages scroll independently with Snack’s themed scrollbar. The copy-transcript command uses the shared local-only chat-copy action. Remote agents read chat-read instead.

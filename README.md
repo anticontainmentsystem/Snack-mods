@@ -1,6 +1,6 @@
 # Condiments for Snack
 
-**Start with the visible [Build for Snack guide](https://anticontainmentsystem.github.io/Snack-mods/#developers).** It explains the desktop environment, objects, two-way extension calls, service requests, background lifecycle, HTTP/MCP receivers and a searchable generated action reference. The two examples are not the platform's limits.
+**Start with the visible [Build for Snack guide](https://anticontainmentsystem.github.io/Snack-mods/#developers).** It explains the desktop environment, objects, two-way extension calls, service requests, background lifecycle, HTTP/MCP receivers and a searchable generated action reference. The three examples are not the platform's limits.
 
 Detailed guides: [platform map](PLATFORM.md), [authoring](BUILDING.md), [SDK/HTTP/MCP](PROTOCOLS.md), [runtimes and HTTPS](RUNTIMES.md), [generated schemas](API-REFERENCE.json).
 
@@ -10,7 +10,7 @@ Detailed guides: [platform map](PLATFORM.md), [authoring](BUILDING.md), [SDK/HTT
 
 An image can become the atmosphere of your workspace. A conversation can bring a human and several agents together to make things happen across it. The same connection system leaves room for your own tools, interfaces, and ideas.
 
-This is the **public testing source** for the first two Condiments: **Wallpaper** and **Simple Agent Chat**. They load from this repository and stay separate from Snack’s installed code. **They are not bundled with Snack.**
+This is the **public testing source** for three reference Condiments: **Wallpaper**, **Simple Agent Chat**, and **Snack Browser**. They load from this repository and stay separate from Snack’s installed code. **They are not bundled with Snack.**
 
 ---
 
@@ -265,7 +265,7 @@ Use current schemas rather than treating this README as a frozen API contract. S
 ```text
 index.html                     Condiment Store website
 assets/snack.svg               Website logo; not a Condiment dependency
-snack-condiments.json           Catalog for both Condiments
+snack-condiments.json           Catalog for the reference Condiments
 wallpaper/
   icon.svg                     This Condiment’s own icon
   index.html                   Entry HTML
