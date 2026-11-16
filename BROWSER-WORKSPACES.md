@@ -36,3 +36,13 @@ Screenshot/PDF exports return a managed `downloadId`, name, MIME and size. They 
 The optional **Snack Browser** Condiment is a standalone reference client in the public Snack-mods repository. Its assets, manifest, icon, instructions and agent skill are self-contained; it is not shipped or automatically installed with Snack. Other developers can build their own browser interfaces using exactly the same connector.
 
 Electron supports only its documented subset of Chrome extensions. The connector does not claim Chrome Web Store support or bypass website, DRM, authentication or device-permission requirements.
+
+## Organization and durable clients
+
+`browser-tab-pin` changes pin state; `browser-tab-order` validates an exact permutation of current host-owned page ids and keeps pinned pages first. Closing a tab waits for its actual closure before selecting a neighboring tab. `browser-state.find` exposes match counts; find `next:false` starts a search and `next:true` advances it. Navigation clears old match counts. `targetZoom` retains the controller request while a page loads. Native Chromium zoom in this build is shared by same-origin pages, so affected controllers are synchronized.
+
+`browser-download-export` requires library and window control, opens a native destination picker and copies the completed download directly. No destination path may be supplied or returned; a remote caller cannot approve that dialog through this API. The original managed file remains in Storage.
+
+The standalone browser client owns its preferences, bookmark import/export, visit history, closed tabs, mutation queue and session persistence. These are not hardcoded into Snack; third-party browser Condiments may implement different policies on the same native connector.
+
+`browser-focus` requests page, address or find focus through the shared bridge; it never accepts arbitrary host selectors or keystrokes. Human-created tabs focus the address field, and selecting a tab returns keyboard focus to its page when the workspace is active.

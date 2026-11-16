@@ -330,6 +330,78 @@
       }
     },
     {
+      "name": "condiment-preview-set",
+      "description": "Expand or collapse one Condiment Store preview in the selected Serving Tray. Previews are collapsed and not loaded by default; unrelated app updates do not reload them.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "condiments",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "tray",
+      "parameters": [
+        "id",
+        "expanded"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "expanded": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "expanded"
+        ]
+      }
+    },
+    {
+      "name": "snack-theme-set",
+      "description": "Set a Snack to light or dark using its shared theme controller. Theme appears in awareness and applies branded scrollbars to native pages and embedded previews.",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id",
+        "theme"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "theme": {
+            "enum": [
+              "light",
+              "dark"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "theme"
+        ]
+      }
+    },
+    {
       "name": "tray-toggle",
       "description": "Show or hide the primary Serving Tray from any Snack, including Pasta Studio. Reuses its remembered position.",
       "area": "windows",
@@ -5319,7 +5391,7 @@
       ],
       "localOnly": false,
       "context": "none",
-      "description": "Create an editable, standalone third-party Condiment project and manifest in managed project storage. Does not install, connect or approve it.",
+      "description": "Create an editable, standalone third-party Condiment project, themed starter UI with branded scrollbars, and manifest in managed project storage. Does not install, connect or approve it.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -6279,6 +6351,78 @@
       }
     },
     {
+      "name": "browser-tab-order",
+      "description": "Reorder each current tab exactly once inside one Condiment workspace. Pinned tabs remain before ordinary tabs.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "condiments",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "hostId": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          }
+        },
+        "required": [
+          "hostId",
+          "ids"
+        ]
+      }
+    },
+    {
+      "name": "browser-tab-pin",
+      "description": "Pin or unpin a native workspace tab; pinned tabs stay first without reloading the website.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "condiments",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "pinned": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "pinned"
+        ]
+      }
+    },
+    {
       "name": "browser-tab-new",
       "description": "Create a real isolated website guest in a Condiment workspace, sharing Snack browser cookies and permissions. The supplied host must be a Condiment, never Main or Studio.",
       "area": "windows",
@@ -6561,6 +6705,70 @@
         },
         "required": [
           "id"
+        ]
+      }
+    },
+    {
+      "name": "browser-download-export",
+      "description": "Save a copy of a completed browser download using a native destination picker and filesystem copy, without loading the file into the Condiment. The user chooses/approves the destination; no path is accepted or returned.",
+      "area": "library",
+      "level": "control",
+      "requires": [
+        [
+          "windows",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "downloadId": {
+            "type": "string"
+          },
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "required": [
+          "downloadId"
+        ]
+      }
+    },
+    {
+      "name": "browser-focus",
+      "description": "Focus a native page or request its host address/find UI through the shared browser bridge. Does not allow typing into arbitrary host controls.",
+      "area": "windows",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "target": {
+            "enum": [
+              "page",
+              "address",
+              "find"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "target"
         ]
       }
     },

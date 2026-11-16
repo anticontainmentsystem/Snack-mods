@@ -1,0 +1,23 @@
+# Theme and shared presentation
+
+Snack's host interface uses light/dark monochrome surfaces, square corners, high-contrast hover controls and consistent bar icons. Shared scrollbars are 9px, with a white thumb, a 1px black outline and no arrow buttons. Tracks follow the owning light/dark theme.
+
+`snack-theme-set` sets an explicit theme for a Snack through the same controller reflected by its physical theme button. `snacks_awareness` exposes `theme` for verification. Native website guests inherit their owning browser workspace theme; ordinary browser Snacks use their own theme. Generated onboarding and live capabilities advertise the current behavior. Existing remote area grants still apply.
+
+Core host documents, script-enabled HTML frames, native Chromium pages and tunnel viewers receive the shared scrollbar treatment. Native sites receive a user-origin stylesheet, so ordinary website author rules do not replace it. Script-disabled Store previews use adaptive CSS and inherit their iframe element's color scheme; changing theme does not reload them. Third-party website content keeps its own page layout and typography.
+
+## Main Snack wallpaper
+
+Main's body accepts managed data/blob images under its explicit image policy. Its grid background is transparent, and resting panels use translucent theme surfaces. Selected and hovered controls remain high contrast. No panel dimensions, positions or contents change. Condiments retain the existing restriction against removing or resizing Main panels.
+
+## Condiment Store previews
+
+Author-provided `store.card` HTML remains part of that author's bundle. The Store places it in a collapsed **Preview** section and creates the sandboxed iframe only when expanded. Unchanged cards and their iframe nodes are reused across unrelated updates, preventing repeated navigation/blinking. Scripts remain disabled. Authors should provide responsive, static artwork and include their scrollbar CSS for use outside Snack too.
+
+`condiment-preview-set` controls expansion in a Serving Tray (`targetId` can select the tray). `snacks_awareness` reports the tray's `storePreviews` ids. Opening a preview does not enable or install its Condiment.
+
+## Third-party UI authors
+
+The SDK applies `data-theme="light"` or `data-theme="dark"` to the Condiment document root. Use it for your surfaces and form controls. Keep your own icons, artwork, CSS and scripts inside the bundle; no external Snack asset paths are required. Generated project templates include the basic branded scrollbar rules as ordinary editable CSS, not a runtime dependency.
+
+You can build a completely different interface, game or tool with reviewed controls. Shared host bars and native browser/tunnel controls continue to use Snack's design system. Read `BROWSER-WORKSPACES.md` for native view boundaries, theme inheritance, page ids and agent controls.
