@@ -21,3 +21,7 @@ Author-provided `store.card` HTML remains part of that author's bundle. The Stor
 The SDK applies `data-theme="light"` or `data-theme="dark"` to the Condiment document root. Use it for your surfaces and form controls. Keep your own icons, artwork, CSS and scripts inside the bundle; no external Snack asset paths are required. Generated project templates include the basic branded scrollbar rules as ordinary editable CSS, not a runtime dependency.
 
 You can build a completely different interface, game or tool with reviewed controls. Shared host bars and native browser/tunnel controls continue to use Snack's design system. Read `BROWSER-WORKSPACES.md` for native view boundaries, theme inheritance, page ids and agent controls.
+
+## Condiment Store shelves
+
+Every Store card has the same 300px height and equal responsive column widths. The title/icon, compact primary actions and optional agent-guide footer keep fixed positions. Descriptions, publisher metadata, links, lazy previews and expanded management controls scroll inside the middle/lower details area; they never resize the card. Use the shared white thumb with a one-pixel black outline and no scrollbar arrows. Preview controls continue through condiment-preview-set over the shared API/MCP dispatcher, and stable card/iframe identities survive unrelated Store updates. This is host presentation: authors keep their own icons, metadata and custom preview content. No Condiment install or approval is changed by the Store layout.
