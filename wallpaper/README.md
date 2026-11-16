@@ -22,3 +22,5 @@ The loaded image and fit are saved in this Condiment’s private storage until r
 
 
 Panel and message backgrounds are translucent in both themes so applied wallpaper stays visible without fading text or attachments. Wallpaper has a bundled default Snack background; select Wallpaper itself in its target list to replace it with your own image using the same fit controls.
+
+The Wallpaper window uses 8 × 6 Snack grid units. Its compact controls and shape-aware preview sit side by side.

@@ -9,8 +9,8 @@
     {
       "id": "wallpaper",
       "name": "Wallpaper",
-      "description": "Persistent background images for Snacks, excluding M Snacks. Fill, fit, stretch or tile, with a preview matching the selected Snack.",
-      "version": "0.1.4",
+      "description": "Compact wallpaper editor for Snacks. Persistent images, four fits and previews matching the selected Snack.",
+      "version": "0.1.5",
       "entry": "index.html",
       "permissions": {
         "awareness": "read",
@@ -80,7 +80,11 @@
             ]
           }
         }
-      ]
+      ],
+      "window": {
+        "widthUnits": 8,
+        "heightUnits": 6
+      }
     }
   ]
 }

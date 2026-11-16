@@ -9,3 +9,8 @@
 html{background-image:url(default-wallpaper.svg);background-size:cover;background-position:center;background-attachment:fixed}
 html[data-theme=dark]{background-image:linear-gradient(#000b,#000b),url(default-wallpaper.svg)}
 body{background:transparent}.controls,.image-preview{background:color-mix(in srgb,var(--bg) 76%,transparent)}.image-drop{background:color-mix(in srgb,var(--soft) 72%,transparent)}.page-head{padding:14px;background:color-mix(in srgb,var(--bg) 76%,transparent)}
+
+/* Compact 8 × 6 Snack, with both editing and preview visible. */
+.page{padding:10px}.page-head{padding:8px 10px;margin-bottom:10px;gap:10px;min-height:38px}.page-head h1{font-size:18px;letter-spacing:-.3px}.page-head .eyebrow,.page-head p{display:none}.page-head .status{max-width:48%;font-size:10px}
+.wallpaper-board{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:stretch}.controls{padding:9px}.controls label{gap:3px;font-size:10px}.controls select{padding:5px;font-size:11px}.controls button{font-size:10px;padding:5px 6px}.controls .field{margin:6px 0}.controls .image-drop{height:48px;aspect-ratio:auto;gap:2px;padding:4px}.image-drop strong{font-size:12px}.image-drop span{font-size:9px}.image-name{display:none}#clear{margin-top:2px;padding:4px}.actions{gap:5px}.actions button{flex:1;white-space:nowrap}.image-preview{height:auto;min-height:220px;padding:10px}.preview-snack span{padding:4px 6px;font-size:9px}
+@media(max-width:399px){.wallpaper-board{grid-template-columns:1fr}.image-preview{height:160px;min-height:160px}}
