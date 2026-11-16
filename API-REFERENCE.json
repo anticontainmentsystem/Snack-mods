@@ -1194,6 +1194,12 @@
         "properties": {
           "provider": {
             "type": "string"
+          },
+          "method": {
+            "enum": [
+              "chatgpt",
+              "key"
+            ]
           }
         },
         "additionalProperties": false,
@@ -4546,7 +4552,39 @@
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
-        "properties": {}
+        "properties": {
+          "method": {
+            "enum": [
+              "chatgpt",
+              "key"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "chat-connection-select",
+      "area": "chat",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Explicitly choose the connected OpenAI subscription/Codex or direct API-key chat route. Never signs out the other route or switches automatically. Refuses while replying. API usage has separate billing.",
+      "localUI": true,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "method": {
+            "enum": [
+              "chatgpt",
+              "key"
+            ]
+          }
+        },
+        "required": [
+          "method"
+        ]
       }
     },
     {
@@ -4556,7 +4594,7 @@
       "requires": [],
       "localOnly": true,
       "context": "none",
-      "description": "Choose the model for an existing OpenAI subscription/Codex chat agent. Empty model inherits the connection/runtime default. Applies on the next turn, including resumed conversations; rejects changes while replying. Model availability comes from chat-models. Does not change external API/MCP clients.",
+      "description": "Choose the model for an existing OpenAI chat agent on the currently selected subscription/Codex or API-key route. Empty model inherits the connection/runtime default. Applies on the next turn, including resumed conversations; rejects changes while replying. Model availability comes from chat-models. Does not change external API/MCP clients.",
       "localUI": true,
       "inputSchema": {
         "type": "object",

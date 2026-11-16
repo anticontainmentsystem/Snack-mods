@@ -312,3 +312,9 @@ Image tools and attachment workflows: [read the guide](IMAGE-TOOLS.md). Chat 0.1
 ### Shared model selection
 
 Simple Agent Chat 0.1.6 reads connection methods and available subscription models from Snack. Open **Choose agents** to change an existing OpenAI participant’s model; no new account connection is created. Model changes apply to the next message, including existing conversations. Snack’s Automation card offers the same controls. Requires a Snack host advertising `chat-agent-configure`; API-key execution is separate from subscription sign-in.
+
+### Connections and chat recipients (0.1.7)
+
+The checkbox beside a name means **send chat messages to this participant**. It does not enable another AI account, listener or model. Snack’s OpenAI participant replies through the route selected in Serving Tray → Automation: **Subscription / Codex CLI** or **API key / direct API**. Each route has separate model selections. API usage is billed separately. A provider’s model list never implies access to another provider’s models; Anthropic Haiku is not a Codex/OpenAI model.
+
+External agent registrations only reply while their client software is actively polling Snack’s chat inbox and sending responses. Manage their access in Automation → Your agentic Snackers. Snack groups legacy local registrations consistently and excludes tunnel clients without chat access. Condiments discover these states with `chat-agents` and `chat-models`; local interactive chat Condiments use `chat-agent-configure` and `chat-connection-select` through the same host registry. Never hardcode model lists or handle account credentials in a Condiment.
