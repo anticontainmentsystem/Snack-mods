@@ -10,7 +10,7 @@
       "id": "wallpaper",
       "name": "Wallpaper",
       "description": "Compact wallpaper editor for Snacks. Persistent images, four fits and previews matching the selected Snack.",
-      "version": "0.1.5",
+      "version": "0.1.6",
       "entry": "index.html",
       "permissions": {
         "awareness": "read",

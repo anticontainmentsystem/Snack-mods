@@ -301,3 +301,6 @@ Image tools and attachment workflows: [read the guide](IMAGE-TOOLS.md). Chat 0.1
 
 
 [Agent authoring, packaging, GitHub publishing and browser automation](AGENT-WORKFLOWS.md) · available inside Snack through `condiment-development-guide`.
+
+
+[Local storage, editable files and cleanup](STORAGE.md).

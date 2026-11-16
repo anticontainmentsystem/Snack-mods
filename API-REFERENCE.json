@@ -4129,13 +4129,42 @@
       }
     },
     {
+      "name": "image-source-capture",
+      "area": "windows",
+      "level": "read",
+      "requires": [
+        [
+          "library",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "description": "Copy the original source bytes of an open M Snack into managed media without screenshot scaling. Returns mediaId, MIME, name, fit and size. Empty M Snacks report hasImage false. No OS path or image base64 is exposed in the receipt.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
       "name": "media-read",
       "area": "library",
       "level": "read",
       "requires": [],
       "localOnly": false,
       "context": "none",
-      "description": "Read a managed upload in bounded base64 chunks. Local owners can read library media; Condiments and remote clients can read only their own uploads. Shared chat attachments use chat-file instead.",
+      "description": "Read a managed upload in bounded base64 chunks. Local owners, including explicitly fully approved local Condiments, can read library media; scoped Condiments and remote clients can read only their own uploads. Shared chat attachments use chat-file instead.",
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
@@ -5258,7 +5287,7 @@
       ],
       "localOnly": false,
       "context": "none",
-      "description": "List project files with hashes, or read one file. Files stay within the project; symlinks rejected.",
+      "description": "List project files with hashes, or read one file in chunks using offset/next, without a file-size cap. Files stay within the project; symlinks rejected.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -5267,6 +5296,10 @@
           },
           "path": {
             "type": "string"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0
           },
           "encoding": {
             "enum": [
@@ -5311,8 +5344,7 @@
                   "type": "string"
                 },
                 "content": {
-                  "type": "string",
-                  "maxLength": 7000000
+                  "type": "string"
                 },
                 "encoding": {
                   "enum": [
@@ -5433,7 +5465,7 @@
       ],
       "localOnly": false,
       "context": "none",
-      "description": "Publish all project files in one atomic Git commit to an existing initialized repository/branch, or create a repository for the explicit connected account/organization. New repositories are private by default. Preserves other files and rejects concurrent branch advances; never force-pushes.",
+      "description": "Publish all project files in one atomic Git commit to an existing repository/branch (initializes an empty default branch when needed), or create a repository for the explicit connected account/organization. New repositories are private by default. Preserves other files and rejects concurrent branch advances; never force-pushes.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -5471,6 +5503,445 @@
         "required": [
           "projectId",
           "connectionId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "condiment-project-write-chunk",
+      "area": "condiments",
+      "level": "control",
+      "requires": [
+        [
+          "library",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "description": "Stream a project file in base64 chunks without a file-size cap. Begin at offset zero, then reuse returned uploadId and received byte offset. Stages bytes outside the project and atomically installs the completed file; optional SHA256 guards protect existing edits.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "uploadId": {
+            "type": "string"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "data": {
+            "type": "string",
+            "maxLength": 1500000
+          },
+          "sha256": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "projectId",
+          "path",
+          "offset",
+          "total",
+          "data"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "storage-status",
+      "area": "library",
+      "level": "read",
+      "requires": [
+        [
+          "settings",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read organized user-file areas, space usage, Condiment folders, references, file-sync conflicts and recoverable Trash. Vault/internal credentials are excluded; machine paths are owner-only.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "storage-list",
+      "area": "library",
+      "level": "read",
+      "requires": [
+        [
+          "settings",
+          "read"
+        ]
+      ],
+      "localOnly": true,
+      "context": "none",
+      "description": "storage list",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "area": {
+            "enum": [
+              "Pasta",
+              "ChipClips",
+              "Media",
+              "Condiments",
+              "Cache",
+              "Trash",
+              "Projects"
+            ]
+          }
+        },
+        "required": [
+          "area"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "storage-read",
+      "area": "library",
+      "level": "read",
+      "requires": [
+        [
+          "settings",
+          "read"
+        ]
+      ],
+      "localOnly": true,
+      "context": "none",
+      "description": "Read a file inside Snack user storage in bounded chunks. No Vault, runtime credentials, arbitrary OS paths or symbolic links.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "encoding": {
+            "enum": [
+              "utf8",
+              "base64"
+            ]
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "storage-write",
+      "area": "library",
+      "level": "control",
+      "requires": [
+        [
+          "settings",
+          "control"
+        ],
+        [
+          "windows",
+          "control"
+        ],
+        [
+          "condiments",
+          "control"
+        ]
+      ],
+      "localOnly": true,
+      "context": "none",
+      "description": "Edit an existing user storage file with an optional prior SHA256 guard. HTML changes use the shared Pasta/ChipClip dispatcher and preserve conflicts; JSON settings remain scoped to Condiments. Project files use project-write.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 7000000
+          },
+          "encoding": {
+            "enum": [
+              "utf8",
+              "base64"
+            ]
+          },
+          "sha256": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "content"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "storage-open",
+      "area": "library",
+      "level": "read",
+      "requires": [
+        [
+          "settings",
+          "read"
+        ]
+      ],
+      "localOnly": true,
+      "context": "none",
+      "description": "Open the local Snack Storage folder or reveal an item in the file manager.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "storage-settings",
+      "area": "library",
+      "level": "read",
+      "requires": [
+        [
+          "settings",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "description": "storage settings",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "storage-settings-update",
+      "area": "library",
+      "level": "control",
+      "requires": [
+        [
+          "settings",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "description": "Set optional automatic old-cache cleanup and retention age. Cleanup moves cache to Trash, never purges retained media or active Pasta.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "settings": {
+            "type": "object",
+            "properties": {
+              "autoCleanCache": {
+                "type": "boolean"
+              },
+              "cacheDays": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 365
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "settings"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "storage-choose-location",
+      "area": "library",
+      "level": "control",
+      "requires": [
+        [
+          "settings",
+          "control"
+        ]
+      ],
+      "localOnly": true,
+      "context": "none",
+      "description": "Choose a parent folder for Snack Storage. On next app start files are copied to a dedicated empty Snack Storage folder; previous files remain as backup. Vault stays in internal encrypted storage.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "storage-cancel-location",
+      "area": "library",
+      "level": "control",
+      "requires": [
+        [
+          "settings",
+          "control"
+        ]
+      ],
+      "localOnly": true,
+      "context": "none",
+      "description": "storage cancel location",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "storage-trash",
+      "area": "library",
+      "level": "control",
+      "requires": [
+        [
+          "settings",
+          "control"
+        ]
+      ],
+      "localOnly": true,
+      "context": "none",
+      "description": "Move an unused user storage file to recoverable Trash. Active Pasta, ChipClips, chat attachments, Condiment settings and applied image references are protected.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "storage-restore",
+      "area": "library",
+      "level": "control",
+      "requires": [
+        [
+          "settings",
+          "control"
+        ]
+      ],
+      "localOnly": true,
+      "context": "none",
+      "description": "storage restore",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "storage-empty-trash",
+      "area": "library",
+      "level": "control",
+      "requires": [
+        [
+          "settings",
+          "control"
+        ]
+      ],
+      "localOnly": true,
+      "context": "none",
+      "description": "Permanently remove the contents of Snack Trash after the local user chooses Empty Trash. Never follows links or leaves the Trash area.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "storage-clean-cache",
+      "area": "library",
+      "level": "control",
+      "requires": [
+        [
+          "settings",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "description": "Move cache files older than the configured age to Trash. Active sources, media and browser authentication data are not cache-cleaned.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "storage-resolve",
+      "area": "library",
+      "level": "control",
+      "requires": [
+        [
+          "settings",
+          "control"
+        ],
+        [
+          "windows",
+          "control"
+        ]
+      ],
+      "localOnly": true,
+      "context": "none",
+      "description": "Resolve a conflicting external HTML edit using either the user file or current Snack version. Both prior versions are preserved in the area’s Conflicts folder.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "choice": {
+            "enum": [
+              "file",
+              "snack"
+            ]
+          }
+        },
+        "required": [
+          "path",
+          "choice"
         ],
         "additionalProperties": false
       }

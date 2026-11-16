@@ -28,7 +28,7 @@ All assets and customization belong in the project. Declare requested controls, 
 
 Discover `snacks_github_accounts` and repositories. `condiment-project-publish` always requires an explicit `connectionId` and `projectId`. For an existing repository supply `repo` (`owner/name`), an existing `branch`, optional subdirectory `prefix`, commit `message` and optional `expectedSha`. It creates blobs, a tree and one atomic commit, preserving unrelated repository files. If the branch advances, publishing rejects rather than force-pushing.
 
-For a new repository supply `newRepository`, optional `organization`, and `private` (default true). The chosen account must have GitHub permission to create/write that repository. Existing empty repositories must be initialized before publishing. Publishing does not auto-install a source or enable the Condiment; users add the published source and approve it separately. Never print or copy account tokens into project files.
+For a new repository supply `newRepository`, optional `organization`, and `private` (default true). The chosen account must have GitHub permission to create/write that repository. Existing empty repositories are initialized on their default branch before publishing the complete package; an expected commit mismatch rejects before initialization. Publishing does not auto-install a source or enable the Condiment; users add the published source and approve it separately. Never print or copy account tokens into project files.
 
 ## Native website automation
 
@@ -55,3 +55,11 @@ These actions are shared by HTTP (`POST /api/call` with `snacks_action`) and MCP
 ## Window identity and launch behavior
 
 Snack awareness returns matching `name` and `nativeTitle` in every window state. Explicit saved/custom names take priority; unnamed HTML uses its title, unnamed websites use the live page title or URL, and fixed Snack kinds use their kind names. `snack-name-set` names a window or restores HTML/website source naming with an empty name; library control is required and the primary Snack Bar remains fixed. Named Snack Bars use their chosen names everywhere. Condiment windows opened from Serving Tray appear above it as nonmodal children; they detach when the tray hides/closes and remain independently usable. Reopening a closing Condiment creates a fresh instance instead of reusing its dying window.
+
+
+See [Storage](STORAGE.md) for organized editable files, external HTML synchronization, per-Condiment folders, references, Trash, cache policies and next-start location changes. Main Snack’s configure bar control shows/hides the primary Serving Tray. `image-source-capture` preserves original M Snack bytes and fit metadata across development reloads.
+
+
+## Large Condiments
+
+Snack does not impose a 5 MB Condiment file limit or a 20 MB project/package limit. `condiment-project-read` returns bounded chunks with `offset`, `next` and total `size`; combine decoded bytes for larger files. `condiment-project-write-chunk` stages bounded base64 chunks using an upload id and exact byte offsets, then installs the complete file atomically. Project ZIPs stream to disk instead of accumulating the archive in RAM. GitHub raw-file responses handle files whose Contents API metadata omits base64 bytes. GitHub, filesystem and ZIP-format constraints remain their own platform constraints.
