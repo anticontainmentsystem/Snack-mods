@@ -25,3 +25,7 @@ Panel and message backgrounds are translucent in both themes so applied wallpape
 ## Copy and read long messages
 
 Copy one message with Copy, or the room with Copy chat. Text is selectable; long messages scroll independently with Snack’s themed scrollbar. The copy-transcript command uses the shared local-only chat-copy action. Remote agents read chat-read instead.
+
+### Shared model selection
+
+Simple Agent Chat 0.1.6 reads connection methods and available subscription models from Snack. Open **Choose agents** to change an existing OpenAI participant’s model; no new account connection is created. Model changes apply to the next message, including existing conversations. Snack’s Automation card offers the same controls. Requires a Snack host advertising `chat-agent-configure`; API-key execution is separate from subscription sign-in.

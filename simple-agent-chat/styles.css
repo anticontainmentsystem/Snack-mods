@@ -16,3 +16,4 @@ html[data-theme=dark] .snack-emoji{filter:invert(1)}
 .reactions button,.file-card,.compose-box,.conversation-head,.composer{background:color-mix(in srgb,var(--bg) 82%,transparent)}
 
 .message-body{max-height:min(52vh,480px);overflow:auto;white-space:pre-wrap;user-select:text;scrollbar-width:thin;scrollbar-color:#fff var(--bg,#fff)}.message-body::-webkit-scrollbar{width:9px;height:9px}.message-body::-webkit-scrollbar-thumb{background:#fff;border:1px solid #000;border-radius:0}.message-body::-webkit-scrollbar-button{display:none;width:0;height:0}
+.agent-model-choice{padding:8px 0;border-bottom:1px solid var(--line,currentColor)}.agent-model-field{display:grid;gap:4px;margin:0 0 8px 30px;font-size:11px}.agent-model-field select{width:100%;min-width:0;color:inherit;background:var(--bg,#fff);border:1px solid currentColor;padding:7px;font:inherit}

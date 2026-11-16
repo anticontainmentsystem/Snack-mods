@@ -4550,6 +4550,32 @@
       }
     },
     {
+      "name": "chat-agent-configure",
+      "area": "chat",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Choose the model for an existing OpenAI subscription/Codex chat agent. Empty model inherits the connection/runtime default. Applies on the next turn, including resumed conversations; rejects changes while replying. Model availability comes from chat-models. Does not change external API/MCP clients.",
+      "localUI": true,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "model"
+        ]
+      }
+    },
+    {
       "name": "chat-select-agents",
       "area": "chat",
       "level": "control",

@@ -308,3 +308,7 @@ Image tools and attachment workflows: [read the guide](IMAGE-TOOLS.md). Chat 0.1
 ## Snack Browser
 
 [Snack Browser](snack-browser/) is a separate, optional native Chromium workspace for people and agents. It includes real tabs, navigation, bookmarks, history, downloads, find, PNG/PDF exports and a bundled agent skill. It is not installed or bundled with Snack. Update Snack first so its live capabilities advertise browser-tab-new. Its complete standalone folder can be connected directly; see [its installation guide](snack-browser/README.md) and [the generic browser connector](BROWSER-WORKSPACES.md).
+
+### Shared model selection
+
+Simple Agent Chat 0.1.6 reads connection methods and available subscription models from Snack. Open **Choose agents** to change an existing OpenAI participant’s model; no new account connection is created. Model changes apply to the next message, including existing conversations. Snack’s Automation card offers the same controls. Requires a Snack host advertising `chat-agent-configure`; API-key execution is separate from subscription sign-in.
