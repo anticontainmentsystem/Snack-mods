@@ -8,7 +8,7 @@ Update Snack to a build advertising `browser-tab-new` in its live capabilities. 
 
 Open a tab with **+**, enter an address or search, use back/forward/reload, or open the page menu. Bookmarks and open URL sessions are saved in this Condiment's own editable storage folder. Tab DOM and navigation history remain live while switching tabs; reopening the Condiment restores URLs, not sensitive form contents. Closing the browser closes its tabs. **Open as Snack** detaches the active page into a regular browser Snack without reloading it.
 
-The side panel contains bookmarks, the current tab's history, shared browser downloads and an agent desk. Capture and PDF exports appear in Downloads and General → Storage. Ctrl+L selects the address; Ctrl+F finds page text; Ctrl+T creates a tab; Ctrl+W closes the active tab.
+The side panel contains bookmarks, the current tab's history, shared browser downloads and an agent desk. Capture and PDF exports appear in Downloads and General → Storage. Click a completed download to save a copy through the browser; its original remains in organized Snack Storage. Ctrl+L selects the address; Ctrl+F finds page text; Ctrl+T creates a tab; Ctrl+W closes the active tab.
 
 ## Agents
 

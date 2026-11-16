@@ -114,7 +114,7 @@
     {
       "id": "snack-browser",
       "name": "Snack Browser",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "description": "An agent-first Chromium workspace with real tabs, navigation, bookmarks, history, downloads, page inspection, capture and PDF export. People and agents use the same pages.",
       "entry": "snack-browser/index.html",
       "icon": "snack-browser/icon.svg",
@@ -270,6 +270,22 @@
             },
             "required": [
               "url"
+            ]
+          }
+        },
+        {
+          "name": "save-download",
+          "description": "Start saving a copy of a completed browser download through the browser UI. The original remains in Snack Storage; this is a started receipt, not proof that the OS finished saving.",
+          "inputSchema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "downloadId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "downloadId"
             ]
           }
         }

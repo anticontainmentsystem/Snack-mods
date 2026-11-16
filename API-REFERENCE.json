@@ -6476,7 +6476,7 @@
     },
     {
       "name": "browser-menu",
-      "description": "Open the native page menu for browser navigation, find, zoom, export and clipboard controls.",
+      "description": "Open the native page menu for browser navigation, find, zoom, export and clipboard controls. Requires window and library control; does not grant host filesystem or credential access.",
       "area": "windows",
       "level": "control",
       "requires": [
@@ -6485,7 +6485,7 @@
           "control"
         ]
       ],
-      "localOnly": true,
+      "localOnly": false,
       "context": "none",
       "inputSchema": {
         "type": "object",

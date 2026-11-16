@@ -31,7 +31,7 @@ All existing native page tools accept tab ids: read, interact, evaluate, input, 
 - `browser-pdf`: native PDF export without a print dialog.
 - `browser-downloads` / `browser-download-read`: locate and retrieve exports in bounded chunks.
 
-Screenshot/PDF exports return a managed `downloadId`, name, MIME and size. They live alongside browser downloads under General → Storage. Export actions require library control; native menus additionally require local authority. Native-tab workspace actions require reviewed Condiment control alongside window control. Remote callers cannot acquire new grants, install extensions, approve site permissions or retrieve credentials through these APIs.
+Screenshot/PDF exports return a managed `downloadId`, name, MIME and size. They live alongside browser downloads under General → Storage. Export actions and native page menus require library control in addition to window control. Native-tab workspace actions require reviewed Condiment control alongside window control. Remote callers cannot acquire new grants, install extensions, approve site permissions or retrieve credentials through these APIs.
 
 The optional **Snack Browser** Condiment is a standalone reference client in the public Snack-mods repository. Its assets, manifest, icon, instructions and agent skill are self-contained; it is not shipped or automatically installed with Snack. Other developers can build their own browser interfaces using exactly the same connector.
 
