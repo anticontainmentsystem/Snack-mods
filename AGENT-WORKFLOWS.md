@@ -54,7 +54,7 @@ These actions are shared by HTTP (`POST /api/call` with `snacks_action`) and MCP
 
 ## Window identity and launch behavior
 
-Snack awareness returns matching `name` and `nativeTitle` in every window state. Explicit saved/custom names take priority; unnamed HTML uses its title, unnamed websites use the live page title or URL, and fixed Snack kinds use their kind names. `snack-name-set` names a window or restores HTML/website source naming with an empty name; library control is required and the primary Snack Bar remains fixed. Named Snack Bars use their chosen names everywhere. Condiment windows opened from Serving Tray appear above it as nonmodal children; they detach when the tray hides/closes and remain independently usable. Reopening a closing Condiment creates a fresh instance instead of reusing its dying window.
+Snack awareness returns matching `name` and `nativeTitle` in every window state. Explicit saved/custom names take priority; unnamed HTML uses its title, unnamed websites use the live page title or URL, and fixed Snack kinds use their kind names. `snack-name-set` names a window or restores HTML/website source naming with an empty name; library control is required and the primary Snack Bar remains fixed. Named Snack Bars use their chosen names everywhere. Condiment windows are independent and do not sit above an always-on-top Serving Tray; hiding/closing Tray leaves them usable. Native dialogs and authorization temporarily yield Tray priority; the pinned-fullscreen experiment retains its explicit higher priority. Reopening a closing Condiment creates a fresh instance instead of reusing its dying window.
 
 
 See [Storage](STORAGE.md) for organized editable files, external HTML synchronization, per-Condiment folders, references, Trash, cache policies and next-start location changes. Main Snack’s configure bar control shows/hides the primary Serving Tray. `image-source-capture` preserves original M Snack bytes and fit metadata across development reloads.
@@ -71,3 +71,5 @@ Read [Browser workspaces](BROWSER-WORKSPACES.md) and [Design system](DESIGN-SYST
 ## Current browser and chat workflow
 
 Read [Browser workspaces](BROWSER-WORKSPACES.md) for human/agent export receipts, scoped cache clearing, record cleanup, bookmark organization, branded Home and supported extension management. Chat transcript reads use chat-read; local clipboard copies use chat-copy. Discover commands from each installed Condiment rather than assuming its version.
+
+See [Desktop restoration](DESKTOP-SESSIONS.md) for saved geometry, source retention, monitor fallback, session actions and window stacking.

@@ -137,6 +137,9 @@
               },
               "browserControls": {
                 "type": "boolean"
+              },
+              "restoreDesktop": {
+                "type": "boolean"
               }
             }
           }
@@ -364,6 +367,44 @@
           "id",
           "expanded"
         ]
+      }
+    },
+    {
+      "name": "desktop-session-status",
+      "description": "Read desktop restoration status, saved window count and errors; no saved HTML, URLs, credentials or machine paths are returned.",
+      "area": "settings",
+      "level": "read",
+      "requires": [
+        [
+          "windows",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "desktop-session-save",
+      "description": "Save current open Snacks, geometry, themes, sources and browser workspaces for next app startup. Uses existing controls on restore; does not grant permissions, install Condiments or persist web form state.",
+      "area": "settings",
+      "level": "control",
+      "requires": [
+        [
+          "windows",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
       }
     },
     {
@@ -6522,7 +6563,7 @@
     },
     {
       "name": "browser-tab-new",
-      "description": "Create a real isolated website guest in a Condiment workspace, sharing Snack browser cookies and permissions. The supplied host must be a Condiment, never Main or Studio.",
+      "description": "Create a real isolated website guest (HTTP(S), or exactly about:blank for a fresh local start tab) in a Condiment workspace, sharing Snack browser cookies and permissions. The supplied host must be a Condiment, never Main or Studio.",
       "area": "windows",
       "level": "control",
       "requires": [
