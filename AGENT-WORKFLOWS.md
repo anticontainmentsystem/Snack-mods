@@ -50,3 +50,8 @@ Site permission requests ask the local user unless an exact-origin decision is a
 `browser-extension-choose` and `browser-extension-load` install unpacked extensions; `browser-extensions` lists them and `browser-extension-remove` unloads them. Their locations are remembered for subsequent launches. Extension installation/removal is local-owner control. Electron supports a subset of Chrome extension APIs, not arbitrary Chrome Web Store installation or full Chrome compatibility. File access is not granted to extensions by this loader.
 
 These actions are shared by HTTP (`POST /api/call` with `snacks_action`) and MCP (`tools/call`) and enforce current grants. Discover live schemas instead of hardcoding this document as a fixed capability list.
+
+
+## Window identity and launch behavior
+
+Snack awareness returns matching `name` and `nativeTitle` in every window state. Explicit saved/custom names take priority; unnamed HTML uses its title, unnamed websites use the live page title or URL, and fixed Snack kinds use their kind names. `snack-name-set` names a window or restores HTML/website source naming with an empty name; library control is required and the primary Snack Bar remains fixed. Named Snack Bars use their chosen names everywhere. Condiment windows opened from Serving Tray appear above it as nonmodal children; they detach when the tray hides/closes and remain independently usable. Reopening a closing Condiment creates a fresh instance instead of reusing its dying window.

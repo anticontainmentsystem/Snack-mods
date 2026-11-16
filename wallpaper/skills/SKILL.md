@@ -9,3 +9,6 @@ Verify `presentation-state` after applying. This Condiment does not change HTML 
 
 
 The loaded image and fit are saved in this Condiment’s private storage until replaced or cleared. **Clear image** resets the editor without removing applied wallpapers. **Remove** removes wallpaper from the selected Snack while retaining the loaded image. Fit changes update an already wallpapered target immediately; Apply remains available for any selected non-M Snack. The preview uses the selected Snack’s actual width and height, including orientation changes. Tile repeats the image at its original size. The bundle uses generic `media-read` (own uploads only), `condiment-storage-get/set`, and presentation actions; no Wallpaper-specific host implementation is required.
+
+
+Refresh live capabilities for the current tool set. Prefer compact `studio-workspace` / `studio-read` / revision-checked `studio-patch` for Pasta editing. Read `condiment-development-guide` for authoring, packaging, publishing and browser automation workflows. Snack names and nativeTitle match across window states; use them to identify the requested target. Module UI grants and authenticated agent grants remain independently enforced.

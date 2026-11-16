@@ -9,6 +9,44 @@
   },
   "actions": [
     {
+      "name": "snack-name-set",
+      "description": "Set a Snack display/native window name, synchronized with saved ChipClips or renamed Snack Bars. Empty name restores source-based naming for HTML/website Snacks. Main, Serving Tray and Pasta Studio retain fixed kind names; the primary Snack Bar cannot be renamed.",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "library",
+          "control"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "parameters": [
+        "id",
+        "name"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 160
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name"
+        ]
+      }
+    },
+    {
       "name": "general-get",
       "description": "Read app-wide General settings and current window fullscreen state.",
       "area": "settings",

@@ -12,7 +12,7 @@
       "id": "wallpaper",
       "name": "Wallpaper",
       "description": "Persistent background images for Snacks, excluding M Snacks. Fill, fit, stretch or tile, with a preview matching the selected Snack.",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "entry": "wallpaper/index.html",
       "permissions": {
         "awareness": "read",
@@ -21,7 +21,7 @@
         "condiments": "control"
       },
       "agent": {
-        "instructions": "Wallpaper is entirely implemented by this external Condiment. Discover condiment-agent-guide to read its command schemas. Open it with condiment-open if necessary, then use condiment-command with this Condiment id and command apply (snackId, managed mediaId, fit cover/contain/stretch/tile) or remove (snackId). Its commands call generic presentation tools; Snack has no Wallpaper-specific code. Upload chosen images with media-begin/media-chunk/media-finish. Verify presentation-state for the target Snack. Use only the user’s requested target and current permissions. M Snacks (kind image) are excluded from both the picker and apply command. Verify the chosen target kind before applying. The editor stores its selected managed image and fit in private Condiment storage across reloads. Clear image clears the editor only; remove clears the target wallpaper and keeps the loaded image. Wallpaper includes a replaceable default Snack-branded background. To change its own background, select its Condiment Snack from awareness and apply as usual. Serving Tray surfaces and chat message bubbles allow presentation backgrounds to remain visible; text and controls are not faded.",
+        "instructions": "Wallpaper is entirely implemented by this external Condiment. Discover condiment-agent-guide to read its command schemas. Open it with condiment-open if necessary, then use condiment-command with this Condiment id and command apply (snackId, managed mediaId, fit cover/contain/stretch/tile) or remove (snackId). Its commands call generic presentation tools; Snack has no Wallpaper-specific code. Upload chosen images with media-begin/media-chunk/media-finish. Verify presentation-state for the target Snack. Use only the user’s requested target and current permissions. M Snacks (kind image) are excluded from both the picker and apply command. Verify the chosen target kind before applying. The editor stores its selected managed image and fit in private Condiment storage across reloads. Clear image clears the editor only; remove clears the target wallpaper and keeps the loaded image. Wallpaper includes a replaceable default Snack-branded background. To change its own background, select its Condiment Snack from awareness and apply as usual. Serving Tray surfaces and chat message bubbles allow presentation backgrounds to remain visible; text and controls are not faded. Discover live capabilities on connection instead of keeping a frozen tool list. Window awareness name/nativeTitle identify Snacks in every state. Use studio-workspace, studio-read and revision-checked studio-patch for efficient Pasta edits. Read condiment-development-guide for authoring, packaging and explicit-account GitHub publishing. browser-read/interact/evaluate operate website guests; owner-only browser settings and DevTools remain permission-enforced. Condiment launch and reopen are handled by the current host runtime; opening from Serving Tray places the window above it without requiring extra mod grants.",
         "skills": [
           {
             "name": "snack-wallpaper",
@@ -88,7 +88,7 @@
       "id": "simple-agent-chat",
       "name": "Simple Agent Chat",
       "description": "Chat with one or several agents. Share files, reply, react and make things happen in Snack.",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "entry": "simple-agent-chat/index.html",
       "permissions": {
         "chat": "control",
@@ -96,7 +96,7 @@
         "condiments": "read"
       },
       "agent": {
-        "instructions": "This is a shared human/agent conversation surface. Discover chat-inbox for messages addressed to your authenticated agent id. Use chat-read for room context, then chat-send with roomId, text, recipients and optional replyTo; sender identity is enforced by Snack. Other selected agents may be recipients. Never enter an unbounded reply loop. chat-react toggles a reaction. chat-file reads shared attachments in chunks; chat-file-inspect extracts text/PDF/Office/ZIP content. Audio and video are shared files; only claim interpretation your runtime supports. Use current Snack API/MCP actions to perform the user’s task. Do not assume an inbox connection automatically generates replies. Optional Condiment guides and skills are available through condiment-agent-guide and can be shared by the user. They do not grant additional permissions. Image workflow: use media-image-search and media-image-import for internet images, then image-set with the returned mediaId. For shared chat attachments use image-set with mediaId and roomId directly; do not ferry base64. Inspect live schemas and awareness for M Snacks and their positions.",
+        "instructions": "This is a shared human/agent conversation surface. Discover chat-inbox for messages addressed to your authenticated agent id. Use chat-read for room context, then chat-send with roomId, text, recipients and optional replyTo; sender identity is enforced by Snack. Other selected agents may be recipients. Never enter an unbounded reply loop. chat-react toggles a reaction. chat-file reads shared attachments in chunks; chat-file-inspect extracts text/PDF/Office/ZIP content. Audio and video are shared files; only claim interpretation your runtime supports. Use current Snack API/MCP actions to perform the user’s task. Do not assume an inbox connection automatically generates replies. Optional Condiment guides and skills are available through condiment-agent-guide and can be shared by the user. They do not grant additional permissions. Image workflow: use media-image-search and media-image-import for internet images, then image-set with the returned mediaId. For shared chat attachments use image-set with mediaId and roomId directly; do not ferry base64. Inspect live schemas and awareness for M Snacks and their positions. Discover live capabilities on connection instead of keeping a frozen tool list. Window awareness name/nativeTitle identify Snacks in every state. Use studio-workspace, studio-read and revision-checked studio-patch for efficient Pasta edits. Read condiment-development-guide for authoring, packaging and explicit-account GitHub publishing. browser-read/interact/evaluate operate website guests; owner-only browser settings and DevTools remain permission-enforced. Condiment launch and reopen are handled by the current host runtime; opening from Serving Tray places the window above it without requiring extra mod grants.",
         "skills": [
           {
             "name": "snack-group-chat",
