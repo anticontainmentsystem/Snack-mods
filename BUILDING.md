@@ -128,3 +128,8 @@ The [starter folder](starter/) is a complete independent bundle: interface, CSS,
 See [the full Snack control surface](FULL-CONTROL.md) for `capabilities()`, `tool()`, all eight control areas, local owner operations, mod-to-mod commands and Main Snack panel protection. [Host UI consistency](ui-kit/README.md) describes the shared monochrome bar controls.
 
 [Asset bundling](ASSETS.md) explains self-contained images, icons, fonts and stylesheet dependencies.
+
+
+## Agent authoring and browser automation
+
+See [Agent workflows](AGENT-WORKFLOWS.md) for efficient Pasta Studio edits, managed standalone Condiment projects, validation and ZIP packaging, atomic GitHub publishing with explicit account selection, and native website/browser controls. Agents can read the same documentation inside Snack with `condiment-development-guide`; discover `snacks_capabilities` for current schemas and permissions.

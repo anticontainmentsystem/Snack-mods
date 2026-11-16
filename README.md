@@ -298,3 +298,6 @@ See [the full Snack control surface](FULL-CONTROL.md) for `capabilities()`, `too
 [Asset bundling](ASSETS.md) explains self-contained images, icons, fonts and stylesheet dependencies.
 
 Image tools and attachment workflows: [read the guide](IMAGE-TOOLS.md). Chat 0.1.2 displays pending thumbnails and shared attachment images.
+
+
+[Agent authoring, packaging, GitHub publishing and browser automation](AGENT-WORKFLOWS.md) · available inside Snack through `condiment-development-guide`.
