@@ -15,7 +15,10 @@ html[data-theme=dark] .snack-emoji{filter:invert(1)}
 .message.user{background:color-mix(in srgb,var(--bg) 76%,transparent)}
 .reactions button,.file-card,.compose-box,.conversation-head,.composer{background:color-mix(in srgb,var(--bg) 82%,transparent)}
 
-.message-body{max-height:min(52vh,480px);overflow:auto;white-space:pre-wrap;user-select:text;scrollbar-width:thin;scrollbar-color:#fff var(--bg,#fff)}.message-body::-webkit-scrollbar{width:9px;height:9px}.message-body::-webkit-scrollbar-thumb{background:#fff;border:1px solid #000;border-radius:0}.message-body::-webkit-scrollbar-button{display:none;width:0;height:0}
+.message-body{max-height:none;overflow:visible;white-space:pre-wrap;user-select:text}.quote{max-height:none;overflow:visible;white-space:pre-wrap;overflow-wrap:anywhere}
+
 .agent-model-choice{padding:8px 0;border-bottom:1px solid var(--line,currentColor)}.agent-model-field{display:grid;gap:4px;margin:0 0 8px 30px;font-size:11px}.agent-model-field select{width:100%;min-width:0;color:inherit;background:var(--bg,#fff);border:1px solid currentColor;padding:7px;font:inherit}
 
 .external-agent-list{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}.external-agent-list summary{cursor:pointer;font-weight:600}.external-agent-list>p{margin:8px 0}
+
+.composer-models{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}.composer-model{display:flex;align-items:center;gap:7px;min-width:0;flex:1 1 200px}.composer-model span{font-size:10px;white-space:nowrap}.composer-model select{font-size:11px;padding:5px 7px;min-width:0;flex:1}

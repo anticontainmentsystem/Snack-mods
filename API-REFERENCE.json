@@ -4538,7 +4538,11 @@
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
-        "properties": {}
+        "properties": {
+          "roomId": {
+            "type": "string"
+          }
+        }
       }
     },
     {
@@ -4594,7 +4598,7 @@
       "requires": [],
       "localOnly": true,
       "context": "none",
-      "description": "Choose the model for an existing OpenAI chat agent on the currently selected subscription/Codex or API-key route. Empty model inherits the connection/runtime default. Applies on the next turn, including resumed conversations; rejects changes while replying. Model availability comes from chat-models. Does not change external API/MCP clients.",
+      "description": "Choose the model for an existing OpenAI chat agent on the currently selected subscription/Codex or API-key route. With roomId, changes only that conversation and keeps global defaults unchanged; empty model removes the conversation override. Without roomId, configures the named agent or connection default. Applies on the next turn, including resumed conversations; rejects changes while replying. Model availability comes from chat-models. Does not change external API/MCP clients.",
       "localUI": true,
       "inputSchema": {
         "type": "object",
@@ -4604,6 +4608,9 @@
             "type": "string"
           },
           "model": {
+            "type": "string"
+          },
+          "roomId": {
             "type": "string"
           }
         },
