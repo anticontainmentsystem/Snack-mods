@@ -332,3 +332,5 @@ The UI is provider-neutral: discover `chat-providers` and each agent’s `canSel
 ### Connector credentials and shared agents
 
 Add credentials through the relevant connector; Snack saves and organizes them in Vault automatically. Keys manually saved for a provider also appear in that provider’s connector and can be verified without re-entry through `services-use-vault`. Disconnecting API access retains the saved key. Vault groups entries by their consuming connector/app area, tracks save origin separately, and provides Replace/Remove on every row. `vault-replace` edits raw secrets without revealing current values, rotates scoped codes, or hands off to the provider’s managed sign-in flow. Remote agents cannot replace managed credentials. Automation and chat use one named-agent identity, with dedicated change events keeping creation and settings synchronized.
+
+Vault and connector key fields provide a native Paste button. The owner-only `vault-paste` action fills the masked field and returns only a receipt; it does not return clipboard text, save the value or switch a connection.

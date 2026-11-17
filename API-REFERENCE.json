@@ -7189,6 +7189,31 @@
           "id"
         ]
       }
+    },
+    {
+      "name": "vault-paste",
+      "description": "Paste local clipboard text into the owner’s hidden Vault/API-key field. Does not save, connect, reveal a saved secret or return clipboard contents over API/MCP.",
+      "area": "vault",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "parameters": [],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "enum": [
+              "vault-value",
+              "service-api-key"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "field"
+        ]
+      }
     }
   ]
 }
