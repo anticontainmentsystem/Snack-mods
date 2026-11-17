@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "snack-external:v1:capability-catalogue",
+  "type": "object",
+  "required": [
+    "ok",
+    "capabilities"
+  ],
+  "properties": {
+    "ok": {
+      "const": true
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "availability",
+          "inputSchema"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "availability": {
+            "enum": [
+              "available",
+              "page-required",
+              "unavailable"
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "inputSchema": {
+            "type": "object"
+          },
+          "resultSchema": {
+            "type": "object"
+          },
+          "eventSchemas": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    }
+  }
+}

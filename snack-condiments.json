@@ -683,6 +683,205 @@
       "store": {
         "card": "snack-browser/store-card.html"
       }
+    },
+    {
+      "id": "picnic-lab",
+      "name": "Picnic Lab",
+      "description": "Optional fictional external-agent playground: discovery, events, callable capabilities, receipts, and real Snack/agent actions. Simulation is clearly labeled; no external account or key required.",
+      "version": "0.1.0",
+      "entry": "picnic-lab/index.html",
+      "background": "picnic-lab/index.html",
+      "icon": "picnic-lab/icon.svg",
+      "permissions": {
+        "awareness": "read",
+        "windows": "control",
+        "library": "control",
+        "settings": "read",
+        "condiments": "read",
+        "chat": "control"
+      },
+      "commands": [
+        {
+          "name": "picnic-connect",
+          "description": "Connect or disconnect the local simulation.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "connected": {
+                "type": "boolean"
+              }
+            },
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "picnic-scenario",
+          "description": "Select a demonstration; the underlying Snack registry remains unrestricted by the scenario.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "scenario": {
+                "enum": [
+                  "events",
+                  "commands",
+                  "messages",
+                  "all"
+                ]
+              }
+            },
+            "required": [
+              "scenario"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "picnic-state",
+          "description": "Read simulation state and receipts.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "picnic-discover",
+          "description": "Search the complete live Snack capability registry.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "picnic-event",
+          "description": "Simulate an external event. No real effect runs automatically.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "data": {
+                "type": "object"
+              }
+            },
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "picnic-app-command",
+          "description": "Call the fictional app echo capability.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "picnic-message",
+          "description": "Send a message to the scripted fictional agent.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "picnic-call",
+          "description": "Invoke any discovered Snack API/MCP tool through the reviewed Condiment harness. Caller must hold this module’s approved grants.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "tool": {
+                "type": "string"
+              },
+              "arguments": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "tool"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "picnic-chipclip",
+          "description": "Create and save an independent real ChipClip; preserves Main Snack Pasta.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "picnic-agent-message",
+          "description": "Send once to a selected real named Snack agent. May use its provider account.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "agentId": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "agentId"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "picnic-agent-replies",
+          "description": "Read new replies from the demo’s real Snack conversation.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "agent": {
+        "instructions": "Picnic Lab is a scripted local simulation, not a real model or external network service. Discover its declared commands with condiment-agent-guide. Humans, local agents and remote agents with the full approved module grants use the same handlers. picnic-call can use any live discovered Snack tool subject to caller/module grants. Do not imply the demo used a real key or external backend. Actual Snack effects and model messages happen only when explicitly requested.",
+        "skills": [
+          {
+            "name": "Picnic Lab scenarios",
+            "description": "Exercise external-agent workflows through the same Condiment commands.",
+            "path": "picnic-lab/skills/SKILL.md"
+          }
+        ]
+      },
+      "documentation": "https://anticontainmentsystem.github.io/Snack-mods/picnic-lab/README.md",
+      "repository": "https://github.com/anticontainmentsystem/Snack-mods",
+      "tags": [
+        "example",
+        "agents",
+        "external",
+        "simulation"
+      ]
     }
   ]
 }

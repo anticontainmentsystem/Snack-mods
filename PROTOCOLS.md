@@ -124,3 +124,8 @@ The [generated reference](API-REFERENCE.json) includes shared action names, inpu
 See [the full Snack control surface](FULL-CONTROL.md) for `capabilities()`, `tool()`, all eight control areas, local owner operations, mod-to-mod commands and Main Snack panel protection. [Host UI consistency](ui-kit/README.md) describes the shared monochrome bar controls.
 
 Individual website tunnels stream native Chromium frames, including sites that reject iframe embedding. The browser-input action accepts normalized mouse/wheel input, keyboard keys and text only for website guests; host bars use their registered controls. Public codes and view-only restrictions remain enforced. Frames pause in hidden browser tabs. See the live action schema for exact input fields.
+
+
+## Optional external Condiment services
+
+See [External connections](EXTERNAL-CONNECTIONS.md) for the service-neutral v1 contract: discovery, owner-approved pairing and grants, background lifecycle, bidirectional commands/messages/events, durable receipts, replay recovery and revocation. Feature declarations are composable; undeclared integrations keep working without unused components. Capability discovery remains available even when its current command catalogue is empty. Internal and approved external agents use the shared API/MCP actions and current grants. Fictional examples demonstrate starting points, not limits.

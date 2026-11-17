@@ -73,3 +73,8 @@ Read [Browser workspaces](BROWSER-WORKSPACES.md) and [Design system](DESIGN-SYST
 Read [Browser workspaces](BROWSER-WORKSPACES.md) for human/agent export receipts, scoped cache clearing, record cleanup, bookmark organization, branded Home and supported extension management. Chat transcript reads use chat-read; local clipboard copies use chat-copy. Discover commands from each installed Condiment rather than assuming its version.
 
 See [Desktop restoration](DESKTOP-SESSIONS.md) for saved geometry, source retention, monitor fallback, session actions and window stacking.
+
+
+## Optional external Condiment services
+
+See [External connections](EXTERNAL-CONNECTIONS.md) for the service-neutral v1 contract: discovery, owner-approved pairing and grants, background lifecycle, bidirectional commands/messages/events, durable receipts, replay recovery and revocation. Feature declarations are composable; undeclared integrations keep working without unused components. Capability discovery remains available even when its current command catalogue is empty. Internal and approved external agents use the shared API/MCP actions and current grants. Fictional examples demonstrate starting points, not limits.

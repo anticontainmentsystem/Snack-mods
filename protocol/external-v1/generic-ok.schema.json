@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "snack-external:v1:generic-ok",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "const": true
+    }
+  },
+  "required": [
+    "ok"
+  ]
+}

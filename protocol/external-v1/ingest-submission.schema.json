@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "snack-external:v1:ingest-submission",
+  "type": "object",
+  "properties": {
+    "v": {
+      "const": 1
+    },
+    "type": {
+      "enum": [
+        "ack",
+        "result",
+        "error",
+        "message"
+      ]
+    },
+    "id": {
+      "$ref": "snack-external:v1:defs#/$defs/opaqueId"
+    },
+    "correlationId": {
+      "$ref": "snack-external:v1:defs#/$defs/opaqueId"
+    },
+    "connectionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "originalSessionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "ts": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "body": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "v",
+    "type",
+    "id",
+    "connectionId",
+    "ts",
+    "body"
+  ],
+  "additionalProperties": false,
+  "not": {
+    "anyOf": [
+      {
+        "required": [
+          "seq"
+        ]
+      },
+      {
+        "required": [
+          "originalSessionId"
+        ]
+      }
+    ]
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "ack"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "properties": {
+              "accepted": {
+                "type": "boolean"
+              },
+              "reason": {
+                "type": "string"
+              },
+              "duplicate": {
+                "type": "boolean"
+              },
+              "status": {
+                "enum": [
+                  "accepted",
+                  "running",
+                  "done",
+                  "failed",
+                  "uncertain",
+                  "cancelled"
+                ]
+              },
+              "result": {}
+            },
+            "required": [
+              "accepted"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "correlationId"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "result"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "state": {
+                "const": "done"
+              },
+              "data": {}
+            },
+            "required": [
+              "ok",
+              "state"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "correlationId"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "error"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "const": false
+              },
+              "code": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              "retryable": {
+                "type": "boolean"
+              },
+              "message": {
+                "type": "string",
+                "maxLength": 500
+              }
+            },
+            "required": [
+              "ok",
+              "code",
+              "retryable",
+              "message"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "correlationId"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "message"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "$ref": "snack-external:v1:defs#/$defs/opaqueId"
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000
+              }
+            },
+            "required": [
+              "text"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    }
+  ]
+}

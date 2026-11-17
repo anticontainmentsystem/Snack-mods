@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "snack-external:v1:pair-exchange-response",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "const": true
+    },
+    "connectionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "connectionToken": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "sessionToken": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "expires": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "resumeCursor": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "sessionId",
+        "sessionToken",
+        "expires",
+        "resumeCursor"
+      ]
+    }
+  },
+  "required": [
+    "ok",
+    "connectionId",
+    "connectionToken",
+    "session"
+  ]
+}

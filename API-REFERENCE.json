@@ -1198,6 +1198,7 @@
           "method": {
             "enum": [
               "chatgpt",
+              "cli",
               "key"
             ]
           }
@@ -3266,7 +3267,7 @@
     },
     {
       "name": "studio-new",
-      "description": "studio new",
+      "description": "Create an independent HTML document in Pasta Studio; returns document.id. Use studio-open to show it and studio-save to create a saved ChipClip. Preserves Main Snack Pasta.",
       "area": "windows",
       "level": "control",
       "requires": [],
@@ -3428,7 +3429,7 @@
     },
     {
       "name": "studio-save",
-      "description": "studio save",
+      "description": "Save the Pasta Studio document as a persistent ChipClip in the Serving Tray library. Returns item.id and documentId. Main Snack Pasta is copied to a separate document before saving. Optional slot assigns a Snack Bar chip.",
       "area": "windows",
       "level": "control",
       "requires": [
@@ -4580,7 +4581,7 @@
       "requires": [],
       "localOnly": false,
       "context": "none",
-      "description": "List available OpenAI account agents and paired API/MCP inbox agents, with multiple global selections.",
+      "description": "List available named provider-backed agents and paired API/MCP inbox agents, with multiple global selections.",
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
@@ -4612,6 +4613,7 @@
           "method": {
             "enum": [
               "chatgpt",
+              "cli",
               "key"
             ]
           }
@@ -4625,15 +4627,23 @@
       "requires": [],
       "localOnly": true,
       "context": "none",
-      "description": "Explicitly choose the connected OpenAI subscription/Codex or direct API-key chat route. Never signs out the other route or switches automatically. Refuses while replying. API usage has separate billing.",
+      "description": "Explicitly choose a connected provider subscription CLI or direct API-key route. Never signs out the other route or switches automatically. Refuses while replying. API usage has separate billing.",
       "localUI": true,
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "provider": {
+            "type": "string",
+            "enum": [
+              "openai",
+              "anthropic"
+            ]
+          },
           "method": {
             "enum": [
               "chatgpt",
+              "cli",
               "key"
             ]
           }
@@ -4644,13 +4654,43 @@
       }
     },
     {
+      "name": "chat-connection-model-set",
+      "area": "chat",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Set one provider connection default model without changing named-agent model preferences.",
+      "localUI": true,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "provider": {
+            "type": "string"
+          },
+          "connectionId": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "provider",
+          "connectionId",
+          "model"
+        ]
+      }
+    },
+    {
       "name": "chat-agent-configure",
       "area": "chat",
       "level": "control",
       "requires": [],
       "localOnly": true,
       "context": "none",
-      "description": "Choose the model for an existing OpenAI chat agent on the currently selected subscription/Codex or API-key route. With roomId, changes only that conversation and keeps global defaults unchanged; empty model removes the conversation override. Without roomId, configures the named agent or connection default. Applies on the next turn, including resumed conversations; rejects changes while replying. Model availability comes from chat-models. Does not change external API/MCP clients.",
+      "description": "Choose the model for an existing named provider-backed agent on its selected CLI or API-key route. With roomId, changes only that conversation and keeps global defaults unchanged; empty model removes the conversation override. Without roomId, configures the named agent or connection default. Applies on the next turn, including resumed conversations; rejects changes while replying. Model availability comes from chat-models. Does not change external API/MCP clients.",
       "localUI": true,
       "inputSchema": {
         "type": "object",
@@ -7130,6 +7170,489 @@
       }
     },
     {
+      "name": "external-status",
+      "area": "condiments",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read optional external Condiment connection status and declared features. No credentials are returned; Condiments see only their own connections.",
+      "ownExternal": true,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "modId": {
+            "type": "string"
+          }
+        },
+        "required": []
+      }
+    },
+    {
+      "name": "external-approve",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Owner approves one installed Condiment external connection, current digest, origin, data/service disclosures, requested remote grants and optional background lifecycle. Does not pair or expose a key.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "modId": {
+            "type": "string"
+          },
+          "declarationId": {
+            "type": "string"
+          },
+          "grants": {
+            "type": "object",
+            "additionalProperties": {
+              "enum": [
+                "read",
+                "control"
+              ]
+            }
+          },
+          "background": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "modId",
+          "declarationId",
+          "grants"
+        ]
+      }
+    },
+    {
+      "name": "external-pair-start",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Owner generates a ten-minute single-use installation-bound pairing code in Vault. Receipt has metadata only; the UI shows the code and external-pair-copy copies it.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "external-pair-complete",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "external pair complete for an owner-approved connection. Never returns credentials.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "external-disconnect",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "external disconnect for an owner-approved connection. Never returns credentials.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "external-reconnect",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "external reconnect for an owner-approved connection. Never returns credentials.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "external-revoke",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Revoke locally immediately, invalidate active sessions and queue remote binding revocation; offline failure remains visibly pending. Fresh approval and pairing required.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "external-pair-open",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Open the declared same-origin service approval screen with a short-lived pairing payload in the URL fragment. No key is returned through API/MCP.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "external-pair-copy",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Owner copies the unexpired pairing code to the clipboard. API/MCP receives only a copied receipt, never the code.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "external-settings",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "description": "Open an installed Condiment external connection settings in its Store card.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "modId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "modId"
+        ]
+      }
+    },
+    {
+      "name": "external-window-toggle",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "The shared Condiment bar control disconnects/reconnects its own connection. With no id, opens connection settings for setup or selection.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "windowId": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": []
+      }
+    },
+    {
+      "name": "external-capabilities",
+      "area": "condiments",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read the authenticated external service capability schemas, availability, external effects, results and events.",
+      "ownExternal": true,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "refresh": {
+            "type": "boolean"
+          },
+          "query": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "area": {
+            "type": "string"
+          },
+          "names": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 12
+          },
+          "view": {
+            "enum": [
+              "index",
+              "schemas",
+              "full"
+            ]
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "external-command",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Call a declared available external capability. Returns durable requestId/status; external-result reads completion. Reuse requestId after uncertain delivery; different arguments conflict.",
+      "ownExternal": true,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "arguments": {
+            "type": "object"
+          },
+          "requestId": {
+            "type": "string",
+            "maxLength": 256
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      }
+    },
+    {
+      "name": "external-result",
+      "area": "condiments",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read or briefly wait for an external request result without re-executing its effect.",
+      "ownExternal": true,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "waitMs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 25000
+          }
+        },
+        "required": [
+          "id",
+          "requestId"
+        ]
+      }
+    },
+    {
+      "name": "external-events",
+      "area": "condiments",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read retained external events after the given connection sequence. Shared notifications announce new state; no page must remain open for an approved background connection.",
+      "ownExternal": true,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "after": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "external-send",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Send a human/agent message to the connected external agent through the durable outbox, preserving verified sender identity.",
+      "ownExternal": true,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "correlationId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "text"
+        ]
+      }
+    },
+    {
+      "name": "external-resync",
+      "area": "condiments",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Owner explicitly accepts a named recovery snapshot and exact lost transactional item list. Never silently skips missing work.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "checkpointId": {
+            "type": "string"
+          },
+          "snapshotSeq": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "acknowledgedLoss": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "seq",
+                "kind"
+              ],
+              "properties": {
+                "seq": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "kind": {
+                  "enum": [
+                    "message",
+                    "command",
+                    "result"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "id",
+          "checkpointId",
+          "snapshotSeq",
+          "acknowledgedLoss"
+        ]
+      }
+    },
+    {
       "name": "services-use-vault",
       "description": "Verify and connect an existing provider API key from Vault without returning its value or changing the selected agent route. Reuses the saved record; disconnect keeps it in Vault.",
       "area": "settings",
@@ -7212,6 +7735,85 @@
         "additionalProperties": false,
         "required": [
           "field"
+        ]
+      }
+    },
+    {
+      "name": "claude-account-status",
+      "description": "Read bundled native Claude Code connection metadata. Anthropic authentication remains in its own CLI profile; no tokens are returned.",
+      "area": "settings",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "claude-signin",
+      "description": "Owner manages the bundled unmodified Claude Code native account sign-in in its separate Snack profile. Never imports browser sessions or forwards Claude subscription tokens.",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "claude-cancel-signin",
+      "description": "Owner manages the bundled unmodified Claude Code native account sign-in in its separate Snack profile. Never imports browser sessions or forwards Claude subscription tokens.",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "claude-signout",
+      "description": "Owner manages the bundled unmodified Claude Code native account sign-in in its separate Snack profile. Never imports browser sessions or forwards Claude subscription tokens.",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "claude-auth-code",
+      "description": "Submit the short-lived authorization code to an already pending native Claude Code sign-in. Not stored or echoed.",
+      "area": "settings",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "parameters": [],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "maxLength": 10000
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "code"
         ]
       }
     }

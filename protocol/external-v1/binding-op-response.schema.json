@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "snack-external:v1:binding-op-response",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "const": true
+    },
+    "state": {
+      "enum": [
+        "active",
+        "disconnected",
+        "revoked"
+      ]
+    }
+  },
+  "required": [
+    "ok",
+    "state"
+  ]
+}

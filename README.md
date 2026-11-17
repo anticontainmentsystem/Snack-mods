@@ -334,3 +334,25 @@ The UI is provider-neutral: discover `chat-providers` and each agent’s `canSel
 Add credentials through the relevant connector; Snack saves and organizes them in Vault automatically. Keys manually saved for a provider also appear in that provider’s connector and can be verified without re-entry through `services-use-vault`. Disconnecting API access retains the saved key. Vault groups entries by their consuming connector/app area, tracks save origin separately, and provides Replace/Remove on every row. `vault-replace` edits raw secrets without revealing current values, rotates scoped codes, or hands off to the provider’s managed sign-in flow. Remote agents cannot replace managed credentials. Automation and chat use one named-agent identity, with dedicated change events keeping creation and settings synchronized.
 
 Vault and connector key fields provide a native Paste button. The owner-only `vault-paste` action fills the masked field and returns only a receipt; it does not return clipboard text, save the value or switch a connection.
+
+### Provider connections and models
+
+Snack advertises model providers through `chat-providers`. OpenAI supports a subscription through its native Codex runtime or a separately billed API key; Anthropic supports the native Claude Code subscription runtime or a separately billed Anthropic API key. Do not hardcode a provider or model list in a Condiment. Read the connected provider's routes, then use `chat-models {provider, connectionId}`. Haiku and other models appear when the authenticated connection advertises them.
+
+For named agents, use `chat-agent-add`, `chat-agent-connection-set`, and `chat-agent-configure`; the same agent identity and model preferences are shared with Serving Tray → Automation. Condiments may present per-agent connection/model controls in their own composer. `chat-connection-select {provider, method}` changes only that provider's default route, and `chat-connection-model-set {provider, connectionId, model}` changes only that route's default model. Neither silently rewrites named-agent preferences. These are owner controls; remote connections cannot elevate themselves to change them.
+
+API credentials are entered and replaced through Snack's connector/Vault UI. An approved local integration can request a Vault-backed connection with `services-use-vault {provider, credentialId}` without reading the key. Disconnection retains the saved key, and disconnecting an API route does not sign out its independent subscription runtime. Read the live schemas before calling these actions; the generated reference is supplementary to live discovery.
+
+### Complete control with compact discovery
+
+Agents operate Snack through its full shared control registry, not a reduced list of selected features. Start with `snacks_capabilities`: its default response is a complete compact tool/action name index. Search `query` (plain words), filter `area`, or supply exact `names` to receive bounded pages of live schemas. Follow `nextOffset`; `view:"full"` and GET `/api/capabilities` remain available for full machine exports. Every result reflects the caller's current grants. Condiments keep access to the same shared registry and declared commands; discovery does not remove controls.
+
+Example: `snacks_capabilities {"names":["studio-new","studio-open","studio-save"]}` gives the exact schemas to create an independent HTML document, open it in Pasta Studio and save it as a ChipClip. Verify the saved item with `snacks_library`. This preserves Main Snack Pasta. The live discovery response includes this workflow only when those actions are permitted. Search and fetch schemas rather than guessing action names or opening tool-output files.
+
+## Optional external connections
+
+External apps, agents and pages can use the service-neutral [external connection protocol](EXTERNAL-CONNECTIONS.md). Add only the functional features you use; connection/capability discovery is universal and can grow. Existing Condiments without `externalConnections` need no new field, key, server, agent identity or background entry. Snack manages owner-approved installation bindings, Vault credentials, individual grants, reconnect/revoke, durable delivery and discoverable shared controls. Third-party app behavior and branding stay in the third-party bundle.
+
+[Picnic Lab](picnic-lab/README.md) is an optional, complete fictional example for humans and approved internal/external agents. Its simulated external page and scripted agent require no external key or backend. Real Snack effects and messages to a selected real agent are explicitly labeled. Install it from the Store or its standalone folder; nothing is bundled into Snack by default. Developers can use its declared commands through the same registry as its buttons, including a generic tool-call handler rather than a fixed list of possible tasks.
+
+[Versioned v1 schemas](protocol/external-v1/README.md) describe the wire contract. Runtime tests must additionally verify actual effects, current grants, replay, duplicate requests and revocation. The protocol is not specific to any provider or external application.

@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "snack-external:v1:stream-item",
+  "type": "object",
+  "properties": {
+    "v": {
+      "const": 1
+    },
+    "type": {
+      "enum": [
+        "command",
+        "result",
+        "error",
+        "event",
+        "message"
+      ]
+    },
+    "id": {
+      "$ref": "snack-external:v1:defs#/$defs/opaqueId"
+    },
+    "correlationId": {
+      "$ref": "snack-external:v1:defs#/$defs/opaqueId"
+    },
+    "connectionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "originalSessionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "ts": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "body": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "v",
+    "type",
+    "id",
+    "connectionId",
+    "ts",
+    "body",
+    "seq"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "command"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              "args": {
+                "type": "object"
+              },
+              "deadline": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "name",
+              "args"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "not": {
+          "required": [
+            "correlationId"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "result"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "state": {
+                "const": "done"
+              },
+              "data": {}
+            },
+            "required": [
+              "ok",
+              "state"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "correlationId"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "error"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "const": false
+              },
+              "code": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              "retryable": {
+                "type": "boolean"
+              },
+              "message": {
+                "type": "string",
+                "maxLength": 500
+              }
+            },
+            "required": [
+              "ok",
+              "code",
+              "retryable",
+              "message"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "correlationId"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "event"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              "durable": {
+                "type": "boolean"
+              },
+              "data": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "name",
+              "durable",
+              "data"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "message"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "properties": {
+              "to": {
+                "$ref": "snack-external:v1:defs#/$defs/opaqueId"
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000
+              }
+            },
+            "required": [
+              "to",
+              "text"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    }
+  ]
+}
