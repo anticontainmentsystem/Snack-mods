@@ -3894,13 +3894,18 @@
       "requires": [],
       "localOnly": true,
       "context": "none",
-      "description": "condiment source sync",
+      "description": "Refresh a source, optionally selecting a GitHub ref in place. Preserves source/module identities and managed connection bindings; installing changed content still requires owner review.",
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "id": {
             "type": "string"
+          },
+          "ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
           }
         },
         "required": [

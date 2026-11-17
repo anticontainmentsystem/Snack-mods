@@ -51,3 +51,6 @@ Review the source, publisher identity and requested controls. Store titles and p
 You may keep one Condiment, both, neither, or only your own. These examples are not bundled with Snack and do not auto-connect when Snack starts.
 
 If a request fails, read the displayed error. Missing module approval, missing remote caller grants, a disconnected service and an expired provider authorization are distinct situations. Do not solve them by placing credentials inside a module’s HTML.
+
+
+Public GitHub Condiment sources download their files from raw.githubusercontent.com, avoiding the anonymous GitHub API quota and requiring no account. Private sources continue to use the selected connected GitHub account. Source refresh/check actions share this same behavior through UI, HTTP and MCP. A source following main receives new published content; an exact commit ref intentionally stays fixed. Checks discover updates without installing or approving them.
