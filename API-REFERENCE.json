@@ -4217,7 +4217,8 @@
           "key",
           "value"
         ]
-      }
+      },
+      "privateNamespace": true
     },
     {
       "name": "condiment-storage-remove",
@@ -4242,7 +4243,8 @@
         "required": [
           "key"
         ]
-      }
+      },
+      "privateNamespace": true
     },
     {
       "name": "condiment-agent-guide",
@@ -4528,6 +4530,50 @@
       }
     },
     {
+      "name": "chat-providers",
+      "area": "chat",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Discover registered model-provider adapters and their connected subscription, API, local-server or harness routes. Only actual adapters are advertised; no model or provider list is hardcoded by Condiments.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    {
+      "name": "chat-agent-connection-set",
+      "area": "chat",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "none",
+      "description": "Point an existing named agent at a connected provider route without changing its identity, other agents, global defaults or credentials. Per-connection model preferences are retained; refuses while replying.",
+      "localUI": true,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "connectionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "provider",
+          "connectionId"
+        ]
+      }
+    },
+    {
       "name": "chat-agents",
       "area": "chat",
       "level": "read",
@@ -4557,6 +4603,12 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "provider": {
+            "type": "string"
+          },
+          "connectionId": {
+            "type": "string"
+          },
           "method": {
             "enum": [
               "chatgpt",
@@ -4650,9 +4702,10 @@
       "area": "chat",
       "level": "control",
       "requires": [],
-      "localOnly": false,
+      "localOnly": true,
       "context": "none",
-      "description": "Add a named OpenAI model participant using the existing account connection.",
+      "description": "Create a named agent for a connected model-provider adapter, sharing one identity across chat and local API/MCP controls. Uses the connected subscription/API route; no new account sign-in or exposed credential. Select its own model before starting a conversation.",
+      "localUI": true,
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
@@ -4662,8 +4715,17 @@
           },
           "model": {
             "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "connectionId": {
+            "type": "string"
           }
-        }
+        },
+        "required": [
+          "name"
+        ]
       }
     },
     {

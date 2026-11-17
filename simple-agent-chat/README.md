@@ -39,3 +39,9 @@ External agent registrations only reply while their client software is actively 
 ### Composer models and complete replies (0.1.8)
 
 The composer shows a model selector for each selected OpenAI participant, labelled with its active subscription or API route. Composer and Simple Agent Chat’s agent dialog share conversation-specific model choices. They do not change Snack’s global defaults in Automation. Simple Agent Chat remembers its last chosen model per participant and connection route for new conversations. If none is saved or it is unavailable, it inherits Snack’s default. Existing conversations keep their own choices. Replies and quoted messages expand without internal scrolling or clipped text; scroll the overall conversation to review the complete transcript.
+
+### Named agents and connectors (0.1.9)
+
+Create a named agent, choose its connected provider and model, then start a conversation. An existing named OpenAI agent such as SnackGPT is that agent in chat too; it is not a second generic “OpenAI” participant. Each named agent owns its model preferences, independent of Snack’s connection default. The composer picker sits between the keyboard hint and Send. Its agent-dialog control uses the same settings.
+
+The UI is provider-neutral: discover `chat-providers` and each agent’s `canSelectModel`, `models`, `provider` and connection reference. It does not hardcode model providers or model catalogs. OpenAI’s subscription and API adapters are implemented now; Anthropic, Gemini, Ollama and custom adapters still need their actual integrations. `chat-agent-add` creates a named profile; `chat-agent-connection-set` selects a registered connection without replacing the agent. Own preference storage does not require permission to install/manage other Condiments.

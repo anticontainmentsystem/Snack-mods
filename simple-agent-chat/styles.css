@@ -22,3 +22,7 @@ html[data-theme=dark] .snack-emoji{filter:invert(1)}
 .external-agent-list{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}.external-agent-list summary{cursor:pointer;font-weight:600}.external-agent-list>p{margin:8px 0}
 
 .composer-models{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}.composer-model{display:flex;align-items:center;gap:7px;min-width:0;flex:1 1 200px}.composer-model span{font-size:10px;white-space:nowrap}.composer-model select{font-size:11px;padding:5px 7px;min-width:0;flex:1}
+
+.composer-controls{flex-wrap:wrap}.composer-controls .composer-models{margin:0 0 0 auto;flex:0 1 280px;min-width:130px;max-width:100%;gap:3px}.composer-controls .composer-model{flex:1 1 140px;gap:4px}.composer-controls .composer-model span{max-width:90px;overflow:hidden;text-overflow:ellipsis;font-size:9px}.composer-controls .composer-model select{padding:4px;font-size:10px}.composer-controls .send{margin-left:3px}
+
+.composer-controls{flex-wrap:nowrap}.composer-controls>small{flex:1 1 auto;min-width:0}.composer-controls .composer-models{flex:0 1 200px;min-width:100px;margin-left:4px}.composer-controls .composer-model span{max-width:55px}.composer-controls .composer-model select{width:0;min-width:70px}
