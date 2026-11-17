@@ -7128,6 +7128,67 @@
           "id"
         ]
       }
+    },
+    {
+      "name": "services-use-vault",
+      "description": "Verify and connect an existing provider API key from Vault without returning its value or changing the selected agent route. Reuses the saved record; disconnect keeps it in Vault.",
+      "area": "settings",
+      "level": "control",
+      "requires": [
+        [
+          "vault",
+          "control"
+        ]
+      ],
+      "localOnly": true,
+      "context": "none",
+      "parameters": [
+        "provider",
+        "credentialId"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string"
+          },
+          "credentialId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "provider",
+          "credentialId"
+        ]
+      }
+    },
+    {
+      "name": "vault-replace",
+      "description": "Owner replaces a credential: raw secrets open an empty replacement editor; agent/tunnel/email codes rotate in place, keeping identity/scope; managed accounts return their sign-in follow-up. Never returns a secret value.",
+      "area": "vault",
+      "level": "control",
+      "requires": [],
+      "localOnly": true,
+      "context": "tray",
+      "parameters": [
+        "id"
+      ],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
     }
   ]
 }
