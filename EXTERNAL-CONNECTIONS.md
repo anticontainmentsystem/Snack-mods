@@ -153,3 +153,8 @@ Use the schema package and generic conformance examples without contacting Snack
 Test pairing consent, identity binding, empty discovery, all feature combinations you actually use, partial acknowledgements, duplicate requests, conflicting ids, unknown outcomes, queued work, reconnect, reduced grants, revocation during an outstanding poll, offline revocation notification and replay recovery. Verify application effects as well as protocol receipts. Privacy/service disclosures and a usable owner approval UI are required before real acceptance testing; production deployment is a separate decision.
 
 [Picnic Lab](picnic-lab/README.md) is an optional fictional, local simulation for users and agents. It demonstrates discovery, event/command/message scenarios and optional real Snack actions. It needs no external server, key or account and is not bundled into Snack. The shared protocol schemas are a contract, not app-specific code embedded in Snack.
+
+
+### Rendering SDK outcomes
+
+`external.result` returns `{id,status,result,error}`. Only `status:"done"` is a completed success. Show `result` then; show `error` for failed or uncertain work. Sending, accepted and running are pending states, not completion. Connection-record existence alone does not mean connected: inspect `state`, `active` and `available`. Keep a separate display cursor for retained events; do not replace the host durable transport cursor. Secondary settings and logs belong in the optional host menu described in [Design system](DESIGN-SYSTEM.md).

@@ -25,3 +25,12 @@ You can build a completely different interface, game or tool with reviewed contr
 ## Condiment Store shelves
 
 Every Store card has the same 300px height and equal responsive column widths. The title/icon, compact primary actions and optional agent-guide footer keep fixed positions. Descriptions, publisher metadata, links, lazy previews and expanded management controls scroll inside the middle/lower details area; they never resize the card. Use the shared white thumb with a one-pixel black outline and no scrollbar arrows. Preview controls continue through condiment-preview-set over the shared API/MCP dispatcher, and stable card/iframe identities survive unrelated Store updates. This is host presentation: authors keep their own icons, metadata and custom preview content. No Condiment install or approval is changed by the Store layout.
+
+
+## Condiment options belong in the host bar menu
+
+Keep general configuration, connection tools, diagnostic logs and secondary options in a dropdown opened from the host top bar. Primary application controls may live in content when useful. Avoid a second permanent options toolbar. The host menu follows light/dark theme, uses a one-pixel border and the themed scrollbar, and overlays native Chromium content without reducing its viewport.
+
+Declare optional `menu` entries inside the Condiment manifest entry: `[{"label":"Show activity","command":"app-activity","arguments":{"visible":true}}]`. Each command must also be declared in `commands` with its input schema and handled with `SnackCondiment.handleCommand`. Menu clicks invoke the existing shared command path; API/MCP agents can inspect `condiment-menu-items`, open `condiment-menu-open`, or call `condiment-command` directly under their current grants. No custom host code or icon assets inside Snack are needed. Omit menu when unused; existing bundles keep working. Host-managed external connections also offer Connection settings.
+
+For an immersive native browser workspace, explicitly set `insets:{top:18,bottom:0,left:0,right:0}` with `browser-tab-new` or the discovered layout action. The top inset reserves the standard Snack bar; the content fills the remaining area. Additional insets are for deliberately visible UI only. Do not reserve unexplained bottom space or hardcode a white background in dark mode. Keep secondary views scrollable with the shared themed scrollbar. Validate layout in both orientations, both themes and alongside native browser views.

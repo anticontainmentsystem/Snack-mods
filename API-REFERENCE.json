@@ -4113,6 +4113,53 @@
       }
     },
     {
+      "name": "condiment-menu-open",
+      "area": "windows",
+      "level": "control",
+      "requires": [
+        [
+          "condiments",
+          "read"
+        ]
+      ],
+      "localOnly": false,
+      "context": "none",
+      "description": "Open a Condiment’s themed host-bar menu. Its items invoke declared commands through the same permission-checked API/MCP registry.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "condiment-menu-items",
+      "area": "condiments",
+      "level": "read",
+      "requires": [],
+      "localOnly": false,
+      "context": "none",
+      "description": "Read a Condiment’s declared menu labels, command names and arguments. Commands remain discoverable and callable without opening its menu.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
       "name": "condiment-open",
       "area": "windows",
       "level": "control",
