@@ -35,3 +35,45 @@ html[data-theme=dark] .snack-emoji{filter:invert(1)}
 .conversation-options summary { cursor:pointer; padding:6px; }
 .conversation-menu { position:absolute; right:0; top:100%; z-index:4; min-width:145px; display:grid; gap:4px; padding:6px; color:var(--snack-fg,#111); background:var(--snack-bg,#fff); border:1px solid currentColor; }
 .composer-controls label { display:flex; align-items:center; gap:5px; }
+
+/* The roster and conversation are separate views with stable controls. */
+.chat-app { grid-template-columns:clamp(145px,25vw,226px) minmax(0,1fr); }
+.sidebar { padding:16px 10px 10px; gap:10px; }
+.sidebar-head h2 { font-size:15px; overflow-wrap:anywhere; }
+.sidebar-head #sidebar-back { font-size:11px; padding:4px 0; text-align:left; }
+#agent-search { padding:7px 8px; background:var(--bg); }
+#rooms > .agent-choice { display:grid; grid-template-columns:14px 27px minmax(0,1fr); gap:6px; min-height:49px; padding:6px 4px; border:1px solid transparent; cursor:pointer; }
+#rooms > .agent-choice:has(input:checked) { border-color:var(--fg); background:var(--bg); }
+.agent-avatar { display:grid; place-items:center; width:27px; height:27px; background:var(--line); color:var(--fg); font-size:10px; font-weight:600; }
+.agent-identity { min-width:0; }
+.agent-identity strong,.agent-identity small { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.sidebar-actions { display:grid; gap:5px; }
+.sidebar-actions button,#hidden-rooms { margin:0; padding:6px; font-size:11px; }
+.sidebar-actions:empty { display:none; }
+.room { padding:9px 7px; }
+.room strong { font-size:12px; font-weight:600; }
+.conversation-head { padding:12px 18px; }
+.conversation-title strong { font-size:16px; font-weight:600; }
+.conversation-title small { display:block; }
+.conversation-options summary { list-style:none; border:1px solid var(--line); min-width:32px; text-align:center; font-size:17px; line-height:18px; }
+.conversation-menu { background:var(--bg); color:var(--fg); }
+.messages { padding:16px 20px; }
+.message { width:fit-content; min-width:min(180px,100%); max-width:min(620px,96%); margin-bottom:10px; }
+.message-actions { visibility:hidden; }
+.message:hover .message-actions,.message:focus-within .message-actions { visibility:visible; }
+.message-body { font-size:13px; }
+.composer { padding:8px 16px; }
+.recipient-line { display:flex; align-items:center; gap:8px; min-width:0; margin-bottom:6px; }
+.recipient-line label { display:flex; align-items:center; min-width:0; max-width:55%; }
+.recipient-line select { padding:3px 5px; font-size:11px; }
+#recipient-summary { min-width:0; overflow-wrap:anywhere; }
+.composer-controls > small { font-size:9px; }
+.choose-agents-first .composer { display:none; }
+.choose-agents-first .conversation-options { visibility:hidden; }
+@media(max-width:550px){
+ .sidebar { padding:10px 6px; gap:6px; }
+ .conversation-head,.messages,.composer { padding-left:8px; padding-right:8px; }
+ .composer-controls > small { display:none; }
+ .composer-controls { gap:2px; }
+ .conversation-title strong { font-size:13px; }
+}
