@@ -25,15 +25,28 @@ function renderRecipients(){
  if(recipients&&!recipients.every(id=>selected.includes(id)))recipients=[];
  const active=recipients??selected;
  label.textContent=targets.length?'In this chat: '+targets.map(t=>t.name).join(', '):'Choose agents for this conversation';
- picker.replaceChildren(new Option('Everyone in this chat',''));
- for(const target of targets)picker.add(new Option(target.name,target.id));
- if(recipients?.length===0){picker.add(new Option('Choose a recipient','__choose__'));picker.value='__choose__';}else picker.value=recipients?.[0]||'';
- picker.disabled=targets.length<2&&recipients?.length!==0;
+ const key=JSON.stringify(targets.map(t=>[t.id,t.name,active.includes(t.id)]));
+ if(picker.dataset.key!==key){
+  const focused=picker.contains(document.activeElement)?document.activeElement.dataset.recipientId:null;
+  picker.replaceChildren();
+  picker.dataset.key=key;
+  for(const target of targets){
+   const control=btn(target.name,()=>{
+    const next=new Set(recipients??selected);
+    if(next.has(target.id))next.delete(target.id);else next.add(target.id);
+    recipients=[...next];
+    renderRecipients();
+   });
+   control.dataset.recipientId=target.id;
+   control.setAttribute('aria-pressed',String(active.includes(target.id)));
+   picker.append(control);
+   if(focused===target.id)control.focus({preventScroll:true});
+  }
+ }
  document.body.classList.toggle('choose-agents-first',!current&&!sidebarGroup);$('#recipient-summary').textContent=active.length?'Next message goes to '+targets.filter(t=>active.includes(t.id)).map(t=>t.name).join(', '):'No recipients selected';
  $('#hide-room').disabled=!current;$('#hide-room').textContent=current&&hiddenRooms.has(current.id)?'Restore chat':'Hide chat';
  $('#hidden-rooms').textContent=showHidden?'Show active chats':'Show hidden chats ('+hiddenRooms.size+')';
 }
-$('#send-to').addEventListener('change',event=>{recipients=event.target.value==='__choose__'?[]:event.target.value?[event.target.value]:null;renderRecipients();});
 $('#hidden-rooms').addEventListener('click',()=>task(async()=>{showHidden=!showHidden;await refresh();}));
 $('#hide-room').addEventListener('click',()=>task(async()=>{
  if(!current)return;
