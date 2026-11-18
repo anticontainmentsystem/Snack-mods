@@ -92,7 +92,7 @@
       "id": "simple-agent-chat",
       "name": "Simple Agent Chat",
       "description": "Chat with one or several agents. Share files, reply, react and make things happen in Snack.",
-      "version": "0.1.11",
+      "version": "0.1.12",
       "entry": "simple-agent-chat/index.html",
       "permissions": {
         "chat": "control",
