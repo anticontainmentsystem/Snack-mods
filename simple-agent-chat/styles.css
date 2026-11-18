@@ -26,3 +26,12 @@ html[data-theme=dark] .snack-emoji{filter:invert(1)}
 .composer-controls{flex-wrap:wrap}.composer-controls .composer-models{margin:0 0 0 auto;flex:0 1 280px;min-width:130px;max-width:100%;gap:3px}.composer-controls .composer-model{flex:1 1 140px;gap:4px}.composer-controls .composer-model span{max-width:90px;overflow:hidden;text-overflow:ellipsis;font-size:9px}.composer-controls .composer-model select{padding:4px;font-size:10px}.composer-controls .send{margin-left:3px}
 
 .composer-controls{flex-wrap:nowrap}.composer-controls>small{flex:1 1 auto;min-width:0}.composer-controls .composer-models{flex:0 1 200px;min-width:100px;margin-left:4px}.composer-controls .composer-model span{max-width:55px}.composer-controls .composer-model select{width:0;min-width:70px}
+
+.sidebar-head { flex-wrap:wrap; }
+#rooms > .agent-choice { display:flex; gap:8px; padding:8px; align-items:center; }
+#rooms > button { margin:4px 0; }
+#hidden-rooms { margin:6px; }
+.conversation-options { position:relative; flex:none; }
+.conversation-options summary { cursor:pointer; padding:6px; }
+.conversation-menu { position:absolute; right:0; top:100%; z-index:4; min-width:145px; display:grid; gap:4px; padding:6px; color:var(--snack-fg,#111); background:var(--snack-bg,#fff); border:1px solid currentColor; }
+.composer-controls label { display:flex; align-items:center; gap:5px; }
