@@ -9,7 +9,7 @@
       "id": "picnic-lab",
       "name": "Picnic Lab",
       "description": "Optional fictional external-agent playground: discovery, events, callable capabilities, receipts, and real Snack/agent actions. Simulation is clearly labeled; no external account or key required.",
-      "version": "0.1.4",
+      "version": "0.1.5",
       "entry": "index.html",
       "background": "index.html",
       "icon": "icon.svg",
