@@ -9,7 +9,7 @@
       "id": "picnic-lab",
       "name": "Picnic Lab",
       "description": "Optional fictional external-agent playground: discovery, events, callable capabilities, receipts, and real Snack/agent actions. Simulation is clearly labeled; no external account or key required.",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "entry": "index.html",
       "background": "index.html",
       "icon": "icon.svg",
@@ -211,6 +211,58 @@
             "type": "object",
             "properties": {},
             "required": [],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "picnic-light-set",
+          "description": "Set the Ready light on the Picnic Lab page and return its state.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "lit": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "lit"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "picnic-shared-message",
+          "description": "Send a human message in the reusable one- or two-agent demo room.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "agents": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "maxItems": 2
+              },
+              "recipients": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "maxItems": 2
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000
+              }
+            },
+            "required": [
+              "agents",
+              "recipients",
+              "text"
+            ],
             "additionalProperties": false
           }
         }

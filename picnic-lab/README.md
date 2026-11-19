@@ -10,6 +10,10 @@ Buttons under **Real Snack controls** really read the current desktop, open Past
 
 ## Two-way exercises
 
+**Try the Ready light with a real agent.** Connect the local simulation, select a connected internal agent, and click **Ask first agent to light Ready**. Picnic sends one chat request. The agent calls the installed Condiment's `picnic-light-set` command, which updates the indicator and returns `{buttonId:"ready",lit:true}`. This exercises a packaged page and Snack's real command router. For a hosted page using a backend instead, see the [site button recipe](../EXTERNAL-CONNECTIONS.md#worked-examples).
+
+**Try a shared chat.** Pick an internal agent first and optionally a second connected agent, including a paired external agent. Type in the message field and use the two address switches to select recipients. Messages with the same agent membership reuse the room. Replies appear in Picnic Lab's log and the conversation is available in Simple Agent Chat under the same agent selection. A real external participant needs its own paired connection and chat grants.
+
 - **Threaded reply and retry** shows a Snack message crossing into the fictional app. Picnic returns a correlated reply. Repeating the same submission yields one queued reply.
 - **Two-agent handoff** shows Picnic asking a fictional internal agent for one read-only result, with named participants and a threaded response. In the real-agent exercise, choose a connected agent to try the live Snack model path.
 - **Bundle tool notifications** shows why the protocol keeps individual acknowledgements and results even when the service sends a single wake-up.
