@@ -9,7 +9,7 @@
       "id": "picnic-lab",
       "name": "Picnic Lab",
       "description": "Optional fictional external-agent playground: discovery, events, callable capabilities, receipts, and real Snack/agent actions. Simulation is clearly labeled; no external account or key required.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "entry": "index.html",
       "background": "index.html",
       "icon": "icon.svg",
@@ -177,6 +177,36 @@
         {
           "name": "picnic-agent-replies",
           "description": "Read new replies from the demo’s real Snack conversation.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "picnic-roundtrip",
+          "description": "Simulate a threaded chat reply and replay the same reply ID.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "picnic-delegation",
+          "description": "Simulate one correlated external-agent to internal-agent handoff.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "picnic-receipt-batch",
+          "description": "Simulate retaining tool receipts and issuing one batched notification.",
           "inputSchema": {
             "type": "object",
             "properties": {},

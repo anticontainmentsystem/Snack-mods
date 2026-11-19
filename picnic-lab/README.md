@@ -8,6 +8,14 @@ Choose Events and discovery, Callable app capabilities, Agent conversations, or 
 
 Buttons under **Real Snack controls** really read the current desktop, open Pasta Studio or save an independent ChipClip. They preserve Main Snack Pasta. Sending to a selected real agent really creates a conversation and may consume that agent's subscription/API allowance. No automatic agent loop runs.
 
+## Two-way exercises
+
+- **Threaded reply and retry** shows a Snack message crossing into the fictional app. Picnic returns a correlated reply. Repeating the same submission yields one queued reply.
+- **Two-agent handoff** shows Picnic asking a fictional internal agent for one read-only result, with named participants and a threaded response. In the real-agent exercise, choose a connected agent to try the live Snack model path.
+- **Bundle tool notifications** shows why the protocol keeps individual acknowledgements and results even when the service sends a single wake-up.
+
+The three scripted exercises are available as `picnic-roundtrip`, `picnic-delegation`, and `picnic-receipt-batch` through the same Condiment command registry as the buttons.
+
 ## Install
 
 Add the official repository to Serving Tray → Mods, refresh, install Picnic Lab and review the requested controls. You can instead download this complete folder and add it as a local Condiment source; it contains its own manifest, HTML, script, CSS, icon and agent skill. No other Condiment is required. Approve background execution only if you want its command handlers available after closing its window.

@@ -113,6 +113,10 @@ Replay gaps never silently skip transactional messages/commands/results. Offer a
 
 ## Full Snack control and agent conversations
 
+Use the room ID from `chat-inbox` to call `chat-read` for the current conversation roster. The roster provides participant display names, identity IDs, and connection states. Use IDs for routing and names for display. Each message lists its recipients. An agent can read its own messages and messages addressed to it. A connection indicator or a recipient entry does not imply a read receipt.
+
+For an action on a running Snack, first identify its window ID with `snacks_awareness`, then discover its native control through `snacks_capabilities`. For example, mainstream window operations such as theme and orientation act on the live window. Pasta Studio edits source documents, the library manages ChipClips, and General settings controls application defaults. Re-read the same target after the operation to verify the outcome. If discovery or permissions block the requested action, report the exact blocker.
+
 A service request on the stream uses an exact advertised tool name:
 
 ```json
@@ -148,6 +152,22 @@ See `external-status`, `external-capabilities`, `external-command`, `external-re
 
 ## Build, test and release
 
+### Choose the entry point for each direction
+
+| Direction | Developer entry point | How to verify |
+| --- | --- | --- |
+| Condiment page → Snack | Use `SnackCondiment.tool` and the shared tool schemas. Resolve an existing window from awareness before changing it. | Read the same window again and confirm the requested state. |
+| Snack → Condiment page | Declare a command and register its handler with `SnackCondiment.handleCommand`. Native controls and agents can call it through `condiment-command`. | Confirm the handler ran and returned the declared result. |
+| Snack → hosted app | Declare an external capability and invoke it through `external-command` or the SDK helper. | Follow the returned job ID to a terminal result. A public health check alone does not exercise the authenticated adapter. |
+| Hosted app → Snack | Publish a command through the connection stream. Discover approved tools first, then use the shared API/MCP schemas. | Match the inbound request ID and terminal receipt, and confirm the resulting state in Snack. |
+| Hosted agent ↔ Snack conversation | Use the bound agent identity and correlate replies to the original message. A hosted agent can send a request to a discovered internal agent and receive its threaded reply. | Verify sender attribution, intended recipients, and the reply in the original conversation. Bound the exchange so replies do not keep triggering more work. |
+
+### Deliver results without flooding notifications
+
+Store the accepted, completed, and failed states independently of optional notifications. For a service that wakes its agent with email or webhooks, notify promptly for new chat and coalesce routine tool results into one wake-up. Keep transport acknowledgements in the durable inbox, and deduplicate failure alerts by request ID. A notification may point to a batch without carrying every result in its payload.
+
+Exercise the actual deployed authentication path from Snack. Include the outer router, scoped service authentication, binding lookup, and permission checks. Persist reply lookup data before waking the agent. Use a stable reply identity and a durable write to prevent duplicate delivery on retry. Avoid routing an adapter through its own public URL when it can call the same service logic directly.
+
 Use the schema package and generic conformance examples without contacting Snack's developers. Your app can be written in any language; neither Python nor Node is a Snack-user requirement. A persistent external backend is needed for the HTTPS protocol's independent background behavior. A local scripted simulation is not an authenticated external backend.
 
 Test pairing consent, identity binding, empty discovery, all feature combinations you actually use, partial acknowledgements, duplicate requests, conflicting ids, unknown outcomes, queued work, reconnect, reduced grants, revocation during an outstanding poll, offline revocation notification and replay recovery. Verify application effects as well as protocol receipts. Privacy/service disclosures and a usable owner approval UI are required before real acceptance testing; production deployment is a separate decision.
@@ -158,3 +178,11 @@ Test pairing consent, identity binding, empty discovery, all feature combination
 ### Rendering SDK outcomes
 
 `external.result` returns `{id,status,result,error}`. Only `status:"done"` is a completed success. Show `result` then; show `error` for failed or uncertain work. Sending, accepted and running are pending states, not completion. Connection-record existence alone does not mean connected: inspect `state`, `active` and `available`. Keep a separate display cursor for retained events; do not replace the host durable transport cursor. Secondary settings and logs belong in the optional host menu described in [Design system](DESIGN-SYSTEM.md).
+
+When replying to a Snack message, send the received message envelope’s id as correlationId and copy its body.from exactly into body.to. This includes the human sender, which has no agent registration. Snack checks the original sender and conversation before showing the reply. A receipt from stream/ack confirms storage, while a later request-failed error means the message was not applied.
+
+### Test replies from your hosted agent
+
+If your HTTPS adapter and agent run separately, pass the inbound message id, sender id and text to your agent runtime through your own authenticated integration. Use the message id to deduplicate delivery in your runtime. When the agent finishes writing, have its runtime submit the generated text to your adapter using a server-side credential scoped to replies. The adapter should derive the recipient and correlation id from the original inbound record and queue the reply for Snack. Keep this credential in your service's secret store. Your Condiment bundle and the Snack user's Vault do not need a copy.
+
+For acceptance, send one message from Snack. Verify that your runtime records generation against that inbound id, your adapter records the queued reply id, and Snack shows that reply from the external agent under the original message. Repeat delivery of the original message to your runtime in a local test and verify that it does not produce a second reply. An adapter accepting a test string proves transport. The runtime generation record and visible threaded reply together prove the agent round trip. Developers can run these checks using their own hosting and logs.
