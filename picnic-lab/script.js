@@ -51,10 +51,45 @@ async function execute(name,args={}){await load();let result;if(name==='connect'
  state.roomId=room.id;
  entry('You · '+(recipients.length===2?'both agents addressed':'one agent addressed'),text);
  result={roomId:room.id,messageId:sent.message?.id,delivery:sent.delivery};
-}else if(name==='agent-message'){if(!args.agentId)throw Error('Select a connected real Snack agent.');const room=await action('chat-create',{title:'Picnic Lab · external-page simulation',agents:[args.agentId]});await action('chat-send',{roomId:room.id,text:'[Picnic Lab external-page simulation] '+(args.text||'Hello. Please describe one thing you can do in Snack.'),recipients:[args.agentId]});state.roomId=room.id;entry('Demo → real Snack agent','Message sent once. Conversation: '+room.title);result={roomId:room.id,status:'sent'};}else if(name==='agent-replies'){if(!state.roomId)return {messages:[]};const room=await action('chat-read',{roomId:state.roomId}),seenBefore=(state.seen||[]).length;for(const message of room.messages.filter(m=>m.role==='agent'&&m.status==='sent')){state.seen??=[];if(!state.seen.includes(message.id)){entry(message.senderName+' · real agent',message.text);state.seen.push(message.id);}}result={roomId:room.id,messages:room.messages};if((state.seen||[]).length===seenBefore)return result;}else throw Error('Unknown demo command.');}await save();return result;}
-async function run(name,args){if(busy)throw Error('The demo is processing a request. Retry when it finishes.');busy=true;try{$('#status').textContent='Working…';const result=await execute(name,args);$('#status').textContent='Ready';return result;}catch(e){$('#status').textContent=e.message;throw e;}finally{busy=false;}}
+}else if(name==='agent-message'){if(!args.agentId)throw Error('Select a connected real Snack agent.');const room=await action('chat-create',{title:'Picnic Lab · external-page simulation',agents:[args.agentId]});await action('chat-send',{roomId:room.id,text:'[Picnic Lab external-page simulation] '+(args.text||'Hello. Please describe one thing you can do in Snack.'),recipients:[args.agentId]});state.roomId=room.id;entry('Demo → real Snack agent','Message sent once. Conversation: '+room.title);result={roomId:room.id,status:'sent'};}else if(name==='agent-replies'){if(!state.roomId)return {messages:[]};const room=await action('chat-read',{roomId:state.roomId}),seenBefore=(state.seen||[]).length;for(const message of room.messages.filter(m=>m.role==='agent'&&['sent','failed','interrupted','cancelled'].includes(m.status))){state.seen??=[];if(!state.seen.includes(message.id)){if(message.status==='sent')activity('REPLY',message.senderName+' replied in Snack.');else activity('ERROR',message.senderName+' '+message.status+' - '+(message.text||'No reply was returned.'));entry(message.senderName+' · real agent',message.text);state.seen.push(message.id);}}result={roomId:room.id,messages:room.messages};if((state.seen||[]).length===seenBefore)return result;}else throw Error('Unknown demo command.');}await save();return result;}
+function activity(level,text){
+ const log=$('#activity-log'),line=document.createElement('div');
+ line.textContent=new Date().toLocaleTimeString()+' '+level+' '+text;
+ log.append(line);
+ while(log.childElementCount>100)log.firstElementChild.remove();
+ log.scrollTop=log.scrollHeight;
+}
+const actionLabels={
+ connect:'Connect or disconnect simulation', scenario:'Change scenario', discover:'Discover capabilities',
+ event:'Send simulated event', 'app-command':'Call fictional app', message:'Message fictional agent',
+ roundtrip:'Test threaded reply', delegation:'Trace agent handoff', 'receipt-batch':'Bundle receipts',
+ chipclip:'Create sample ChipClip', 'agent-message':'Send to real agent', 'shared-message':'Send shared chat message',
+ 'agent-replies':'Read agent replies', 'light-set':'Update Ready light', state:'Read simulation state'
+};
+async function run(name,args){
+ const label=name==='call'?(args.arguments?.action||args.tool):(actionLabels[name]||name);
+ if(busy){const error=Error('Another action is running. Try again when it finishes.');activity('WAIT',error.message);throw error;}
+ busy=true;
+ activity('RUN',label);
+ try{
+  $('#status').textContent='Working…';
+  const result=await execute(name,args);
+  if(name==='shared-message'||name==='agent-message'){
+   const failed=(result.delivery||[]).filter(item=>item.error||item.status==='failed');
+   if(failed.length)for(const item of failed)activity('ERROR',item.error||'Agent delivery failed.');
+   else activity('SENT',label+' — waiting for an agent reply.');
+  }else{
+   const detail=name==='light-set'?' — Ready light '+(result.lit?'on':'off'):name==='call'&&args.tool==='snacks_awareness'?' — '+(result.snacks?.length??0)+' Snacks found':'';
+   activity('DONE',label+detail);
+  }
+  $('#status').textContent='Ready';
+  return result;
+ }catch(error){activity('ERROR',label+' — '+error.message);$('#status').textContent=error.message;throw error;}
+ finally{busy=false;}
+}
 for(const [command,name]of [['picnic-connect','connect'],['picnic-scenario','scenario'],['picnic-state','state'],['picnic-discover','discover'],['picnic-event','event'],['picnic-app-command','app-command'],['picnic-message','message'],['picnic-call','call'],['picnic-roundtrip','roundtrip'],['picnic-delegation','delegation'],['picnic-receipt-batch','receipt-batch'],['picnic-chipclip','chipclip'],['picnic-agent-message','agent-message'],['picnic-light-set','light-set'],['picnic-shared-message','shared-message'],['picnic-agent-replies','agent-replies']])api.handleCommand(command,args=>run(name,args));
 $('#connection').onclick=()=>run('connect',{connected:!state.connected}).catch(()=>{});$('#scenario').onchange=e=>run('scenario',{scenario:e.target.value}).catch(()=>{});$('#send').onclick=()=>run('message',{text:$('#message').value}).catch(()=>{});$('#observe').onclick=()=>run('call',{tool:'snacks_awareness'}).catch(()=>{});$('#studio').onclick=()=>run('call',{tool:'snacks_action',arguments:{action:'studio-open',arguments:{}}}).catch(()=>{});$('#chipclip').onclick=()=>run('chipclip',{}).catch(()=>{});$('#real-send').onclick=()=>{const first=$('#real-agent').value,second=$('#second-agent').value;run('shared-message',{agents:[first,second],recipients:[$('#send-first').checked?first:'',$('#send-second').checked?second:''].filter(Boolean),text:$('#message').value}).catch(()=>{});};
 $('#ask-light').onclick=()=>{const first=$('#real-agent').value;run('shared-message',{agents:[first],recipients:first?[first]:[],text:'Find the installed Picnic Lab Condiment '+(api.context?.id||'')+'. Discover its declared picnic-light-set command, then use it with {lit:true} to light Ready in the open Picnic Lab panel. Report the command result.'}).catch(()=>{});};$('#copy').onclick=async()=>{const text=state.receipts.map(r=>r.who+' · '+r.at+'\n'+r.text).join('\n\n');try{await navigator.clipboard.writeText(text);$('#status').textContent='Copied';}catch{const box=document.createElement('textarea');box.value=text;document.body.append(box);box.select();document.execCommand('copy');box.remove();}};
+activity('READY','Choose an action. Real agent replies will appear here.');
 let timer;api.onChange(()=>{clearTimeout(timer);timer=setTimeout(async()=>{try{await load();if(state.roomId&&!busy)await execute('agent-replies',{});}catch{}},250);});load().catch(e=>$('#status').textContent=e.message);action('chat-agents').then(value=>{for(const agent of value.agents.filter(a=>a.connected)){if(agent.execution==='model')$('#real-agent').add(new Option(agent.name,agent.id));$('#second-agent').add(new Option(agent.name,agent.id));}}).catch(()=>{});
 })();
