@@ -3,6 +3,7 @@ const panel = snack.context.shortcutPanel;
 const $ = id => document.getElementById(id);
 const call = (operation, args = {}) => snack.call('condiment-shortcuts', { operation, windowId:snack.context.windowId, ...(panel ? { cell:panel.cell } : {}), ...args });
 let state, clickTimer, statusTimer, renderVersion = 0, work = Promise.resolve();
+let adding;
 
 function notice(message) {
   $('status').textContent = message;
@@ -74,7 +75,21 @@ function renderRail() {
 }
 
 function update(operation, args = {}) {
-  return run(async () => { state = await call(operation, args); renderPanel(); });
+  return run(async () => {
+    const previous = state.cells[panel.cell].length;
+    state = await call(operation, args);
+    if (state.cells[panel.cell].length > previous) adding = false;
+    renderPanel();
+  });
+}
+function renderAddControls() {
+  const editing = panel.mode === 'editor', count = state.cells[panel.cell].length;
+  const canAdd = editing && count < 4;
+  const showForm = canAdd && (adding ?? count === 0);
+  $('start-add').hidden = !canAdd || showForm;
+  $('start-add').textContent = 'Add shortcut to slot ' + (count + 1);
+  $('add-title').textContent = 'Add to slot ' + (count + 1);
+  $('add-controls').hidden = !showForm;
 }
 function renderPanel(thumbnails = true) {
   const editing = panel.mode === 'editor', items = state.cells[panel.cell];
@@ -84,7 +99,7 @@ function renderPanel(thumbnails = true) {
   $('title').textContent = (editing ? 'Organize cell ' : 'Cell ') + (panel.cell + 1);
   $('count').textContent = items.length + ' of 4 shortcuts';
   $('manage').hidden = $('back').hidden = editing;
-  $('add-controls').hidden = !editing || items.length === 4;
+  renderAddControls();
   $('editor-actions').hidden = !editing;
   $('entries').replaceChildren(...items.map((item, index) => {
     if (!editing) {
@@ -119,6 +134,8 @@ function renderPanel(thumbnails = true) {
 }
 
 if (panel) {
+  $('start-add').onclick = () => { adding = true; renderAddControls(); $('files').focus(); };
+  $('add-back').onclick = () => { adding = false; renderAddControls(); $('start-add').focus(); };
   $('manage').onclick = () => run(() => call('organize'));
   $('back').onclick = () => run(() => call('close-panel'));
   $('files').onclick = () => update('pick');
@@ -134,7 +151,7 @@ if (panel) {
   $('link-form').onsubmit = event => {
     event.preventDefault();
     const url = $('url').value;
-    run(async () => { state = await call('link', { url }); $('url').value = ''; renderPanel(); });
+    run(async () => { state = await call('link', { url }); adding = false; $('url').value = ''; renderPanel(); });
   };
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') run(() => call(panel.mode === 'editor' ? 'cancel-editor' : 'close-panel'));
@@ -144,6 +161,7 @@ function refresh() {
   return run(async () => {
     const next = await call('state');
     if (state && JSON.stringify(next) === JSON.stringify(state)) return;
+    if (panel && state && next.cells[panel.cell].length > state.cells[panel.cell].length) adding = false;
     state = next;
     if (panel) renderPanel();
     else renderRail();
