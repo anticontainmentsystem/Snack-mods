@@ -9,7 +9,7 @@
       "id": "taffy-strip",
       "name": "Taffy Strip",
       "description": "A rolling twelve-cell shortcut strip for Windows apps, files, folders, and web links.",
-      "version": "0.1.5",
+      "version": "0.1.6",
       "entry": "index.html",
       "icon": "icon.svg",
       "window": {
@@ -25,7 +25,7 @@
         "launcher"
       ],
       "agent": {
-        "instructions": "Taffy Strip is an optional Condiment. Discover condiment-shortcuts in the shared registry and the installed ID using condiment-status. Open the strip before using preview-cell or organize. Cell indices are 0–11. Use the returned window ID to target the organizer draft: pick or drop one target at a time, link HTTP(S) URLs, rename, remove, and move to reorder. Save with save-editor or discard with cancel-editor. Launch only the requested shortcut by saved ID. Thumbnail generates an image if supported and clear-thumbnails clears only cached previews. These controls require local authority. Removing a shortcut leaves its target on disk."
+        "instructions": "Taffy Strip is an optional Condiment. Discover condiment-shortcuts in the shared registry and the installed ID using condiment-status. Open the strip before using preview-cell or organize. Cell indices are 0–11. Use the returned window ID to target the organizer draft: pick or drop one target at a time, link HTTP(S) URLs, rename, remove, and move to reorder. Save with save-editor or discard with cancel-editor. Launch only the requested shortcut by saved ID. Thumbnail generates an image if supported and clear-thumbnails clears only cached previews. These controls require local authority. Removing a shortcut clears its generated thumbnails and leaves its target on disk. In an organizer, removal and cache cleanup apply on save."
       },
       "nativeShortcuts": true
     }
