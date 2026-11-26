@@ -50,10 +50,10 @@ dialog::backdrop{background:#0005}
 #link-form input{width:130px;min-width:0;background:var(--paper);border:1px solid var(--line)}
 #status{position:fixed;bottom:0;left:0;right:0;z-index:3;background:var(--ink);color:var(--paper);padding:4px;text-align:center}
 @media(prefers-reduced-motion:reduce){#fold,#fold.rolling-up{animation:none}}
-body.expanded:not(.vertical){--rail-size:max(18px,calc(100vw / 12 - 36px))}
-body.vertical.expanded #rail{width:calc((100vh + 36px) / 12)}
-body.vertical #fold{left:calc((100vh + 36px) / 12)}
-body.vertical[data-edge=right] #fold{left:0;right:calc((100vh + 36px) / 12)}
+body.expanded:not(.vertical){--rail-size:max(18px,calc(100vw / 6 - 36px))}
+body.vertical.expanded #rail{width:calc((100vh + 36px) / 6)}
+body.vertical #fold{left:calc((100vh + 36px) / 6)}
+body.vertical[data-edge=right] #fold{left:0;right:calc((100vh + 36px) / 6)}
 #fold::after{content:"";position:absolute;inset:auto 0 0;height:10px;pointer-events:none;background:linear-gradient(transparent,var(--line));opacity:0;animation:curl .36s ease-out both}
 body[data-edge=bottom] #fold::after{inset:0 0 auto;transform:rotate(180deg)}
 body.vertical #fold::after{inset:0 0 0 auto;width:10px;height:auto;background:linear-gradient(90deg,transparent,var(--line))}

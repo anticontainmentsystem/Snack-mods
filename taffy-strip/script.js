@@ -133,10 +133,5 @@ $('link-form').onsubmit = event => {
     draw();
   });
 };
-const rotate = button('↻', () => perform(async () => {
-  state = await call('resize', { vertical:!state.vertical, expanded:true });
-  draw();
-}), 'Rotate Taffy Strip');
-fold.querySelector('header').insertBefore(rotate, $('collapse'));
 snack.onChange(() => perform(async () => { state = await call('state'); selected = state.selected; if(selected === null && organizer.open) organizer.close(); draw(); }));
 perform(async () => { state = await call('resize', { expanded:false }); draw(); });
