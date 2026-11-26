@@ -55,3 +55,18 @@ body.vertical #fold::after{inset:0 0 0 auto;width:10px;height:auto;background:li
 body.vertical[data-edge=right] #fold::after{inset:0 auto 0 0;transform:rotate(180deg)}
 @keyframes curl{0%,25%{opacity:.55}100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){#fold::after{animation:none}}
+@media(max-width:95px){
+  #fold{padding:3px}
+  #fold header{flex-wrap:wrap}
+  #cell-name{flex-basis:100%}
+  #fold button,dialog button{padding-inline:2px;overflow-wrap:anywhere}
+  .card strong{white-space:normal;overflow-wrap:anywhere}
+  dialog{width:100%;max-width:none;padding:3px}
+  dialog header{flex-wrap:wrap}
+  #organizer-title{flex-basis:100%;overflow-wrap:anywhere}
+  .entry{flex-wrap:wrap}
+  .entry-name{flex-basis:100%;white-space:normal;overflow-wrap:anywhere}
+  .entry button{min-width:10px}
+  #add-controls,#link-form{width:100%}
+  #link-form input{width:100%}
+}
