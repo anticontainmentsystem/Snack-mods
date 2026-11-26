@@ -1,0 +1,62 @@
+:root{color-scheme:light;--ink:#171717;--paper:#fcfbf8;--soft:#ebe8e0;--line:#aaa59b}
+:root[data-theme=dark]{color-scheme:dark;--ink:#f5f1e8;--paper:#141412;--soft:#242320;--line:#6e6960}
+*{box-sizing:border-box;scrollbar-color:var(--ink) var(--soft);scrollbar-width:thin}
+html,body{height:100%;margin:0;overflow:hidden}
+body{background:var(--paper);color:var(--ink);font:12px "Segoe UI",sans-serif}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;background:var(--paper);border:1px solid var(--line);padding:4px 8px}
+button:hover,button:focus-visible{background:var(--ink);color:var(--paper)}
+:focus-visible{outline:2px solid currentColor;outline-offset:-2px}
+[hidden]{display:none!important}
+#rail{position:absolute;z-index:1;inset:0 0 auto;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));height:100%;background:var(--paper)}
+body.expanded #rail{height:var(--rail-size,25%)}
+body.vertical #rail{inset:0 auto 0 0;width:100%;height:100%;grid-template-columns:none;grid-template-rows:repeat(12,minmax(0,1fr))}
+body.vertical.expanded #rail{width:25%}
+body[data-edge=bottom] #rail{inset:auto 0 0}
+body.vertical[data-edge=right] #rail{inset:0 0 0 auto}
+.cell{display:grid;place-content:center;min-height:0;min-width:0;padding:0;border-width:0 1px 1px 0}
+.cell[aria-expanded=true]{background:var(--soft);box-shadow:inset 0 0 0 1px currentColor}
+.pod{display:grid;grid-template:repeat(2,minmax(0,1fr))/repeat(2,minmax(0,1fr));gap:2px;width:min(3.333vw,32px);height:min(3.333vw,32px)}
+.vertical .pod{width:min(3.333vh,32px);height:min(3.333vh,32px)}
+.pod span,.shortcut-icon{display:grid;place-items:center;background:var(--soft);color:var(--ink);min-width:0;min-height:0;overflow:hidden}
+.pod span{font-size:9px}
+.pod img,.shortcut-icon img{width:100%;height:100%;object-fit:contain}
+.empty{opacity:.6}
+#fold{position:absolute;inset:var(--rail-size,25%) 0 0;display:flex;flex-direction:column;min-height:0;padding:6px;background:var(--soft);transform-origin:top;animation:unroll .36s cubic-bezier(.2,.8,.25,1) both}
+body[data-edge=bottom] #fold{inset:0 0 var(--rail-size,25%);transform-origin:bottom;--start-y:100%;--end-y:0}
+body.vertical #fold{inset:0 0 0 25%;transform-origin:left;--start-x:100%;--start-y:0}
+body.vertical[data-edge=right] #fold{inset:0 25% 0 0;transform-origin:right;--start-x:0;--start-y:0;--end-x:100%}
+#fold.rolling-up{animation:roll-up .24s ease-in both}
+@keyframes unroll{
+ from{clip-path:inset(var(--end-y,0) var(--start-x,0) var(--start-y,100%) var(--end-x,0));transform:perspective(350px) scale(.96);opacity:.65}
+ to{clip-path:inset(0);transform:perspective(350px) scale(1);opacity:1}
+}
+@keyframes roll-up{
+ from{clip-path:inset(0);transform:scale(1);opacity:1}
+ to{clip-path:inset(var(--end-y,0) var(--start-x,0) var(--start-y,100%) var(--end-x,0));transform:scale(.96);opacity:.65}
+}
+header{display:flex;gap:4px;align-items:center;margin-bottom:6px}
+header strong{flex:1}
+#cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;flex:1;min-height:0}
+.vertical #cards{grid-template-columns:1fr;grid-template-rows:repeat(4,minmax(0,1fr))}
+.card{display:grid;align-content:center;justify-items:start;gap:3px;min-width:0;min-height:0;text-align:left;overflow:hidden}
+.card span,.card strong,.entry-name{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.shortcut-icon{width:22px;height:22px}
+dialog{width:min(96%,650px);max-height:96%;margin:auto;background:var(--paper);color:var(--ink);border:1px solid currentColor;padding:8px;overflow:auto}
+dialog::backdrop{background:#0005}
+.entry{display:flex;align-items:center;gap:3px;margin-bottom:3px}
+.entry-name{flex:1}
+#add-controls,#link-form{display:flex;flex-wrap:wrap;gap:4px}
+#link-form input{width:130px;min-width:0;background:var(--paper);border:1px solid var(--line)}
+#status{position:fixed;bottom:0;left:0;right:0;z-index:3;background:var(--ink);color:var(--paper);padding:4px;text-align:center}
+@media(prefers-reduced-motion:reduce){#fold,#fold.rolling-up{animation:none}}
+body.expanded:not(.vertical){--rail-size:max(18px,calc(100vw / 12 - 36px))}
+body.vertical.expanded #rail{width:calc((100vh + 36px) / 12)}
+body.vertical #fold{left:calc((100vh + 36px) / 12)}
+body.vertical[data-edge=right] #fold{left:0;right:calc((100vh + 36px) / 12)}
+#fold::after{content:"";position:absolute;inset:auto 0 0;height:10px;pointer-events:none;background:linear-gradient(transparent,var(--line));opacity:0;animation:curl .36s ease-out both}
+body[data-edge=bottom] #fold::after{inset:0 0 auto;transform:rotate(180deg)}
+body.vertical #fold::after{inset:0 0 0 auto;width:10px;height:auto;background:linear-gradient(90deg,transparent,var(--line))}
+body.vertical[data-edge=right] #fold::after{inset:0 auto 0 0;transform:rotate(180deg)}
+@keyframes curl{0%,25%{opacity:.55}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){#fold::after{animation:none}}

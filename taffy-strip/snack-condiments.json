@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "name": "Taffy Strip",
+  "publisher": {
+    "name": "NINTENTWOS / anticontainmentsystem"
+  },
+  "condiments": [
+    {
+      "id": "taffy-strip",
+      "name": "Taffy Strip",
+      "description": "A rolling twelve-cell shortcut strip for Windows apps, files, folders, and web links.",
+      "version": "0.1.0",
+      "entry": "index.html",
+      "icon": "icon.svg",
+      "window": {
+        "widthUnits": 12,
+        "heightUnits": 1
+      },
+      "permissions": {
+        "windows": "control"
+      },
+      "tags": [
+        "Windows",
+        "shortcuts",
+        "launcher"
+      ],
+      "agent": {
+        "instructions": "Taffy Strip is an optional Condiment. Discover the installed ID using condiment-status. Use condiment-shortcuts with that ID. Open the strip using condiment-open before resizing. Cell indices are zero-based (0–11). Use state to find saved shortcut IDs, resize with expanded and cell to reveal a cell, and launch by ID only when the user has requested that shortcut. Use pick or drop to let the owner choose local items. Use link to save an HTTP(S) link, move with direction -1 or 1, and remove to remove the saved entry. Use state to verify. These controls require local authority. Removing a shortcut does not delete its target."
+      },
+      "nativeShortcuts": true
+    }
+  ]
+}

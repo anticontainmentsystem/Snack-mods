@@ -133,3 +133,22 @@ See [the full Snack control surface](FULL-CONTROL.md) for `capabilities()`, `too
 ## Agent authoring and browser automation
 
 See [Agent workflows](AGENT-WORKFLOWS.md) for efficient Pasta Studio edits, managed standalone Condiment projects, validation and ZIP packaging, atomic GitHub publishing with explicit account selection, and native website/browser controls. Agents can read the same documentation inside Snack with `condiment-development-guide`; discover `snacks_capabilities` for current schemas and permissions.
+
+
+## Optional native shortcuts
+
+A Condiment can declare `"nativeShortcuts": true` and request `"windows": "control"`. The owner can grant **Save and open local shortcuts selected by you** in the Condiment’s access review.
+
+Use `SnackCondiment.call('condiment-shortcuts', { operation, ...arguments })` from an approved Condiment. Local agents use the same discoverable action through HTTP or MCP and supply the installed Condiment ID. Remote agents do not receive local paths or launch access. A Condiment can only access its own shortcut collection.
+
+| Operation | Arguments |
+| --- | --- |
+| `state` | Optional `windowId` for runtime selection and edge |
+| `resize` | `vertical`, `expanded`, optional `cell` and `windowId` |
+| `pick` | `cell`, optional `folder` and `windowId` |
+| `drop` | `cell`, optional `windowId`, opens a native drop zone |
+| `link` | `cell`, HTTP(S) `url`, optional `label` |
+| `move` | `cell`, saved `shortcutId`, `direction` of `-1` or `1` |
+| `remove`, `launch` | `cell` and saved `shortcutId` |
+
+Cell indices are 0–11. Each cell holds up to four entries. Shortcut selection and launch are handled by Snack. The API accepts no executable paths, arguments, or shell commands. Removing an entry leaves the original target on disk. See [Taffy Strip](taffy-strip/) for a complete bundle.

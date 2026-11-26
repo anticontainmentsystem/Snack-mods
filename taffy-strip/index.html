@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taffy Strip</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="rail" aria-label="Shortcut cells"></nav>
+  <section id="fold" hidden aria-label="Expanded shortcuts">
+    <header><strong id="cell-name"></strong><button id="manage">Manage</button><button id="collapse" aria-label="Roll up">×</button></header>
+    <div id="cards"></div>
+  </section>
+  <dialog id="organizer">
+    <header><strong id="organizer-title"></strong><button id="done">Done</button></header>
+    <div id="entries"></div>
+    <div id="add-controls">
+      <button id="files">Browse files</button><button id="folder">Browse folders</button><button id="drop">Drop files</button>
+      <form id="link-form"><input id="url" type="url" placeholder="https://…" aria-label="Website URL" required><button>Add link</button></form>
+    </div>
+  </dialog>
+  <output id="status" aria-live="polite" hidden></output>
+  <script src="script.js"></script>
+</body>
+</html>
