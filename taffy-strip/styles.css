@@ -31,16 +31,20 @@ h1{font-size:18px;margin:0 0 3px}
 .card{display:flex;flex-direction:column;text-align:left;min-height:110px;gap:3px}
 .card .picture{width:100%;height:58px}
 .card strong,.card .location,.entry .location{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.entry{min-width:0;display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:8px;align-items:center;border:1px solid var(--line);padding:5px}
+.editor #entries{grid-template-columns:repeat(2,minmax(0,1fr))}
+.entry{min-width:0;display:grid;grid-template-columns:42px minmax(0,1fr);gap:4px 6px;align-items:center;border:1px solid var(--line);padding:5px}
 .entry .picture{width:42px;height:34px}
+.entry[data-selected=true]{border-color:var(--ink)}
+.entry.empty{min-height:75px;display:grid;place-items:center;grid-template-columns:1fr;border-style:dashed}
+.empty button{width:100%;height:100%;border:0}
 .entry input{width:100%;border:1px solid var(--line);background:var(--paper);padding:3px}
 .entry .location{display:block;margin-top:3px}
-.reorder{display:flex;gap:3px}
+.reorder{display:flex;gap:3px;grid-column:1/-1}
+.reorder .replace{margin-right:auto}
 .reorder button{padding:3px 5px}
 #add-controls{border:1px dashed var(--line);padding:8px}
 #add-controls h2{margin:0;font-size:13px}
 .add-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-#start-add{align-self:flex-start}
 #link-form{display:flex;gap:6px;margin-top:7px;align-items:end}
 #link-form label{flex:1;display:grid;gap:3px;min-width:0}
 #link-form input{width:100%;background:var(--paper);border:1px solid var(--line);padding:5px}

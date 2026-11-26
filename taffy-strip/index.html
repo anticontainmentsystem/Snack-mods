@@ -14,11 +14,14 @@
       <div class="header-actions"><button id="manage">Organize</button><button id="back" aria-label="Close cell">Close</button></div>
     </header>
     <div id="entries"></div>
-    <button id="start-add" hidden></button>
     <section id="add-controls" hidden>
-      <div class="add-header"><h2 id="add-title"></h2><button id="add-back">Back</button></div>
-      <div class="add-buttons"><button id="files">Add file</button><button id="folder">Add folder</button><button id="drop">Drop a file</button></div>
-      <form id="link-form"><label>Web link <input id="url" type="url" placeholder="https://…" required></label><button>Add link</button></form>
+      <div class="add-header"><h2 id="add-title"></h2><button id="add-back" title="Back to spots" aria-label="Back to spots">←</button></div>
+      <div class="add-buttons">
+        <button id="files" title="Browse files or apps" aria-label="Browse files or apps">▤ <span>File</span></button>
+        <button id="folder" title="Browse folders" aria-label="Browse folders">▰ <span>Folder</span></button>
+        <button id="drop" title="Drop one target" aria-label="Drop one target">↓ <span>Drop</span></button>
+      </div>
+      <form id="link-form"><label><input id="url" aria-label="Web link" type="url" placeholder="https://…" required></label><button id="use-link">Add link</button></form>
     </section>
     <footer id="editor-actions" hidden>
       <button id="clear-cache">Clear thumbnail cache</button>

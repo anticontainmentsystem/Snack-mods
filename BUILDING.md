@@ -153,4 +153,4 @@ Use `SnackCondiment.call('condiment-shortcuts', { operation, ...arguments })` fr
 | `remove`, `launch`, `thumbnail` | `cell` and saved `shortcutId`. Thumbnail returns a data URL when available. |
 | `clear-thumbnails` | Clears this installation’s generated files under Snack Storage → Cache → Shortcut thumbnails. |
 
-Cell indices are 0–11. Each cell holds up to four entries. Shortcut selection and launch are handled by Snack. The API accepts no executable paths, arguments, or shell commands. Removing an entry leaves the original target on disk. See [Taffy Strip](taffy-strip/) for a complete bundle.
+Cell indices are 0–11. Each cell has four fixed spots. Use `slot` (0–3) with pick, drop, or link, and `replace:true` for a populated spot. Omitting `slot` adds to the first empty spot. Saving a replacement removes the previous shortcut’s own cached previews. Shortcut selection and launch are handled by Snack. The API accepts no executable paths, arguments, or shell commands. Removing an entry leaves the original target on disk. See [Taffy Strip](taffy-strip/) for a complete bundle.

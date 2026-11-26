@@ -969,7 +969,7 @@
       "id": "taffy-strip",
       "name": "Taffy Strip",
       "description": "A rolling twelve-cell shortcut strip for Windows apps, files, folders, and web links.",
-      "version": "0.1.7",
+      "version": "0.1.8",
       "entry": "taffy-strip/index.html",
       "icon": "taffy-strip/icon.svg",
       "window": {
@@ -985,7 +985,7 @@
         "launcher"
       ],
       "agent": {
-        "instructions": "Taffy Strip is an optional Condiment. Discover condiment-shortcuts in the shared registry and the installed ID using condiment-status. Open the strip before using preview-cell or organize. Cell indices are 0–11. Use the returned window ID to target the organizer draft: pick or drop one target at a time, link HTTP(S) URLs, rename, remove, and move to reorder. Save with save-editor or discard with cancel-editor. Launch only the requested shortcut by saved ID. Thumbnail generates an image if supported and clear-thumbnails clears only cached previews. These controls require local authority. Removing a shortcut clears its generated thumbnails and leaves its target on disk. In an organizer, removal and cache cleanup apply on save."
+        "instructions": "Taffy Strip is an optional Condiment. Discover condiment-shortcuts in the shared registry and the installed ID using condiment-status. Open the strip before using preview-cell or organize. Cell indices are 0–11. Use the returned window ID to target the organizer draft: pick or drop one target at a time, link HTTP(S) URLs, rename, remove, and move to reorder. Save with save-editor or discard with cancel-editor. Launch only the requested shortcut by saved ID. Thumbnail generates an image if supported and clear-thumbnails clears only cached previews. These controls require local authority. Removing a shortcut clears its generated thumbnails and leaves its target on disk. In an organizer, removal and cache cleanup apply on save. Each cell contains four fixed spots indexed 0–3. Add to an empty spot by slot, or pass the occupied slot and replace:true to create a fresh shortcut there. Replacing clears only the previous shortcut’s cache when saved. Removing leaves that spot empty."
       },
       "nativeShortcuts": true
     }
