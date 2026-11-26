@@ -969,7 +969,7 @@
       "id": "taffy-strip",
       "name": "Taffy Strip",
       "description": "A rolling twelve-cell shortcut strip for Windows apps, files, folders, and web links.",
-      "version": "0.1.8",
+      "version": "0.1.9",
       "entry": "taffy-strip/index.html",
       "icon": "taffy-strip/icon.svg",
       "window": {

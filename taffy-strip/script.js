@@ -114,6 +114,7 @@ function spotAction(operation, args = {}) {
 function renderSourcePicker() {
   const item = currentSpot();
   if (spotSelection && item?.id !== spotSelection.previousId) spotSelection = undefined;
+  $('entries').hidden = !!spotSelection;
   $('add-controls').hidden = !spotSelection;
   if (!spotSelection) return;
   const action = spotSelection.replace ? 'Replace' : 'Add to';
