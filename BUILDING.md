@@ -144,12 +144,13 @@ Use `SnackCondiment.call('condiment-shortcuts', { operation, ...arguments })` fr
 | Operation | Arguments |
 | --- | --- |
 | `state` | Optional `windowId` for runtime selection and edge |
-| `select-cell` | Optional `cell` and `windowId`. Omit `cell` to collapse. The strip stays the same size. |
-| `toggle-orientation` | Optional `windowId`, preserves the open cell |
-| `pick` | `cell`, optional `folder` and `windowId` |
-| `drop` | `cell`, optional `windowId`, opens a native drop zone |
+| `preview-cell`, `organize` | `cell`, optional strip `windowId`. Opens an attached preview or a draft editor and returns its window ID. |
+| `close-panel`, `save-editor`, `cancel-editor` | Target the panel by `windowId`. Save applies the draft, Cancel discards it. |
+| `toggle-orientation` | Optional strip `windowId` |
+| `pick`, `drop` | `cell`, optional `windowId`. Pick one file or folder or open the native drop zone. |
 | `link` | `cell`, HTTP(S) `url`, optional `label` |
-| `move` | `cell`, saved `shortcutId`, `direction` of `-1` or `1` |
-| `remove`, `launch` | `cell` and saved `shortcutId` |
+| `move`, `rename` | `cell`, saved `shortcutId`, and `direction`, `toIndex`, or `label` as appropriate |
+| `remove`, `launch`, `thumbnail` | `cell` and saved `shortcutId`. Thumbnail returns a data URL when available. |
+| `clear-thumbnails` | Clears this installation’s generated files under Snack Storage → Cache → Shortcut thumbnails. |
 
 Cell indices are 0–11. Each cell holds up to four entries. Shortcut selection and launch are handled by Snack. The API accepts no executable paths, arguments, or shell commands. Removing an entry leaves the original target on disk. See [Taffy Strip](taffy-strip/) for a complete bundle.

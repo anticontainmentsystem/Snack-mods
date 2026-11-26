@@ -1,137 +1,153 @@
 const snack = window.SnackCondiment;
+const panel = snack.context.shortcutPanel;
 const $ = id => document.getElementById(id);
-const fold = $('fold'), organizer = $('organizer');
-const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
-let state, selected = null, timer, busy = false, messageTimeout;
-const call = (operation, args = {}) => snack.call('condiment-shortcuts', { operation, windowId:snack.context.windowId, ...args });
+const call = (operation, args = {}) => snack.call('condiment-shortcuts', { operation, windowId:snack.context.windowId, ...(panel ? { cell:panel.cell } : {}), ...args });
+let state, clickTimer, statusTimer, renderVersion = 0, work = Promise.resolve();
 
-function button(label, handler, title = label) {
-  const node = document.createElement('button');
-  node.textContent = label;
-  node.title = title;
-  node.setAttribute('aria-label', title);
-  node.onclick = handler;
-  return node;
+function notice(message) {
+  $('status').textContent = message;
+  $('status').hidden = false;
+  clearTimeout(statusTimer);
+  statusTimer = setTimeout(() => { $('status').hidden = true; }, 4500);
 }
-function icon(item, className) {
-  const node = document.createElement('span');
+function run(task) {
+  work = work.then(task).catch(error => notice(error.message));
+  return work;
+}
+function element(tag, text, className) {
+  const node = document.createElement(tag);
+  if (text) node.textContent = text;
   if (className) node.className = className;
-  if (item.icon) {
-    const image = document.createElement('img');
-    image.src = item.icon;
-    image.alt = '';
-    node.append(image);
-  } else node.textContent = {web:'↗',folder:'▰',file:'▤',app:'▣',shortcut:'↪'}[item.kind];
   return node;
 }
-function report(error) {
-  const status = $('status');
-  status.textContent = error.message;
-  status.hidden = false;
-  clearTimeout(messageTimeout);
-  messageTimeout = setTimeout(() => { status.hidden = true; }, 6000);
+function button(text, label, click) {
+  const node = element('button', text);
+  node.type = 'button';
+  node.title = label;
+  node.setAttribute('aria-label', label);
+  node.onclick = click;
+  return node;
 }
-async function perform(work) {
-  if (busy) return;
-  busy = true;
-  try { await work(); } catch (error) { report(error); }
-  finally { busy = false; }
+function putImage(node, image) {
+  const img = element('img');
+  img.src = image;
+  img.alt = '';
+  node.replaceChildren(img);
 }
-function draw() {
+function picture(item, requestThumbnail) {
+  const node = element('span', {web:'↗',folder:'▰',file:'▤',app:'▣',shortcut:'↪'}[item.kind], 'picture');
+  if (item.icon) putImage(node, item.icon);
+  if (requestThumbnail) {
+    const version = renderVersion;
+    call('thumbnail', { shortcutId:item.id }).then(({ image }) => {
+      if (image && node.isConnected && version === renderVersion) putImage(node, image);
+    }).catch(() => {});
+  }
+  return node;
+}
+
+function renderRail() {
   document.body.classList.toggle('vertical', state.vertical);
-  document.body.classList.toggle('expanded', selected !== null);
-  document.body.dataset.edge = state.edge || '';
-  const rail = $('rail');
-  rail.replaceChildren();
-  state.cells.forEach((items, cell) => {
-    const element = button('', event => {
+  $('rail').hidden = false;
+  $('rail').replaceChildren(...state.cells.map((items, cell) => {
+    const open = () => run(() => call('preview-cell', { cell }));
+    const organize = () => { clearTimeout(clickTimer); run(() => call('organize', { cell })); };
+    const node = button('', 'Cell '+(cell + 1)+' · '+items.length+' shortcuts', event => {
       if (event.detail > 1) return;
-      clearTimeout(timer);
-      const toggle = () => perform(() => expand(selected === cell ? null : cell));
-      if (event.detail === 0) toggle();
-      else timer = setTimeout(toggle, 300);
-    }, 'Cell ' + (cell + 1) + ', ' + items.length + ' shortcuts');
-    element.className = 'cell';
-    element.setAttribute('aria-expanded', String(selected === cell));
-    element.ondblclick = () => { clearTimeout(timer); perform(() => manage(cell)); };
-    element.onkeydown = event => {
-      if (event.key === 'F2') { event.preventDefault(); perform(() => manage(cell)); }
-    };
-    if (items.length) {
-      const pod = document.createElement('span');
-      pod.className = 'pod';
-      pod.append(...items.map(item => icon(item)));
-      element.append(pod);
-    } else {
-      const empty = document.createElement('span');
-      empty.className = 'empty';
-      empty.textContent = '+';
-      element.append(empty);
+      clearTimeout(clickTimer);
+      if (event.detail === 0) open();
+      else clickTimer = setTimeout(open, 280);
+    });
+    node.className = 'cell';
+    node.dataset.selected = String(state.selected === cell);
+    node.ondblclick = organize;
+    node.oncontextmenu = event => { event.preventDefault(); organize(); };
+    node.onkeydown = event => { if (event.key === 'F2') { event.preventDefault(); organize(); } };
+    if (!items.length) node.textContent = '+';
+    else {
+      const pod = element('span', '', 'pod');
+      pod.append(...items.map(item => picture(item, false)));
+      node.append(pod);
     }
-    rail.append(element);
-  });
-  fold.hidden = selected === null;
-  if (selected === null) return;
-  $('cell-name').textContent = 'Cell ' + (selected + 1);
-  $('organizer-title').textContent = 'Manage cell ' + (selected + 1);
-  const cards = $('cards'), entries = $('entries'), items = state.cells[selected];
-  cards.replaceChildren();
-  entries.replaceChildren();
-  for (const [index, item] of items.entries()) {
-    const card = button('', () => update('launch', { shortcutId:item.id }), 'Launch ' + item.name);
-    card.className = 'card';
-    const name = document.createElement('strong'), location = document.createElement('span');
-    name.textContent = item.name;
-    location.textContent = item.location;
+    return node;
+  }));
+}
+
+function update(operation, args = {}) {
+  return run(async () => { state = await call(operation, args); renderPanel(); });
+}
+function renderPanel(thumbnails = true) {
+  const editing = panel.mode === 'editor', items = state.cells[panel.cell];
+  renderVersion++;
+  document.body.classList.toggle('preview', !editing);
+  $('panel').hidden = false;
+  $('title').textContent = (editing ? 'Organize cell ' : 'Cell ') + (panel.cell + 1);
+  $('count').textContent = items.length + ' of 4 shortcuts';
+  $('manage').hidden = $('back').hidden = editing;
+  $('add-controls').hidden = !editing || items.length === 4;
+  $('editor-actions').hidden = !editing;
+  $('entries').replaceChildren(...items.map((item, index) => {
+    if (!editing) {
+      const card = button('', 'Open '+item.name, () => run(() => call('launch', { shortcutId:item.id })));
+      card.className = 'card';
+      const location = element('span', item.location, 'location');
+      location.title = item.location;
+      card.append(picture(item, thumbnails), element('strong', item.name), location);
+      return card;
+    }
+    const row = element('div', '', 'entry'), details = element('div'), controls = element('div', '', 'reorder');
+    const name = element('input');
+    name.type = 'text';
+    name.value = item.name;
+    name.maxLength = 120;
+    name.setAttribute('aria-label', 'Name for shortcut '+(index + 1));
+    name.onchange = () => update('rename', { shortcutId:item.id, label:name.value });
+    name.onkeydown = event => { if (event.key === 'Enter') name.blur(); };
+    const location = element('span', item.location, 'location');
     location.title = item.location;
-    card.append(icon(item, 'shortcut-icon'), name, location);
-    cards.append(card);
-    const row = document.createElement('div'), entry = document.createElement('span');
-    row.className = 'entry';
-    entry.className = 'entry-name';
-    entry.textContent = item.name;
-    entry.title = item.location;
-    const up = button('↑', () => update('move', { shortcutId:item.id, direction:-1 }), 'Move '+item.name+' earlier');
-    const down = button('↓', () => update('move', { shortcutId:item.id, direction:1 }), 'Move '+item.name+' later');
+    details.append(name, location);
+    const move = direction => update('move', { shortcutId:item.id, direction });
+    const up = button('↑', 'Move '+item.name+' up', () => move(-1));
+    const down = button('↓', 'Move '+item.name+' down', () => move(1));
     up.disabled = index === 0;
     down.disabled = index === items.length - 1;
-    row.append(icon(item, 'shortcut-icon'), entry, up, down, button('×', () => update('remove', { shortcutId:item.id }), 'Remove '+item.name));
-    entries.append(row);
-  }
-  if (items.length < 4) cards.append(button('Add shortcut', () => perform(() => manage(selected))));
-  $('add-controls').hidden = items.length >= 4;
+    controls.append(up, down, button('×', 'Remove '+item.name, () => update('remove', { shortcutId:item.id })));
+    row.append(picture(item, thumbnails), details, controls);
+    return row;
+  }));
+  if (!items.length && editing) $('entries').append(element('p', 'Choose one file, folder, or link to add the first shortcut.'));
 }
-async function expand(cell) {
-  if (cell === null && !fold.hidden && !reduceMotion.matches) {
-    fold.classList.add('rolling-up');
-    await new Promise(resolve => setTimeout(resolve, 240));
-    fold.classList.remove('rolling-up');
-  }
-  state = await call('select-cell', cell === null ? {} : { cell });
-  selected = cell;
-  if (cell === null && organizer.open) organizer.close();
-  draw();
-}
-async function manage(cell) {
-  if (selected !== cell) await expand(cell);
-  if (!organizer.open) organizer.showModal();
-}
-function update(operation, args) {
-  return perform(async () => { state = await call(operation, { cell:selected, ...args }); draw(); });
-}
-$('collapse').onclick = () => perform(() => expand(null));
-$('manage').onclick = () => perform(() => manage(selected));
-$('done').onclick = () => organizer.close();
-$('files').onclick = () => update('pick');
-$('folder').onclick = () => update('pick', { folder:true });
-$('drop').onclick = () => perform(() => call('drop', { cell:selected }));
-$('link-form').onsubmit = event => {
-  event.preventDefault();
-  perform(async () => {
-    state = await call('link', { cell:selected, url:$('url').value });
-    $('url').value = '';
-    draw();
+
+if (panel) {
+  $('manage').onclick = () => run(() => call('organize'));
+  $('back').onclick = () => run(() => call('close-panel'));
+  $('files').onclick = () => update('pick');
+  $('folder').onclick = () => update('pick', { folder:true });
+  $('drop').onclick = () => run(() => call('drop'));
+  $('save').onclick = () => run(() => call('save-editor'));
+  $('cancel').onclick = () => run(() => call('cancel-editor'));
+  $('clear-cache').onclick = () => run(async () => {
+    const result = await call('clear-thumbnails');
+    renderPanel(false);
+    notice('Cleared '+result.removed+' cached thumbnails.');
   });
-};
-snack.onChange(() => perform(async () => { state = await call('state'); selected = state.selected; if(selected === null && organizer.open) organizer.close(); draw(); }));
-perform(async () => { state = await call('state'); selected = state.selected; draw(); });
+  $('link-form').onsubmit = event => {
+    event.preventDefault();
+    const url = $('url').value;
+    run(async () => { state = await call('link', { url }); $('url').value = ''; renderPanel(); });
+  };
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') run(() => call(panel.mode === 'editor' ? 'cancel-editor' : 'close-panel'));
+  });
+}
+function refresh() {
+  return run(async () => {
+    const next = await call('state');
+    if (state && JSON.stringify(next) === JSON.stringify(state)) return;
+    state = next;
+    if (panel) renderPanel();
+    else renderRail();
+  });
+}
+snack.onChange(refresh);
+refresh();
