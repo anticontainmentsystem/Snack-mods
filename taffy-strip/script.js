@@ -107,7 +107,7 @@ async function expand(cell) {
     await new Promise(resolve => setTimeout(resolve, 240));
     fold.classList.remove('rolling-up');
   }
-  state = await call('resize', { expanded:cell !== null, ...(cell === null ? {} : { cell }) });
+  state = await call('select-cell', cell === null ? {} : { cell });
   selected = cell;
   if (cell === null && organizer.open) organizer.close();
   draw();
@@ -134,4 +134,4 @@ $('link-form').onsubmit = event => {
   });
 };
 snack.onChange(() => perform(async () => { state = await call('state'); selected = state.selected; if(selected === null && organizer.open) organizer.close(); draw(); }));
-perform(async () => { state = await call('resize', { expanded:false }); draw(); });
+perform(async () => { state = await call('state'); selected = state.selected; draw(); });

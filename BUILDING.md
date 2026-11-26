@@ -144,7 +144,7 @@ Use `SnackCondiment.call('condiment-shortcuts', { operation, ...arguments })` fr
 | Operation | Arguments |
 | --- | --- |
 | `state` | Optional `windowId` for runtime selection and edge |
-| `resize` | `vertical`, `expanded`, optional `cell` and `windowId` |
+| `select-cell` | Optional `cell` and `windowId`. Omit `cell` to collapse. The strip stays the same size. |
 | `toggle-orientation` | Optional `windowId`, preserves the open cell |
 | `pick` | `cell`, optional `folder` and `windowId` |
 | `drop` | `cell`, optional `windowId`, opens a native drop zone |
