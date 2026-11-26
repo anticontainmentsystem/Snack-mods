@@ -9,12 +9,12 @@
       "id": "taffy-strip",
       "name": "Taffy Strip",
       "description": "A rolling twelve-cell shortcut strip for Windows apps, files, folders, and web links.",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "entry": "index.html",
       "icon": "icon.svg",
       "window": {
         "widthUnits": 12,
-        "heightUnits": 1
+        "heightUnits": 1.5
       },
       "permissions": {
         "windows": "control"

@@ -64,7 +64,7 @@ The runtime language is HTML/CSS/JavaScript, so ordinary DOM UI and precompiled 
 
 The collection’s title comes from root `name`/`title`; it is not hardcoded in Snack. Each module supplies its own name, description, publisher, icon and links. A module can override the catalog publisher. User-supplied source labels remain connection metadata; they are not your globally imposed brand.
 
-`store.card` is optional HTML/CSS presentation inside an isolated, non-interactive frame. It does not execute scripts, call Snack, navigate the parent or replace host Install/approval controls. Use inline/data artwork and bounded content. Current card limit is 100 KB, icon limit 64 KB (SVG/PNG/JPEG/WebP), entry bundle limit 5 MB, catalog limit 100 modules, command limit 30 and requested window dimensions 1–12 grid units per side. Keep your own complete folder catalog if users should be able to install that folder alone.
+`store.card` is optional HTML/CSS presentation inside an isolated, non-interactive frame. It does not execute scripts, call Snack, navigate the parent or replace host Install/approval controls. Use inline/data artwork and bounded content. Current card limit is 100 KB, icon limit 64 KB (SVG/PNG/JPEG/WebP), entry bundle limit 5 MB, catalog limit 100 modules, command limit 30 and requested window dimensions 1–12 grid units per side, in half-unit increments. Keep your own complete folder catalog if users should be able to install that folder alone.
 
 ## Make the interface work
 
